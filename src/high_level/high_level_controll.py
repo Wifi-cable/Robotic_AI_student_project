@@ -9,8 +9,7 @@ from geometry_msgs.msg import Point
 
 DEBUG = True		#give me some output
 VERBOSE = True	#tell me everything , seriouly spam me
-startTime  = 0 #= rospy.get_rostime()	#not without node
-updateTime = 0
+
 instructionExecuted = False #did this node react to the last AI messgage yet?
 
 #publisher for speed and stirring
@@ -25,13 +24,6 @@ message.linear.z = 0
 message.angular.x = 0
 message.angular.y = 0
 
-#direction = "initVal"
-'''
-Left = "left"
-Right = "right"
-Forward = "forward"
-NotFound = "notfound"
-'''
 	
 class Distance_Direction_subscriber(object):
 	def __init__(self):
@@ -53,7 +45,7 @@ class Distance_Direction_subscriber(object):
 	def stop_n_go_callback(self, range_msg):
 		distance = range_msg.range
 		orientation = self.direction
-		#orientation = str(direction.data.upper())	#spelling is a pain 
+		
 		
 		if (DEBUG):
 			rospy.loginfo( distance)
@@ -67,15 +59,15 @@ class Distance_Direction_subscriber(object):
 			
 			if(orientation =='LEFT'):
 				message.angular.z = 1
-				message.linear.x = 0.2
+				message.linear.x = 0.4
 				
 			elif(orientation == 'RIGHT'):
 				message.angular.z = -1
-				message.linear.x = 0.2
+				message.linear.x = 0.4
 			
 			elif(orientation == 'FORWARD'):
 				message.angular.z = 0
-				message.linear.x = 0.2
+				message.linear.x = 0.4
 			
 			#this should not happen. whatever it is, stop the robot
 			else:
@@ -89,7 +81,7 @@ class Distance_Direction_subscriber(object):
 				
 			#roll backwarts slowly at an angle before you hit a wall
 			message.angular.z = -0.2
-			message.linear.x = -0.1
+			message.linear.x = -0.4
 			
 		executed = True
 		Twist_publisher.publish(message)
