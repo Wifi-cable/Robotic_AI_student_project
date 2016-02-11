@@ -1,0 +1,17 @@
+<launch>
+    
+  <include file="$(find i2cpwm_board)/launch/i2cpwm_node.launch"/>
+  
+  <node pkg="rosserial_python" type="serial_node.py" name="serial_node">
+  <param name="port" value="/dev/ttyACM0"/>
+  <param name="baud" value="115200"/>
+  </node>
+  #high level controll
+  #take picture
+  <node pkg="send_image" name="image_transport_node" type="compress_send.py" output="screen" >
+  </node>
+  <node pkg="donkey_car" name="low_level_control_node" type="low_level_control.py" output="screen" >
+  </node>
+
+
+</launch>
