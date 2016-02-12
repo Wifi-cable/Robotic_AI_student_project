@@ -13,10 +13,8 @@ startTime  = 0 #= rospy.get_rostime()	#not without node
 updateTime = 0
 instructionExecuted = False #did this node react to the last AI messgage yet?
 
-
-
 #publisher for speed and stirring
-Twist_publisher = rospy.Publisher('/cmd_vel', Twist, queue_size=2)
+Twist_publisher = rospy.Publisher('/cmd_vel', Twist, queue_size=0)
 rospy.loginfo("Publisher for cmd_vel set")
 #initialize variable  message with all geometric parameters of geometrymsges.Twist
 message = Twist()
@@ -27,48 +25,75 @@ message.linear.z = 0
 message.angular.x = 0
 message.angular.y = 0
 
-
+#direction = "initVal"
+'''
 Left = "left"
 Right = "right"
 Forward = "forward"
 NotFound = "notfound"
+'''
 	
 class Distance_Direction_subscriber(object):
 	def __init__(self):
 		if(VERBOSE):
 			rospy.loginfo("constructor was called")
 			
-		self.direction = "NotFound"
+		self.direction = "initVal"
 		#more global variables?
 		Twist_publisher = rospy.Publisher('/cmd_vel', Twist, queue_size = 1)
 		rospy.Subscriber('/Marker', String, self.direction_callback)		#topic datatype
 		rospy.Subscriber("rangeMsg_topic", Range, self.stop_n_go_callback )
 		
-		
 	def direction_callback(self, marker_msgs):
-		self.direction = marker_msgs
+		self.direction = marker_msgs.data.upper()
 		instructionExecuted = False
 		if(VERBOSE):
-			rospy.loginfo("direction callback got the info that %s", marker_msgs)
+			rospy.loginfo("direction callback got the info: " +self.direction)
 		
 	def stop_n_go_callback(self, range_msg):
 		distance = range_msg.range
-		go = False
+		orientation = self.direction
+		#orientation = str(direction.data.upper())	#spelling is a pain 
+		
 		if (DEBUG):
 			rospy.loginfo( distance)
-			rospy.loginfo( self.direction)
-		if(distance > 0.3) : # replace if unit is not cm
-			#go
-			rospy.loginfo("rosBerry would drive now")
-		
-		else:
+			#rospy.loginfo(self.direction)
 			
-			#TODO, back up at an angle
-			if(VERBOSE or DEBUG):
-				rospy.loginfo("i can not drive anywhere")
+		if(distance > 0.3 and (orientation != 'NOTFOUND')): # replace if unit is not 
+			message.linear.x = 0.0
+			if(VERBOSE):
+				rospy.loginfo("rosBerry would drive "+ orientation)
 				
+			
+			if(orientation =='LEFT'):
+				message.angular.z = 1
+				message.linear.x = 0.2
+				
+			elif(orientation == 'RIGHT'):
+				message.angular.z = -1
+				message.linear.x = 0.2
+			
+			elif(orientation == 'FORWARD'):
+				message.angular.z = 0
+				message.linear.x = 0.2
+			
+			#this should not happen. whatever it is, stop the robot
+			else:
+				rospy.logerr("rosBerry can not go "+orientation)
+				message.linear.x = 0.0
+				
+			#about to hit a wall
+		else:
+			if(VERBOSE or DEBUG):
+				rospy.loginfo("I can not drive anywhere, I will back away slowly")
+				
+			#roll backwarts slowly at an angle before you hit a wall
+			message.angular.z = -0.2
+			message.linear.x = -0.1
+			
+		executed = True
 		Twist_publisher.publish(message)
-	#end stop_n_go_callback
+	#end stop_n_go_callback 			#TODO, back up at an angle
 		
 	def loop(self):
 		rospy.logwarn("Starting Loop to subscribe and publish")
