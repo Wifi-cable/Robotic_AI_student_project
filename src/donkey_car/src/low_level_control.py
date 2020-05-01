@@ -2,14 +2,15 @@
 
 """
 Class for low level control of our car. It assumes ros-12cpwmboard has been
-installed
+installed	
 """
+#todo cereate better launch file
 import rospy
 from i2cpwm_board.msg import Servo, ServoArray
 from geometry_msgs.msg import Twist
 import time
 
-
+#this sets the default center value
 class ServoConvert():
     def __init__(self, id=1, center_value=333, range=90, direction=1):
         self.value      = 0.0
@@ -29,7 +30,7 @@ class ServoConvert():
         self.value_out  = int(self._dir*value_in*self._half_range + self._center)
         print self.id, self.value_out
         return(self.value_out)
-
+#end of servo converter
 class DkLowLevelCtrl():
     def __init__(self):
         rospy.loginfo("Setting Up the Node...")
@@ -38,7 +39,7 @@ class DkLowLevelCtrl():
 
         self.actuators = {}
         self.actuators['throttle']  = ServoConvert(id=1)
-        self.actuators['steering']  = ServoConvert(id=2, direction=1) #-- positive left
+        self.actuators['steering']  = ServoConvert(id=2, center_value= 320, range=110, direction=1) #-- positive left
         rospy.loginfo("> Actuators corrrectly initialized")
 
         self._servo_msg       = ServoArray()
