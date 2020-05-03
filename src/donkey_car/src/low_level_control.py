@@ -36,10 +36,10 @@ class DkLowLevelCtrl():
         rospy.loginfo("Setting Up the Node...")
 
         rospy.init_node('dk_llc')
-
+#throtte range was 90 setting to  half for debugging purpuses
         self.actuators = {}
-        self.actuators['throttle']  = ServoConvert(id=1, center_value=250)
-        self.actuators['steering']  = ServoConvert(id=2, center_value= 320, range=110, direction=1) #-- positive left
+        self.actuators['throttle']  = ServoConvert(id=1, center_value=313, range=90)
+        self.actuators['steering']  = ServoConvert(id=2, center_value= 320, range=100, direction=1) #-- positive left
         rospy.loginfo("> Actuators corrrectly initialized")
 
         self._servo_msg       = ServoArray()
