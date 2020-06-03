@@ -8,6 +8,7 @@ from keras.optimizers import Adam, SGD, Adadelta, Adagrad
 from sklearn.model_selection import train_test_split
 from keras.preprocessing.image import img_to_array
 from keras.utils import to_categorical
+from keras.utils.vis_utils import plot_model
 from keras.models import Sequential
 from keras.layers.convolutional import Conv2D
 from keras.layers.convolutional import MaxPooling2D
@@ -22,6 +23,25 @@ import cv2
 import os
 import time
 import matplotlib.pyplot as plt
+
+
+# data files
+# choose image directory
+IMAGE_DIRECTORY = "images/"
+OUTPUT_DIRECTORY = "out"
+
+# Set up the number of training passes (epochs), learning rate, and batch size
+EPOCHS = 10
+LEARNING_RATE = 1e-4
+BATCH_SIZE = 32
+IMG_WIDTH = 160
+IMG_HEIGHT = 120
+
+# set up output template for file saving later, also mkdir folder if necessary
+OUTPUT_TEMPLATE = "{}{}x{}:{}@{}".format(OUTPUT_DIRECTORY+os.path.sep, IMG_WIDTH,
+                                         IMG_HEIGHT, EPOCHS, BATCH_SIZE)
+if not os.path.isdir(OUTPUT_DIRECTORY):
+    os.mkdir(OUTPUT_DIRECTORY)
 
 
 class LeNet:
@@ -58,27 +78,12 @@ class LeNet:
         model.add(Dense(classes))
         model.add(Activation("softmax"))
 
+        # save plot of model for documenting reasons
+        plot_model(model, to_file=OUTPUT_TEMPLATE +
+                   "_model.png", show_shapes=True)
         # return the completed network architecture
         return model
 
-
-# data files
-# choose image directory
-IMAGE_DIRECTORY = "images/"
-OUTPUT_DIRECTORY = "out"
-
-# Set up the number of training passes (epochs), learning rate, and batch size
-EPOCHS = 10
-LEARNING_RATE = 1e-4
-BATCH_SIZE = 32
-IMG_WIDTH = 160
-IMG_HEIGHT = 120
-
-# set up output template for file saving later, also mkdir folder if necessary
-OUTPUT_TEMPLATE = "{}{}x{}:{}@{}".format(OUTPUT_DIRECTORY+os.path.sep, IMG_WIDTH,
-                                         IMG_HEIGHT, EPOCHS, BATCH_SIZE)
-if not os.path.isdir(OUTPUT_DIRECTORY):
-    os.mkdir(OUTPUT_DIRECTORY)
 
 # initialize the data and labels
 print("Loading training images set...")
