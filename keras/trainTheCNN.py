@@ -13,7 +13,9 @@ from keras.layers.convolutional import MaxPooling2D
 from keras.layers.core import Activation
 from keras.layers.core import Flatten
 from keras.layers.core import Dense
+#from keras.utils.vis_utils import plot_model
 from keras import backend as K
+import matplotlib.pyplot as plt
 from imutils import paths
 import numpy as np
 import random
@@ -55,18 +57,19 @@ class LeNet:
         # softmax classifier
         model.add(Dense(classes))
         model.add(Activation("softmax"))
-
+        #plot_model(model, to_file='model_plot.png', show_shapes=True, show_layer_names=True)
         # return the completed network architecture
         return model
 
 
 # data files
 # choose image directory
-imageDirectory = "images/"
+imageDirectory = "../../data"
 model_file = "marker_no_marker.model"
 
 # Set up the number of training passes (epochs), learning rate, and batch size
-EPOCHS = 10
+#EPOCHS = 10
+EPOCHS = 100
 LEARNING_RATE = 1e-4
 BATCH_SIZE = 8
 IMG_WIDTH = 160
@@ -142,11 +145,19 @@ cnNetwork.compile(loss="binary_crossentropy", optimizer=opt,
 print("training network...")
 print("length trainx", len(trainX), " length trainy ", len(trainY))
 
-H = cnNetwork.fit_generator(aug.flow(trainX, trainY, batch_size=BATCH_SIZE),
+history = cnNetwork.fit_generator(aug.flow(trainX, trainY, batch_size=BATCH_SIZE),
                             validation_data=(testX, testY), steps_per_epoch=len(
                                 trainX) // BATCH_SIZE,
                             epochs=EPOCHS, verbose=1)
 
+print(history.history.keys())
+plt.plot(history.history['accuracy'])
+plt.plot(history.history['val_accuracy'])
+plt.title('model accuracy')
+plt.ylabel('accuracy')
+plt.xlabel('epoch')
+plt.legend(['train', 'test'], loc='upper left')
+plt.show()
 # save the CNN network weights to file
 print("Saving Network Weights to file...")
 cnNetwork.save(model_file)
