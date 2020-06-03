@@ -2,7 +2,6 @@
 
 
 # import the necessary packages
-import matplotlib.pyplot as plt
 from keras.preprocessing.image import ImageDataGenerator
 from keras.optimizers import Adam, SGD, Adadelta, Adagrad
 from sklearn.model_selection import train_test_split
@@ -15,7 +14,9 @@ from keras.layers.convolutional import MaxPooling2D
 from keras.layers.core import Activation
 from keras.layers.core import Flatten
 from keras.layers.core import Dense
+from keras.utils.vis_utils import plot_model
 from keras import backend as K
+import matplotlib.pyplot as plt
 from imutils import paths
 import numpy as np
 import random
@@ -81,6 +82,7 @@ class LeNet:
         # save plot of model for documenting reasons
         plot_model(model, to_file=OUTPUT_TEMPLATE +
                    "_model.png", show_shapes=True)
+    
         # return the completed network architecture
         return model
 
@@ -156,9 +158,10 @@ print("training network...")
 print("length trainx", len(trainX), " length trainy ", len(trainY))
 
 history = cnNetwork.fit_generator(aug.flow(trainX, trainY, batch_size=BATCH_SIZE),
-                                  validation_data=(testX, testY), steps_per_epoch=len(
-    trainX) // BATCH_SIZE,
-    epochs=EPOCHS, verbose=1)
+
+                            validation_data=(testX, testY), steps_per_epoch=len(
+                                trainX) // BATCH_SIZE,
+                            epochs=EPOCHS, verbose=1)
 
 print("Output directory is {}".format(OUTPUT_DIRECTORY))
 print("Image dimensions are {}x{}".format(IMG_WIDTH, IMG_HEIGHT))
@@ -182,5 +185,16 @@ plt.xlabel('epoch')
 plt.legend(['train', 'test'], loc='upper left')
 plt.savefig(OUTPUT_TEMPLATE+"_loss")
 
+
+
+print(history.history.keys())
+# Old May Stuff:
+#plt.plot(history.history['accuracy'])
+#plt.plot(history.history['val_accuracy'])
+#plt.title('model accuracy')
+#plt.ylabel('accuracy')
+#plt.xlabel('epoch')
+#plt.legend(['train', 'test'], loc='upper left')
+#plt.show()
 # save the CNN network weights to file
 cnNetwork.save(OUTPUT_TEMPLATE+".model")
