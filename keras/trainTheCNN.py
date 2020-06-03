@@ -15,23 +15,29 @@ from keras.layers.core import Activation
 from keras.layers.core import Flatten
 from keras.layers.core import Dense
 from keras.utils.vis_utils import plot_model
-from keras import backend as K
+from keras import backend as K 
+import matplotlib.pyplot as plt
 from imutils import paths
 import numpy as np
 import random
 import cv2
 import os
 import time
-
+import pwd
 
 
 # data files
 # choose image directory
-IMAGE_DIRECTORY = "images/"
+current_user = pwd.getpwuid(os.getuid())[0]
+if current_user is 'steffenmatheis': 
+    IMAGE_DIRECTORY = 'images/'
+else:
+    IMAGE_DIRECTORY = "../../data"
+
 OUTPUT_DIRECTORY = "out"
 
 # Set up the number of training passes (epochs), learning rate, and batch size
-EPOCHS = 10
+EPOCHS = 400
 LEARNING_RATE = 1e-4
 BATCH_SIZE = 32
 IMG_WIDTH = 160
@@ -79,8 +85,7 @@ class LeNet:
         model.add(Activation("softmax"))
 
         # save plot of model for documenting reasons
-        plot_model(model, to_file=OUTPUT_TEMPLATE +
-                   "_model.png", show_shapes=True)
+        #plot_model(model, to_file=OUTPUT_TEMPLATE +  "_model.png", show_shapes=True)	#bug?
     
         # return the completed network architecture
         return model
@@ -187,14 +192,6 @@ plt.savefig(OUTPUT_TEMPLATE+"_loss")
 
 
 
-print(history.history.keys())
-# Old May Stuff:
-#plt.plot(history.history['accuracy'])
-#plt.plot(history.history['val_accuracy'])
-#plt.title('model accuracy')
-#plt.ylabel('accuracy')
-#plt.xlabel('epoch')
-#plt.legend(['train', 'test'], loc='upper left')
-#plt.show()
+print("keys saved in history:",history.history.keys())
 # save the CNN network weights to file
 cnNetwork.save(OUTPUT_TEMPLATE+".model")
