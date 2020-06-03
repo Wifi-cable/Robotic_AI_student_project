@@ -16,14 +16,13 @@ from keras.layers.core import Flatten
 from keras.layers.core import Dense
 #from keras.utils.vis_utils import plot_model
 from keras import backend as K
-import matplotlib.pyplot as plt
 from imutils import paths
 import numpy as np
 import random
 import cv2
 import os
 import time
-import matplotlib.pyplot as plt
+
 
 
 class LeNet:
@@ -178,12 +177,13 @@ plt.legend(['train', 'test'], loc='upper left')
 plt.savefig(OUTPUT_TEMPLATE+"_accuracy")
 
 # summarize history for loss
-plt.plot(history.history['loss'])
-plt.plot(history.history['val_loss'])
+plt.clf()
+plt.plot(history.history['loss'], color='red')
+plt.plot(history.history['val_loss'], color='blue')
 plt.title('model loss')
 plt.ylabel('loss')
 plt.xlabel('epoch')
-plt.legend(['train', 'test'], loc='upper left')
+plt.legend(['loss', 'val_loss'], loc='upper left')
 plt.savefig(OUTPUT_TEMPLATE+"_loss")
 
 
