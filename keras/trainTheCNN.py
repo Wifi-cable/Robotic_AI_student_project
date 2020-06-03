@@ -2,6 +2,7 @@
 
 
 # import the necessary packages
+import matplotlib.pyplot as plt
 from keras.preprocessing.image import ImageDataGenerator
 from keras.optimizers import Adam, SGD, Adadelta, Adagrad
 from sklearn.model_selection import train_test_split
@@ -20,6 +21,7 @@ import random
 import cv2
 import os
 import time
+import matplotlib.pyplot as plt
 
 
 class LeNet:
@@ -62,15 +64,21 @@ class LeNet:
 
 # data files
 # choose image directory
-imageDirectory = "images/"
-model_file = "marker_no_marker.model"
+IMAGE_DIRECTORY = "images/"
+OUTPUT_DIRECTORY = "out"
 
 # Set up the number of training passes (epochs), learning rate, and batch size
 EPOCHS = 10
 LEARNING_RATE = 1e-4
-BATCH_SIZE = 8
+BATCH_SIZE = 32
 IMG_WIDTH = 160
 IMG_HEIGHT = 120
+
+# set up output template for file saving later, also mkdir folder if necessary
+OUTPUT_TEMPLATE = "{}{}x{}:{}@{}".format(OUTPUT_DIRECTORY+os.path.sep, IMG_WIDTH,
+                                         IMG_HEIGHT, EPOCHS, BATCH_SIZE)
+if not os.path.isdir(OUTPUT_DIRECTORY):
+    os.mkdir(OUTPUT_DIRECTORY)
 
 # initialize the data and labels
 print("Loading training images set...")
@@ -78,7 +86,7 @@ data = []
 labels = []
 
 # grab the images from the directories and randomly shuffle them
-imagePaths = sorted(list(paths.list_images(imageDirectory)))
+imagePaths = sorted(list(paths.list_images(IMAGE_DIRECTORY)))
 # use a random seed number from the time clock
 seed = int(time.time() % 1000)
 random.seed(seed)
@@ -142,11 +150,32 @@ cnNetwork.compile(loss="binary_crossentropy", optimizer=opt,
 print("training network...")
 print("length trainx", len(trainX), " length trainy ", len(trainY))
 
-H = cnNetwork.fit_generator(aug.flow(trainX, trainY, batch_size=BATCH_SIZE),
-                            validation_data=(testX, testY), steps_per_epoch=len(
-                                trainX) // BATCH_SIZE,
-                            epochs=EPOCHS, verbose=1)
+history = cnNetwork.fit_generator(aug.flow(trainX, trainY, batch_size=BATCH_SIZE),
+                                  validation_data=(testX, testY), steps_per_epoch=len(
+    trainX) // BATCH_SIZE,
+    epochs=EPOCHS, verbose=1)
+
+print("Output directory is {}".format(OUTPUT_DIRECTORY))
+print("Image dimensions are {}x{}".format(IMG_WIDTH, IMG_HEIGHT))
+print("Trained using {} Epochs and {} batch size".format(EPOCHS, BATCH_SIZE))
+print("Saving graphs and model to {}_accuracy/_loss/.model".format(OUTPUT_TEMPLATE))
+# summarize history for accuracy
+plt.plot(history.history['accuracy'])
+plt.plot(history.history['val_accuracy'])
+plt.title('model accuracy')
+plt.ylabel('accuracy')
+plt.xlabel('epoch')
+plt.legend(['train', 'test'], loc='upper left')
+plt.savefig(OUTPUT_TEMPLATE+"_accuracy")
+
+# summarize history for loss
+plt.plot(history.history['loss'])
+plt.plot(history.history['val_loss'])
+plt.title('model loss')
+plt.ylabel('loss')
+plt.xlabel('epoch')
+plt.legend(['train', 'test'], loc='upper left')
+plt.savefig(OUTPUT_TEMPLATE+"_loss")
 
 # save the CNN network weights to file
-print("Saving Network Weights to file...")
-cnNetwork.save(model_file)
+cnNetwork.save(OUTPUT_TEMPLATE+".model")
