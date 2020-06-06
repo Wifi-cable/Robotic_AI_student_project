@@ -7,19 +7,47 @@ from keras.optimizers import Adam, SGD, Adadelta, Adagrad
 from sklearn.model_selection import train_test_split
 from keras.preprocessing.image import img_to_array
 from keras.utils import to_categorical
+from keras.utils.vis_utils import plot_model
 from keras.models import Sequential
 from keras.layers.convolutional import Conv2D
 from keras.layers.convolutional import MaxPooling2D
 from keras.layers.core import Activation
 from keras.layers.core import Flatten
 from keras.layers.core import Dense
-from keras import backend as K
+from keras.utils.vis_utils import plot_model
+from keras import backend as K 
+import matplotlib.pyplot as plt
 from imutils import paths
 import numpy as np
 import random
 import cv2
 import os
 import time
+import pwd
+
+
+# data files
+# choose image directory
+current_user = pwd.getpwuid(os.getuid())[0]
+if current_user is 'steffenmatheis': 
+    IMAGE_DIRECTORY = 'images/'
+else:
+    IMAGE_DIRECTORY = "../../data"
+
+OUTPUT_DIRECTORY = "out"
+
+# Set up the number of training passes (epochs), learning rate, and batch size
+EPOCHS = 400
+LEARNING_RATE = 1e-4
+BATCH_SIZE = 32
+IMG_WIDTH = 160
+IMG_HEIGHT = 120
+
+# set up output template for file saving later, also mkdir folder if necessary
+OUTPUT_TEMPLATE = "{}{}x{}:{}@{}".format(OUTPUT_DIRECTORY+os.path.sep, IMG_WIDTH,
+                                         IMG_HEIGHT, EPOCHS, BATCH_SIZE)
+if not os.path.isdir(OUTPUT_DIRECTORY):
+    os.mkdir(OUTPUT_DIRECTORY)
 
 
 class LeNet:
@@ -56,21 +84,12 @@ class LeNet:
         model.add(Dense(classes))
         model.add(Activation("softmax"))
 
+        # save plot of model for documenting reasons
+        #plot_model(model, to_file=OUTPUT_TEMPLATE +  "_model.png", show_shapes=True)	#bug?
+    
         # return the completed network architecture
         return model
 
-
-# data files
-# choose image directory
-imageDirectory = "images/"
-model_file = "marker_no_marker.model"
-
-# Set up the number of training passes (epochs), learning rate, and batch size
-EPOCHS = 10
-LEARNING_RATE = 1e-4
-BATCH_SIZE = 8
-IMG_WIDTH = 160
-IMG_HEIGHT = 120
 
 # initialize the data and labels
 print("Loading training images set...")
@@ -78,7 +97,7 @@ data = []
 labels = []
 
 # grab the images from the directories and randomly shuffle them
-imagePaths = sorted(list(paths.list_images(imageDirectory)))
+imagePaths = sorted(list(paths.list_images(IMAGE_DIRECTORY)))
 # use a random seed number from the time clock
 seed = int(time.time() % 1000)
 random.seed(seed)
@@ -142,11 +161,37 @@ cnNetwork.compile(loss="binary_crossentropy", optimizer=opt,
 print("training network...")
 print("length trainx", len(trainX), " length trainy ", len(trainY))
 
-H = cnNetwork.fit_generator(aug.flow(trainX, trainY, batch_size=BATCH_SIZE),
+history = cnNetwork.fit_generator(aug.flow(trainX, trainY, batch_size=BATCH_SIZE),
+
                             validation_data=(testX, testY), steps_per_epoch=len(
                                 trainX) // BATCH_SIZE,
                             epochs=EPOCHS, verbose=1)
 
+print("Output directory is {}".format(OUTPUT_DIRECTORY))
+print("Image dimensions are {}x{}".format(IMG_WIDTH, IMG_HEIGHT))
+print("Trained using {} Epochs and {} batch size".format(EPOCHS, BATCH_SIZE))
+print("Saving graphs and model to {}_accuracy/_loss/.model".format(OUTPUT_TEMPLATE))
+# summarize history for accuracy
+plt.plot(history.history['accuracy'])
+plt.plot(history.history['val_accuracy'])
+plt.title('model accuracy')
+plt.ylabel('accuracy')
+plt.xlabel('epoch')
+plt.legend(['train', 'test'], loc='upper left')
+plt.savefig(OUTPUT_TEMPLATE+"_accuracy")
+
+# summarize history for loss
+plt.clf()
+plt.plot(history.history['loss'], color='red')
+plt.plot(history.history['val_loss'], color='blue')
+plt.title('model loss')
+plt.ylabel('loss')
+plt.xlabel('epoch')
+plt.legend(['loss', 'val_loss'], loc='upper left')
+plt.savefig(OUTPUT_TEMPLATE+"_loss")
+
+
+
+print("keys saved in history:",history.history.keys())
 # save the CNN network weights to file
-print("Saving Network Weights to file...")
-cnNetwork.save(model_file)
+cnNetwork.save(OUTPUT_TEMPLATE+".model")
