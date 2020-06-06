@@ -19,12 +19,12 @@ name is tied to the unix time stamp.
 def saveMirroredImage(imageFolder):
 	counter = 0
 	path = imageFolder + "/*.png"
+	dayTime = datetime.datetime.now()	#get unix time 
 	for img in glob.iglob(path):
 
 		originalImage = cv2.imread(img)
 		flipHorizontal = cv2.flip(originalImage, 1)
-		time.sleep(1)#make sure to wait one second to prevent picture overwrite.
-		dayTime = datetime.datetime.now()	#get unix time 
+		dayTime  += 1 #to prevent reusing image names. that would cause an overwriting of a file
 		now = dayTime.strftime("%s")	#save as string
 		pictureName = "data" + now +".png"	#concatinate picture name from timestamp
 		cv2.imwrite((imageFolder+"/" + pictureName), flipHorizontal)
@@ -33,7 +33,7 @@ def saveMirroredImage(imageFolder):
 	return counter
 
 def main():
-	print("i flipped", saveMirroredImage("/home/wifi-cable/Semester/Semester9/Robotik/catkin_ws/misc/imgTest"), "images")
+	print("i flipped", saveMirroredImage(" "), "images")
 
 if __name__ == "__main__":
 	main()
