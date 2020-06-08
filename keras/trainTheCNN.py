@@ -15,12 +15,12 @@ from keras.layers.core import Activation
 from keras.layers.core import Flatten
 from keras.layers.core import Dense
 from keras.utils.vis_utils import plot_model
-from keras import backend as K 
+from keras import backend as K
 import matplotlib.pyplot as plt
 from imutils import paths
 import numpy as np
 import random
-import cv2
+from cv2 import cv2
 import os
 import time
 import pwd
@@ -29,7 +29,7 @@ import pwd
 # data files
 # choose image directory
 current_user = pwd.getpwuid(os.getuid())[0]
-if current_user == 'steffenmatheis': 
+if current_user == 'steffenmatheis':
     IMAGE_DIRECTORY = 'images/'
 else:
     IMAGE_DIRECTORY = "../../data"
@@ -85,8 +85,8 @@ class LeNet:
         model.add(Activation("softmax"))
 
         # save plot of model for documenting reasons
-        #plot_model(model, to_file=OUTPUT_TEMPLATE +  "_model.png", show_shapes=True)	#bug?
-    
+        # plot_model(model, to_file=OUTPUT_TEMPLATE +  "_model.png", show_shapes=True)	#bug?
+
         # return the completed network architecture
         return model
 
@@ -163,9 +163,9 @@ print("length trainx", len(trainX), " length trainy ", len(trainY))
 
 history = cnNetwork.fit_generator(aug.flow(trainX, trainY, batch_size=BATCH_SIZE),
 
-                            validation_data=(testX, testY), steps_per_epoch=len(
-                                trainX) // BATCH_SIZE,
-                            epochs=EPOCHS, verbose=1)
+                                  validation_data=(testX, testY), steps_per_epoch=len(
+    trainX) // BATCH_SIZE,
+    epochs=EPOCHS, verbose=1)
 
 print("Output directory is {}".format(OUTPUT_DIRECTORY))
 print("Image dimensions are {}x{}".format(IMG_WIDTH, IMG_HEIGHT))
@@ -190,8 +190,6 @@ plt.xlabel('epoch')
 plt.legend(['loss', 'val_loss'], loc='upper left')
 plt.savefig(OUTPUT_TEMPLATE+"_loss")
 
-
-
-print("keys saved in history:",history.history.keys())
+print("keys saved in history:", history.history.keys())
 # save the CNN network weights to file
 cnNetwork.save(OUTPUT_TEMPLATE+".model")
