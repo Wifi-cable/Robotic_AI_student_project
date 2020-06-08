@@ -29,7 +29,7 @@ import pwd
 # data files
 # choose image directory
 current_user = pwd.getpwuid(os.getuid())[0]
-if current_user is 'steffenmatheis': 
+if current_user == 'steffenmatheis': 
     IMAGE_DIRECTORY = 'images/'
 else:
     IMAGE_DIRECTORY = "../../data"
