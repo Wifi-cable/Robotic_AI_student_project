@@ -7,3 +7,9 @@ devel/*
 venv/
 images/
 keras/out/
+
+doku/KIS_ROB_Abgabe.aux
+doku/KIS_ROB_Abgabe.log
+doku/KIS_ROB_Abgabe.pdf
+doku/KIS_ROB_Abgabe.synctex.gz
+
