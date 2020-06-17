@@ -11,8 +11,7 @@
 \usepackage{textcomp}
 \usepackage{xcolor}
 \usepackage{dirtytalk} % nein, nicht was du denkst.  Packet hilft  gegen verschluckte gänsefüschen
-\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
-    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \begin{document}
 
 \title{Projekt rosBerry *\\
@@ -28,13 +27,13 @@ email address}%noch
 \and
 \IEEEauthorblockN{3\textsuperscript{rd}Barsalou Marie }
 \IEEEauthorblockA{\textit{Hochschule Mannheim} \\
-email address}
+email address 1611347@stud.hs-mannheim.de}
 }
 
 \maketitle
 
 \begin{abstract}
-Ziel von rosBerry besteht darin einen kleinen, schnellen aber dennoch preisgünstigen Roboter aus leicht verfügbaren Standartbauteilen zu Bauen. Zusätzlich soll er mit dem Robot Operating System Betrieben werden und mit einer Künstlichen Intelligenz versehen. Der Roboter soll einen optischen Marker erkennen und darauf zufahren. Frontal zusammenstöße mit Wänden soll er dabei Vermeiden. 
+Ziel von Projekt rosBerry besteht darin einen kleinen, schnellen aber dennoch preisgünstigen Roboter aus leicht verfügbaren Standartbauteilen zu Bauen. Zusätzlich soll er mit dem Robot Operating System Betrieben werden und mit einer Künstlichen Intelligenz versehen. Der Roboter soll einen optischen Marker erkennen und darauf zufahren. Frontal Zusammenstöße mit Wänden soll er dabei Vermeiden. 
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -67,7 +66,7 @@ am Beispiel einer Ladestationserkennung"'  von Amanda Decker ist ein Vergleichba
 
 \subsection{Ansätze für die Erstellung vom Datensatz}	%mary
 
-Bei Amanda Dekers Bachelorarbeit schien die KI Schwierigkeiten damit zu haben zwischen  dem Marker und einem Blauton zu unterscheiden der auch im Marker vorkam. Es schien auch schwierig zu sein ein Binärbild von dem Marker zu erzeugen, da die beiden Farben des Marker einen geringen Kontrast zueinander haben. Da Kameras in Opencv mit Hilfe von Schachbrettmustern kalibriert werden, wird für dieses Projekt ein Symbol mit ähnlich Hohem Kontrast und Schafen Kanten verwendet.\\
+Bei Amanda Dekers Bachelorarbeit schien die KI Schwierigkeiten damit zu haben zwischen  dem Marker und einem Blauton zu unterscheiden, der auch im Marker vorkam. Es schien auch schwierig zu sein ein Binärbild von dem Marker zu erzeugen, da die beiden Farben des Marker einen geringen Kontrast zueinander haben. Da Kameras in Opencv mit Hilfe von Schachbrettmustern kalibriert werden, wird für dieses Projekt ein Symbol mit ähnlich Hohem Kontrast und Schafen Kanten verwendet.\\
 %Marker Bild hier?
  Dieses Symbol ist nicht nur in 4 Richtungen Rottierbar sondern auch zweifach Spiegelbar ohne den Marker zu verfälschen. (Rotations invariant und spiegelungs invariant.) Es verfügt auch über einen Maximalen Kontrast und klare, gerade Kannten. \\
  \noindent
@@ -88,13 +87,13 @@ Um einen Möglichst Robusten Datensatz zu bekommen  werden verschiedene Technike
 	In diesem Kapitel werden wir, bevor wir näher auf die Software Architektur und den Hardware Aufbau von rosBerry eingehen, das System kurz als Gesamtüberblick vorstellen.
 	
 	\begin{figure}[!ht]
-    \centering
-    \includegraphics[width=9cm]{img/Gesamtsystem.PNG}
-    \caption{Gesamtüberlick des Systems}
-    \label{Gesamtüberblick}
-    \end{figure}
+	\centering
+	\includegraphics[width=9cm]{img/Gesamtsystem.PNG}
+	\caption{Gesamtxberblick des Systems}
+	\label{Gesamt zusammenhang}
+	\end{figure}
+	Die Abbildung \ref{Gesamt zusammenhang} zeigt das System, welches auf mehrere Komponenten basiert. Innerhalb des Systems wird eine Software eingesetzt, die auf dem Robot Operating System (ROS) basiert. Diese Software läuft verteilt auf den Komponenten Laptop, Raspberry PI und Arduino, wie hier in Abbildung \ref{Gesamt zusammenhang} zu sehen. \\
 	
-	Die Abbildung \ref{Gesamtüberblick} zeigt das System, welches auf mehrere Komponenten basiert. Innerhalb des Systems wird eine Software eingesetzt, die auf dem Robot Operating System (ROS) basiert. Diese Software läuft verteilt auf den Komponenten Laptop, Raspberry PI und Arduino, wie hier in Abbildung \ref{Gesamtüberblick} zu sehen. \\
 	Beginnend werden wir mit der Komponente Laptop. Sie ist dazu da, dem User die Steuerung des Roboters zu ermöglichen. Die Steuerung kann erst erfolgen, wenn auf dem Raspberry PI ein Accespoint geöffnet, mit dem sich der Laptop - der Nutzer letztendlich - via WLAN verbindet.\\
 	Innerhalb der anderen Komponente Roboter - unser rosBerry - befindet sich die beiden Hardware-Elemente Raspberry PI und ein Arduino. Der Arduino wird durch ein USB Kabel mit der Raspberry PI verbunden. Dadurch wird eine Kommunikation ermöglicht, in dem der Arduino den Raspberry PI in Zeitabständen mit Sensordaten versorgt.\\
 	An dieser Stelle ist anzumerken, dass weitere Hardware verwendet wird, die im Kapitel Hardwareaufbau näher vorgestellt wird.
@@ -235,9 +234,10 @@ Um einen Möglichst Robusten Datensatz zu bekommen  werden verschiedene Technike
 
 
 \section{Autonomes verhalten durch Künstliche Intelligenz  }	%mary
-%was machen wir da eigentlich
-%was ist unser ziel
-%wiso haben wir uns dafür entschiden
+
+Ziel des KI Teil des Projekts besteht darin dem Roboter Beizubringen  einem Optischen Marker zu folgen. Dazu muss er erst einmal das Symbol erkennen, dann herausfinden in welche Richtung sich der Marker befindet. Danach erst kann er auf den Marker zufahren. \\ 
+
+Der schwierigste Teil der Aufgabe besteht darin den Marker zuverlässig in unterschiedlichen Umgebungen zu erkennen. 
 
 \subsection{Erster Ansatz für das Neuronale Netz}	%steffen ? mary?
 %netzaufbau am anfang
