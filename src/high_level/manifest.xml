@@ -1,0 +1,18 @@
+<package>
+  <description brief="high_level">
+
+     high_level
+
+  </description>
+  <author>Ubuntu User</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/high_level</url>
+  <depend package="std_msgs"/>
+  <depend package="rospy"/>
+  <depend package="sensor_msgs"/>
+  <depend package="geometry_msgs"/>
+
+</package>
+
+
