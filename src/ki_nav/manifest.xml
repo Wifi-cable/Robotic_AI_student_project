@@ -1,0 +1,16 @@
+<package>
+  <description brief="ki_nav">
+
+     ki_nav
+
+  </description>
+  <author>Ubuntu User</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/ki_nav</url>
+  <depend package="std_msgs"/>
+  <depend package="rospy"/>
+
+</package>
+
+
