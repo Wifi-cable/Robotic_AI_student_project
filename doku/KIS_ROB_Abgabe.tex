@@ -266,7 +266,61 @@ Um einen möglichst robusten Datensatz zu bekommen  werden verschiedene Technike
 	
 	\subsection{Erster Ansatz für das Neuronale Netz}	%steffen ? mary?
 	%netzaufbau am anfang
-	\subsubsection{Este Auswertung der Ergebnisse}	%steffen? 
+	Der erste Entwurf unseres Neuronalen Netzes war stark angelehnt an F. Grovers Beispielnetz aus "'Artificial Intelligence for Robotics" \cite{b1}. Wie in der Vorlage erstellen wir ein sequentielles Modell mithilfe von Keras.
+	
+	Die erste Schicht stellt ein convolution layer mit 20 convolutions dar, wovon jede ein Merkmal des Eingangsbildes isolieren soll.
+	Die Größe setzen wir auf 5x5, betrachten also zwei benachbarte Pixel in jede Richtung.
+	Selbstverständlich muss dafür auch ein Padding hinzugefügt werden, damit das Verfahren auch am Bildrand funktioniert. 
+
+	Zudem wird noch eine Aktivierungsfunktion benötigt, hierfür nutzen wir die ReLU-Funktion, die nur positive Werte zulässt und negative Werte durch den Wert 0 ersetzt.
+	Diese Aktivierungsfunktion ergibt deshalb Sinn, da das Ergebnis als Farbe dargestellt werden und deshalb einen Wert zwischen 0 und 1 annehmen soll. Ein Wert unter Null wäre hier unsinnig.
+
+	\begin{lstlisting}[label={list:model_1_1},caption=Sequentielles Modell und erste Schicht]
+		model = Sequential()
+		inputShape = (height, width, depth)
+
+		model.add(Conv2D(20, (5, 5), padding="same", input_shape=inputShape))
+		model.add(Activation("relu"))
+	\end{lstlisting}
+
+	Die zweite Schicht ist ein maxpooling layer, bei dem wir jeweils 2x2 Pixel nehmen und danach 2x2 Pixel weiterrücken um keine Überlappungen zu haben. Das Ergebnis ist ein Bild in ¼ der originalen Größe: aus 640x480px wird 320x240px, aus 160x120px 80x60px usw.
+
+	Direkt darauf folgt ein weiteres convolution layer mit der doppelten Anzahl an convolutions — 40 statt vorher 20 — um mehr Mermale zu identifizieren.
+	Durch das vorher durchgeführte maxpooling werden nun andere, größere Merkmale erkannt.
+	Ebenfalls nutzen wir wieder dieselbe ReLU Aktivierungsfunktion, aus denselben Gründen wie in der ersten Schicht.
+
+	\begin{lstlisting}[label={list:model_1_2},caption=Modell: zweite und dritte Schicht]
+		model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
+
+		model.add(Conv2D(40, (5, 5), padding="same"))
+		model.add(Activation("relu"))
+	\end{lstlisting}
+
+	Schicht vier besteht erneut aus einem maxpooling layer, ebenfalls um nochmals größere Merkmale zu erkennen.
+	Aus einem 640x480px großen Bild wird nun 160x120px, aus 160x120px sogar nur noch 40x30px.
+	Darauf folgt nun eine Schicht, die vorher noch nicht im Neuronalen Netz vorkam:
+	Zuerst werden die dreidimensionalen Bildinformationen mit der Funktion Flatten() in ein eindimensionales Array geplättet, bevor wir eine vollverknüpfte Schicht mittels Dense(500) hinzufügen.
+	Erneut nutzen wir die ReLU Aktivierungsfunktion, aus bekannten Gründen.
+
+	\begin{lstlisting}[label={list:model_1_3},caption=Modell: vierte und fünfte Schicht]
+		model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
+
+		model.add(Flatten())
+		model.add(Dense(500))
+		model.add(Activation("relu"))
+	\end{lstlisting}
+
+	Abschließend benötigen wir zwei Neuronen für die beiden Ausgangswerte "Marker" und "kein Marker".
+	Zur Aktivierung nutzen wir die Softmax-Funktion, die auch normalisierte Exponentialfunktion genannt wird.
+	Sie transformiert mehrdimensionale Vektoren in einen Wertebereich zwischen 0 und 1, wobei alle Komponenten zusammen 1 ergeben müssen, das heißt wenn "Marker" einen Wert von 0,65 hat, muss "kein Marker" einen Wert von 0,35 haben. 
+	Die Funktion kann durchaus für mehr als zwei Ausgangswerte genutzt werden, sollten also jemals weitere Ausgangswerte hinzukommen müsste dieser Teil des Netzes nicht darauf angepasst werden. 
+
+	\begin{lstlisting}[label={list:model_1_4},caption=Modell: finale sechste Schicht]
+		model.add(Dense(2))
+		model.add(Activation("softmax"))
+	\end{lstlisting}
+
+	\subsubsection{Erste Auswertung der Ergebnisse}	%steffen? 
 	%wiso war das scheisse
 	\subsection{Schritte zur Verbesserungen der Erkennungsrate} %mary
 	%was haben wir dann gemacht 
