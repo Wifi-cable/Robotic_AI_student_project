@@ -97,7 +97,7 @@ In einem Kapitel beschreibt der Autor, dass der Roboter mit Hilfe von Neuronalen
 Da unserer Anwendungsfall ein anderer ist, musste die Datenmenge erhöht werden, das Neuronale Netz wurde erweitert und die Auflösung des Bildes wurde erhöht.
 \\
 
-Auch die Bachelorarbeit \glqq Bildklassifikation auf einem Raspberry Pi Zero am Beispiel einer Ladestationserkennung\grqq von Amanda Decker ist ein vergleichbares Projekt.
+Auch die Bachelorarbeit \glqq Bildklassifikation auf einem Raspberry Pi Zero am Beispiel einer Ladestationserkennung\grqq \cite{b2} von Amanda Decker ist ein vergleichbares Projekt.
 Einige der Grundansätze aus dieser Arbeit wurden für dieses Projekt übernommen.
 So haben wir das Neuronale Netz nicht auf einem Raspberry Pi trainiert und einen Marker genommen der sich gut rotieren und spiegeln lässt.
 Somit kann jedes Bild des Datensatzes gespiegelt werden, um mit mehr Daten arbeiten zu können.
@@ -393,16 +393,67 @@ Die Funktion kann durchaus für mehr als zwei Ausgangswerte genutzt werden, für
 
 \subsection{Schritte zur Verbesserung der Erkennungsrate} %mary
 %was haben wir dann gemacht 
-Beim ersten Durchlauf des Neuronalen Netzes war die Erkennungsrate des Markers 57\%.
-Dieses Ergebnis ist bei einer 50/50 Chance kaum besser als Raten.
-Es stellte sich heraus das zwei Hauptfaktoren dafür verantwortlich waren.
-Einerseits waren die Bilder im Trainingsset nicht ausführlich genug sortiert.
-Das andere Problem lag in der Verwendung der Daten und im Benutzen des Netzes.
-Das Netz nutzte nur eine Auflösung von 128x128 Pixel und 100 Epochen.
-Da jedes einzelne Pixel eine Eingangsneurone wird, ist anzunehmen, dass die geringe Auflösung im Buch gewählt wurde, um Rechenleistung zu sparen.
-Bei voller Bildauflösung von 640x480 Pixel erweist sich das Neuronale Netz auf der Hardware eines handelsüblichen Laptops als nicht mehr lauffähig. 
 
-\subsection{Anwendung des Trainingsmodells} %steffen +mary
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=9cm]{img/160x120:100@32_accuracy.png}
+	\caption{erster Durchlauf}
+	\label{Initiales Ergebnis}
+\end{figure}
+Beim ersten Durchlauf des Neuronalen Netzes war die Erkennungsrate des Markers 57\%. Dieses Ergebnis ist bei einer 50/50 Chance kaum besser als Raten.\\
+
+Die Schritte von  \glqq Learn Keras for Deep Neural Networkss\grqq  \cite{b3} zum verbessern des Designs von Neurnalen Netzen wurden zur verbesserung der Trainignsergebnisse verwedet. 
+
+\cite{b3}  Rät dazu mit einer kleinen Architektur anfangen das bedeutet wenige Schichten und wenige Neuronen. Es liegt nahe das kleine Architekturen Ressourcen schonender sind als grosse Architekturen. Dieser ansatz erscheint sinnvoll da Steigende Resourcenanforderngen bei gleichbleibender Hardware zu steigender Rechenzeit pro Epoche bedeuten. \\
+
+Das Netz nutzte anfangs nur eine Auflösung von 128x128 Pixel und 100 Epochen. Da jedes einzelne Pixel eine Eingangsneurone wird, ist anzunehmen, dass die geringe Auflösung im Buch gewählt wurde, um Rechenleistung zu sparen. \\
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=9cm]{img/213x160:400@32_accuracy.png}
+	\caption{overfitting}
+	\label{Overfitt }
+\end{figure}
+
+\cite{b3} Rät die Anzahl an Neuronen pro Schicht erhöhen, wenn Anfangs kein befriedigenden Ergebnisse erzieht werden.
+Bei voller Bildauflösung von 640x480 Pixel erweist sich das Neuronale Netz auf der Hardware eines handelsüblichen Laptops als nicht mehr lauffähig. Für weitere Durchläufe wurden die nächsten Versuche auf einer Workstation mit mehr Grafkikkarten und Deutlich mehr RAM gemacht. Die Erkennungsrate stieg bei größerer Auflösung und mehr Durchläufen tatsächlich auf über 80\%. Damit vergrösserte sich jedoch das Modell (die Gewichte der KI) auf über ein Gigabyte. Ein so großes Modell kann nicht zeitnahe auf einem Raspberry Pie angewedet werden, da es nicht mehr in den RAM passt. Auch auf Standart Laptops ist zu erwarten das ein größeres Modell echt zeit Berechnungen erschwert. \\
+
+
+Um mit einer höhreren Auflösung trainiren zu können wurden die nächsten Trainingseinheiten auf einem performateren Server durchgeführt. Der zusätzliche Arbeitsspeicher und die Grafikarten bringen bei einer aktivierung der CUDA beschleunigung einen grossen Geschwikdikeitszuwachs . \\
+
+Ein weiteres Problem das zu Tage trat war das Overfitting. Das Modell entwickelte sich gut auf Trainingsdaten, schnitt jedoch deutlich schlechter bei Testdaten ab, mit denen es nicht trainiert hatte. Die Kurven liefen bei mehr als 200 Epochen weit auseinander.\\
+
+
+Weiterhin Rät \cite{b3} mehr Schichen benutzen, Beispielsweise abwechselnd eine Dichte schicht( dense layer) und eine Dropout Schicht.
+
+Dropout Schichten im Neuronalen Netz verbesserten das Overfitting Problem. Somit waren mehr Trainingsläufe ohne overfitting möglich. Das neuronale Netz erreichte so werte von rund 85\%. \\
+
+Das Modell das TensorFlow bei voller Auflösung oder 307200 Eingangsneuronen erstellt ist über ein Gigabyte groß. Je größer das Modell ist, des do unwahrscheinlicher das ein Raspberry Pi das Modell in absehbarer Zeit auf ein Bild anwenden kann. Somit erwies sich der Ansatz einfach die Auflösung zu erhöhen als nicht  zielführend für den Anwendungsfall. \\
+
+Das Modell musste also kleiner werden ohne wesentliches Overfitting. Diese Ziehl wurde durch die Kombination von Dropoutschichten, mehr Durchläufen und kleinerer Pixelanzahl erreicht. \\
+
+\cite{b3} Rät weiterhin, die Daten neu analysieren, wenn eine weitere Steigerung der Anzahl an Schichten und der Neuronen keine weitere Steigerung der Erkennungsrate bringt. Es wurden als Bilder mit sehr geringem Kontrast aussortiert, extrem Dunkle Bilder sowie Bilder auf denen der Marker sehr weit entfernt war. Sie wurden durch Bessere Daten ersetzt. (neue Bilder wurden angefertigt jeweils mit und Ohne Marker) Dieser Schritt verursachte eine Merkliche Verbesserung des Trainingsergebnis.
+\\
+
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=9cm]{img/213x160:800@32:0_accuracy.png}
+	\caption{Enderge ergebnis}
+	\label{end Ergenisse }
+\end{figure}
+
+Alle weiteren versucht das Model weiter zu verfeinern scheiterten. Es ist zu vermuten das der Datensatz zu klein war für die komplexität des Models. Eine weitere möglichkeit ist das die Grenzen der Optimierer ADAM und Stochastic Gradient Descent erreicht waren. 
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=9cm]{img/480x360:400@32_accuracy.png}
+	\caption{Kein sichtbarer Trainingserfolg}
+	\label{erfolgloos }
+\end{figure}
+
+
+\subsection{Anwendung des Trainingsmodells} %steffen
 %mach ich! ~steffen
 %bild teilen
 %bild analysieren
@@ -453,8 +504,9 @@ copy& More table copy$^{\mathrm{a}}$& &  \\
 
 %Francis X. Govers - Artificial Intelligence for Robotics-Packt Publishing (2018).pdf
 \begin{thebibliography}{00}
-	\bibitem{b1}Francis X. Govers , ` Artificial Intelligence for Robotics,''Packt Publishing ,2018
-	
+	\bibitem{b1}Francis X. Govers , Artificial Intelligence for Robotics, Packt Publishing ,2018
+	\bibitem{b2}Amanda Decker , Bachelor Arbeit, Hochschule Mannheim ,2019
+	\bibitem{b3}Learn Keras for Deep Neural Networks, Jojo Moolayil apress, 2019
 \end{thebibliography}
 
 

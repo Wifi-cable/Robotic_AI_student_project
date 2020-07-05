@@ -26,7 +26,7 @@ TODO
 
 
 class Move(enum.Enum):
-    Left: "left"
+    Left = "left"
     Right: "right"
     Forward: "forward"
     NotFound: "notfound"
@@ -35,8 +35,7 @@ class Move(enum.Enum):
 IMG_WIDTH = 160
 IMG_HEIGHT = 160
 
-model = load_model(
-    'PATH_TO_MODEL I don\'t know where it is please someone do it for me')
+model = load_model('/../keras/213x160:800@32:0.model')
 
 # instead of return you publish
 pub = rospy.Publisher('Marker', String, queue_size=10)
