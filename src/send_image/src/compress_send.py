@@ -17,7 +17,7 @@ from sensor_msgs.msg import CompressedImage
 def sender():
 	bridge = CvBridge()
 	#build a publisher
-	pub = rospy.Publisher('/camera/image/compressed',CompressedImage , queue_size=2) #datatpye
+	pub = rospy.Publisher('/camera/image/compressed',CompressedImage , queue_size=1) #datatpye
 	#not anonoymus means there can only be one node of this type. (only one cam)
 	rospy.init_node('compress_sender', anonymous=False)
 	rate = rospy.Rate(0.1) # 1hz
