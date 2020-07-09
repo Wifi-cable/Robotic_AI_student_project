@@ -14,7 +14,8 @@ from std_msgs.msg import String  # ROS python needs a Ros message to publish
 from sensor_msgs.msg import CompressedImage
 from cv_bridge import CvBridge
 
-VERBOSE = True#set to True for a lot of debugging output
+VERBOSE = True #set to True for a lot of debugging output
+SPAM = False	#how to you call an extra verbosity level?
 
 class Move(enum.Enum):
 	Left = "left"
@@ -52,11 +53,11 @@ class ImageProcessor:
 				
 				tiles.append(cv2.resize( markerImg[x_start:x_end, y_start:y_end], (step_width, step_height)))	
 				#try not to mix print statments with ROS code. use  instead "rospy.loginfo"
-				if(VERBOSE):
+				if(SPAM):
 					rospy.loginfo("{}:{}x{}:{}".format(x_start, x_end, y_start, y_end))
 		model = load_model('model/213x160:800@32:0.model')
 		graph = tf.get_default_graph() #tensor flow needs to use a graph 
-
+		
 		# predict every tile and append to result
 		for tile in tiles:
 			tile = numpy.expand_dims(img_to_array( tile.astype("float") / 255.0), axis=0)
@@ -82,13 +83,15 @@ class ImageProcessor:
 		for idx in range(3):
 			column = [0, 0.0]  # [number of markers in column, average probability]
 			for cnter in range(3):
+			
 				if myResult[idx + cnter* 3][0] == True:
 					column[0] += 1
-					column[1] += myResult[idx + cnter * 3][1]
-			if column[0] > 0:
-				# calculate average probability
-				column[1] = column[1] / column[0]
+					column[1] += myResult[idx + cnter  * 3][1]
+				
+			# calculate average probability
+			column[1] = column[1] /3
 			columns.append(column)
+
 		# publish where to go
 		# max(columns) does sort by num of markers first, avg. probability second
 		if columns[0] == max(columns) and columns[0] == [0, 0.0]:
