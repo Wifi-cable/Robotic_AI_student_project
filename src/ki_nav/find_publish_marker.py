@@ -1,18 +1,30 @@
 #!/usr/bin/env python
-import sys  # fileIO stuff
-import cv2  # opencv
-import enum
-#from tensorflow.keras.models
 
-import tensorflow as tf
-from tensorflow.keras.preprocessing.image import img_to_array
-from tensorflow.keras.models import load_model
-import numpy  # for opencv
-import os  # other fileIO stuff
-import rospy  # need Ros Python
-from std_msgs.msg import String  # ROS python needs a Ros message to publish
+#ROS imports
+import rospy 
+from std_msgs.msg import String  #
 from sensor_msgs.msg import CompressedImage
 from cv_bridge import CvBridge
+#python imports
+import sys  
+import cv2  
+import enum
+import numpy 
+import os  
+#Keras and tensorflow imports
+import tensorflow as tf
+from tensorflow import Graph, Session
+from tensorflow.keras.preprocessing.image import img_to_array
+from tensorflow.keras.models import load_model
+
+thread_graph = Graph()
+with thread_graph.as_default():
+	thread_session = Session()
+	with thread_session.as_default():
+		#model = keras.models.load_model(path_to_model)
+		model = load_model('model/213x160:800@32:0.model',compile=False)
+		graph = tf.get_default_graph()
+
 
 VERBOSE = True #set to True for a lot of debugging output
 SPAM = False	#how to you call an extra verbosity level?
@@ -27,6 +39,7 @@ class ImageProcessor:
 	
 	#python constructor
 	def __init__(self):
+		
 		self.imgDecompresser = CvBridge()
 		#build a publisher 
 		self.directionPublisher = rospy.Publisher('Marker', String, queue_size=1)
@@ -55,19 +68,21 @@ class ImageProcessor:
 				#try not to mix print statments with ROS code. use  instead "rospy.loginfo"
 				if(SPAM):
 					rospy.loginfo("{}:{}x{}:{}".format(x_start, x_end, y_start, y_end))
-		model = load_model('model/213x160:800@32:0.model')
-		graph = tf.get_default_graph() #tensor flow needs to use a graph 
 		
-		# predict every tile and append to result
-		for tile in tiles:
-			tile = numpy.expand_dims(img_to_array( tile.astype("float") / 255.0), axis=0)
-			model._make_predict_function()
-			(noMarker, marker) = model.predict(tile)[0]
-			#(noMarker, marker) = self.model.predict(tile)[0]	#bug
-			probability = max(noMarker, marker) * 100
-			has_marker = marker > noMarker
-			results.append([has_marker, probability])
+		#threadsavety in Python is a nightmare
+		with graph.as_default():
+			with thread_session.as_default():
+				#prediction = model.predict(data)
+				for tile in tiles:
+					tile = numpy.expand_dims(img_to_array( tile.astype("float") / 255.0), axis=0)
+					#self.model._make_predict_function()
+					(noMarker, marker) = model.predict(tile)[0]
+					probability = max(noMarker, marker) * 100
+					has_marker = marker > noMarker
+					results.append([has_marker, probability])
+			
 		return results
+	
 	
 	#callback method to do most of the work
 	def imgCallBack(self, newImg):
