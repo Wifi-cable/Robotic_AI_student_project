@@ -31,6 +31,7 @@
 }
 
 
+
 \usepackage{graphicx}
 \usepackage[ngerman]{babel}		% Achtung umlaut 
 \usepackage[utf8]{inputenc}       % UTF-8 ist wichtig,  ASCII hat nicht alle Schriftzeichen  
@@ -38,23 +39,23 @@
 \usepackage{xcolor}
 \usepackage{dirtytalk} % nein, nicht was du denkst.  Packet hilft  gegen verschluckte gänsefüschen
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+\usepackage{minted}
 \begin{document}
 
 
-\title{Projekt rosBerry *\\
-{\footnotesize \textsuperscript{*}Ein Autonomer Roboter auf Basis von ROS, gebaut aus einem Modellauto Chassis mit Maker Elektronik}}
+\title{rosBerry - ein autonomer Roboter auf Basis von ROS und eines Modellautos mit Maker-Elektronik}
 
 \author{\IEEEauthorblockN{1\textsuperscript{st} Welter, Heike}
-\IEEEauthorblockA{\textit{Hochschule Mannheim} \\
-1630298@stud.hs-mannheim.de}%
+\IEEEauthorblockA{ 
+Heike.Welter@stud.hs-mannheim.de}%
 \and
 \IEEEauthorblockN{2\textsuperscript{nd} Matheis, Steffen}
-\IEEEauthorblockA{\textit{Hochschule Mannheim} \\
-1712806@stud.hs-mannheim.de }
+\IEEEauthorblockA{
+Steffen.Matheis@stud.hs-mannheim.de }
 \and
 \IEEEauthorblockN{3\textsuperscript{rd} Barsalou, Marie }
-\IEEEauthorblockA{\textit{Hochschule Mannheim} \\
-1611347@stud.hs-mannheim.de}
+\IEEEauthorblockA{ 
+Marie.Barsalou@stud.hs-mannheim.de}
 }
 
 \maketitle
@@ -65,6 +66,15 @@ Zusätzlich soll er mit dem Robot Operating System betrieben und mit einer Küns
 Der Roboter soll einen optischen Marker erkennen und darauf zufahren.
 Frontalzusammenstöße mit Wänden soll er dabei vermeiden.
 \end{abstract}
+\begin{comment}
+	Tipp zur Verbesserung:
+Ein Abstract sollte folgende 4 Fragen sehr kompakt beantworten:
+1. Worum geht es allgemein?
+2. Welches Problem wird hier konkret betrachtet?/gelöst?
+3. Worin besteht die wesentliche Lösung?
+4. Was ist das wesentliche Ergebnis?
+Das ist schwer zu schreiben, aber aus Sicht eines Lesers sehr informativ. 
+\end{comment}
 
 \begin{IEEEkeywords}
 Roboter, ROS, KI, Raspi, Neuronale Netze, Arduino
@@ -444,7 +454,8 @@ Das Modell musste also kleiner werden ohne wesentliches Overfitting. Diese Ziehl
 	\label{end Ergenisse }
 \end{figure}
 
-Alle weiteren versucht das Model weiter zu verfeinern scheiterten. Es ist zu vermuten das der Datensatz zu klein war für die komplexität des Models. Eine weitere möglichkeit ist das die Grenzen der Optimierer ADAM und Stochastic Gradient Descent erreicht waren. 
+Alle weiteren versucht das Model weiter zu verfeinern scheiterten. Die Ursache dafür ist nicht eindeutig geklärt. Eine mögliche Erklärung ist  das der Datensatz für die komplexität des Models zu klein war . Auch möglich ist das die Grenzen der Optimierer ADAM und Stochastic Gradient Descent erreicht waren. Auch Programmierfehler konnten nicht ausgeschlossen werden. 
+
 \begin{figure}[!h]
 	\centering
 	\includegraphics[width=9cm]{img/480x360:400@32_accuracy.png}
@@ -454,13 +465,75 @@ Alle weiteren versucht das Model weiter zu verfeinern scheiterten. Es ist zu ver
 
 
 \subsection{Anwendung des Trainingsmodells} %steffen
-%mach ich! ~steffen
+
+\subsubsection{Keras und Tensorflow auf Raspberry Pie Hardware}
+Der initiale Plan sah vor das Neuronale Netz auf dem Raspberry Pi auszuwerten, damit der Roboter komplett autonom (Ohne WLAN und externen Computer) fahren kann. Die Prozessor Leistung und der RAM eines Raspberry Pies 3B+ ist zwar deutlich geringer als der eines Standard Laptops, aber die Nachteile eines Verteilten Systems erschienen Anfangs größer. So wirkte der architektonische Aufwand für  verteilte Systeme und  das einarbeiten in die Bibliothek CV bridge zum versenden von Bildern mit ROS Aufwendig. \\
+Die meisten gängigen Bibliotheken und Frameworks sind, unabhängig vom Zielbetriebssystem auf 64Bit Wortbreite ausgelegt, so auch Tensorflow und Keras.  Das verwendete Ubuntu Image mit ROS für Raspberry Pies jedoch ist ein 32 Bit System. Das bedeutet es gibt keine vorkompilieren Versionen von Tensorflow für das bisherige Setup. Das Kompelieren grosser Tarfiles auf einem Raspberry Pie, dauert oft mehr als eine Stunde. Teilweise läuft der RaspberryPie dabei so heiß das er abstürzt. Ein Ventilator erwies sich als hilfreich, um  Abstürze während des Komplelierungsprozesses zu verhindern.  Tensorflow ist eine große Bibliothek deren Kompelierung aufwendig ist. 
+%https://qengineering.eu/install-tensorflow-2.2.0-on-raspberry-pi-4.html
+Sagt über den Raspberry Pie 4   : \\
+\say{The whole TensorFlow installation procedure from start to end takes many hours (±33 for Python, ±10 for the C++ library). } \\
+Es ist  anzunehmen das der Zeitaufwand für eine Kompilierung auf dem  weniger Performanten Raspberry 3B länger dauert. Vor dem Hintergrund das es  Garantie gibt das 64 Bit Libaries auf auf 32 Bit Systemen reibungslos Funktionieren ist eine Kompilierzeit von über einem Tag nicht akzeptabel. \\
+
+Die Entscheidung für ein Verteiltes System wurde getroffen. Dabei zeigten sich weitere erwähnenswerte Inkompatibilitäten. Für jede ROS Version (Distribution) existieren Vor gepackte Installationspakete für ein Ubuntu Betriebssystem. Nur mit diesem System sind sie komplett kompatibel. Das Betriebssystem Ubuntu 18.04  ist mit ROS Melodic vorgesehen. Während das Betriebssystem Python 2.7 und Python 3.6.9.  nutzt ist ROS Melodic auf Python2.7 angewiesen. Die Python Versionen sind Inkompatibel. Tensorflow2 benötigt eine aktuelle Python Version die von ROS Melodic nicht ohne weiteres  unterstützt wird. \\
+
+Tensorflow1 ist zwar mit Python2.7 kompatibel, es ist jedoch nicht Threadsave. Das erschien anfangs kein Problem, da keine parallele Programmierung geplant war. Ein Prototyp Programm mit Anwendung von Neuronalem Netz lief problemlos auf Mac mit Python3. Dieses Programm sollte als Vorlage für einen ROS Knoten dienen. Auf Ubuntu in ROS  traten jedoch viele kryptische Fehlermeldungen auf. 
+
+
+\begin{minted}[frame=lines]{Bash}
+Not found: 
+Container localhost does not exist. 
+(Could not find resource:
+ localhost/conv2d_2/kernel)
+[[{{node conv2d_2/Conv2D/ReadVariableOp}}]]
+\end{minted}
+
+\begin{minted}[frame=lines]{Bash}
+InvalidArgumentError: Tensor 
+dropout__input:0, specified in either 
+feed_devices or fetch_devices
+ was not found in the Graph
+\end{minted}
+\begin{minted}[frame=lines]{Bash}
+ValueError: Tensor Tensor
+("activation_5/Softmax:0",
+shape=(?, 2), dtype=float32) 
+is not an element of this graph.
+\end{minted}
+
+Es stellte sich heraus das %wer macht das?!?  GCC?  Python interpeter?  Kernel?
+Den Bildanalyse Algorithmus als Hochgradig Parallelisierbar erkannt hat und folglich mehr als einen Thread bei der Ausführung nutzte. 
+Laut Victor Meunier's Blog %link 
+muss sichergestellt werden das jeder Thread seinen eigenen Graph und seinen eigene Session hat.  Das Schlüsselwort \say{With} hilft den Kontext zu definieren. 
+
+\begin{minted}[frame=lines]{python}
+with graph.as_default():
+	with thread_session.as_default():
+\end{minted}
+Erst innerhalb dieses Blockes kann sicher auf das vor-trainierte Model zugegriffen werden, um damit eine vorhersage zu machen.
+% graph erklären
+% nicht threadlokaler stack
+%workaround
+\subsubsection{Algorithmus zur Bildanalyse }
+
+%mach ich! ~steffen 
+%echt? wann? :p
 %bild teilen
 %bild analysieren
 %  entscheidung treffen, rechts, links geradeaus oder rückwärtz
 \subsection {Auswertung des Verhalten des Roboters}	% mary? %steffen? %heike?
 %macht er irgendwas sinnvolles? ist er klüger als eine eintagsfliege
+\section{Ausblick}
+Eine KI die nach Kanten sucht ist nicht so effizient im erkennen von optischen Markern wie eine KI die nach Ecken sucht. Mehr Bildvorbereitung und andere Filter Algorithmen sind vielversprechenderer Ansätze. Für ein Effizientes System sind  Aruko Marker und einige OpenCV features ein empfehlenswertes Konzept. 
+\\
 
+Empfehlungen für nachfolge Projekte:
+\begin{itemize}
+	\item  Besser ein Raspberry Pi 4* als ein Raspberry Pi 3
+	\item  SD Karte mit mehr als 32GB
+	\item Betriebssystem Ubuntu 20* in 64 Bit Variante
+	\item  ROS Neotic*
+\end{itemize}
+*oder aktueller wenn verfügbar
 \begin{comment}	%  how-to formeln 
 \begin{equation}
 a+b=\gamma\label{eq}
@@ -507,6 +580,25 @@ copy& More table copy$^{\mathrm{a}}$& &  \\
 	\bibitem{b1}Francis X. Govers , Artificial Intelligence for Robotics, Packt Publishing ,2018
 	\bibitem{b2}Amanda Decker , Bachelor Arbeit, Hochschule Mannheim ,2019
 	\bibitem{b3}Learn Keras for Deep Neural Networks, Jojo Moolayil apress, 2019
+	
+	%https://blog.victormeunier.com/posts/keras_multithread/
+	%TODO
+	\begin{comment}
+			%Bib file  neu machmen mit filter für wissenschaftliches und nicht wissenschaftliches
+		%
+		\defbibfilter{literatur}{%
+		not type=url and not type=misc
+		}
+		
+		\defbibfilter{web}{%
+		type=url or type=misc
+		}
+		
+		\printbibliography[filter=literatur,title={Literatur}]
+		\printbibliography[filter=web,title={Web-Dokumente}]
+		
+	\end{comment}
+
 \end{thebibliography}
 
 
