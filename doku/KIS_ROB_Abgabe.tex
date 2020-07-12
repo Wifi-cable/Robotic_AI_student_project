@@ -103,9 +103,7 @@ Das Projekt wurde um einen Arduino und mehrere ROS Nodes erweitert.
 \subsubsection{Vergleichbare Projekte zur Künstlichen Intelligenz} %steffen ? mary?
 Das Neuronale Netz zur Bildklassifizierung ist an das Buch \glqq Artificial Intelligence for Robotics\grqq  \cite{b1} angelehnt.
 Darin vermittelt F. Grovers wie Künstliche Intelligenz für Autonome Systeme funktionieren kann, indem er zeigt wie er einem kleinen Roboter beibringen würde aufzuräumen.
-In einem Kapitel beschreibt der Autor, dass der Roboter mit Hilfe von Neuronalen Netzen lernen soll ob sich Spielzeuge auf dem Teppich befinden, um sie später aufzuräumen.
-Da unserer Anwendungsfall ein anderer ist, musste die Datenmenge erhöht werden, das Neuronale Netz wurde erweitert und die Auflösung des Bildes wurde erhöht.
-\\
+In einem Kapitel beschreibt der Autor, dass der Roboter mit Hilfe von Neuronalen Netzen lernen soll ob sich Spielzeuge auf dem Teppich befinden, um sie später aufzuräumen.\\
 
 Auch die Bachelorarbeit \glqq Bildklassifikation auf einem Raspberry Pi Zero am Beispiel einer Ladestationserkennung\grqq \cite{b2} von Amanda Decker ist ein vergleichbares Projekt.
 Einige der Grundansätze aus dieser Arbeit wurden für dieses Projekt übernommen.
@@ -115,16 +113,21 @@ Anders als Amanda Decker jedoch haben wir uns für Keras entschieden, statt eine
 
 \section{Theoretische Grundlagen von Projekt rosBerry}
 
-\subsection{Neuronale Netze in Theorie}	%steffen
 
 \subsection{Ansätze für die Erstellung vom Datensatz}	%mary
+\begin{figure} %[!h]
+	\centering
+	\includegraphics[width=9cm]{img/data1455211246.png}
+	\caption{Der Optische Marker den die KI suchen wird }
+	\label{Marker}
+\end{figure}
 
 Bei Amanda Deckers Bachelorarbeit schien die KI Schwierigkeiten damit zu haben zwischen dem Marker und einem Blauton zu unterscheiden, der auch im Marker vorkam.
 Es schien auch schwierig zu sein ein Binärbild vom Marker zu erzeugen, da die beiden Farben des Markers einen geringen Kontrast zueinander haben.
 Da Kameras in Opencv mit Hilfe von Schachbrettmustern kalibriert werden, wird für dieses Projekt ein Symbol mit ähnlich hohem Kontrast und scharfen Kanten verwendet.
 \\
-%Marker Bild hier? Unbedingt!
-Dieses Symbol ist nicht nur in 4 Richtungen rotierbar, sondern auch zweifach spiegelbar, ohne den Marker zu verfälschen. (Rotationsinvarianz und Spiegelungsinvarianz)
+
+Dieses Symbol\ref{Marker} ist nicht nur in 4 Richtungen rotierbar, sondern auch zweifach spiegelbar, ohne den Marker zu verfälschen. (Rotationsinvarianz und Spiegelungsinvarianz)
 Es verfügt auch über einen maximalen Kontrast und klare, gerade Kanten.
 \\
 \noindent
@@ -262,8 +265,28 @@ In diesem Kapitel beschreiben wir den Hardwareaufbau des rosBerry.
 Hierfür werden wir die einzelnen verwendeten Hardwarekomponenten — deren Modell und Funktion — vorstellen.
 
 Zuerst bilden wir die Verbindungen der Hardwarekomponenten untereinander ab, wie in Abbildung \ref{Hardwarekomponenten} zu sehen.
+\subsubsection{Mechanische Bauteile}
 
-\begin{figure}[!ht]
+\begin{figure} %[!h]
+	\centering
+	\includegraphics[width=9cm]{img/Lenkung.png}
+	\caption{Auszug aus Hersteller Datenblatt:Lenkservo }
+	\label{Servomotor}
+\end{figure}
+Für das Robotik Projekt \textit{rosBerry} wurde ein solides, aber günstiges Chassis gesucht bei dem die Möglichkeit besteht Ersatzteile zu bestellen. Viele qualitativ Hochwertige Modebau Chassis liegen in einem Preisrahmen über 400€, für sie ist die Ersatzteilbeschaffung gut möglich. Günstige, meist Asiatische, Modebau Chassis Hersteller liefern ihre Modelle und Bausätze nur für einen kurzen Zeitraum. Es ist oft nicht möglich zu einem späteren Zeitpunkt das Modell nachzukaufen oder Ersatzteile zu bekommen. Somit ist ein Roboter der darauf aufbaut, wie das Donkey Car nicht reproduzierbar. 
+\\
+\begin{figure} %[t]
+	\centering
+	\includegraphics[width=9cm]{img/differenzial.png}
+	\caption{Auszug aus Hersteller Datenblatt: Differnzialgetriebe }
+	\label{Getriebe}
+\end{figure}
+Der Kompromiss dieser Abwägung fand sich bei einem älteren Einsteigermodell namens TAMIYA RC 1:10 TT-01E. Tamiya ist ein traditionsreicher Japanischer Hersteller der qualitativ hochwertige Bausatze Ferngesteuerte Fahrzeuge Herstellt. (Er stellt Schiffe und Panzer her, aber vor allen dingen Modellautos) Tamiya ist unter Modellbau Enthusiasten dafür bekannt, alle Prinzipien Japanischer Ingenieurskunst bei der Konstruktion seiner Modelle anzuwenden, statt "Spielzeugquallität" in China herzustellen. Das TT01 Modell hat identische Außenmaße und Kann mit den selben Elektronischen Komponenten betrieben werden wie sein Nachfolgemodell das TT02. Somit ist die Reproduzierbarkeit im Bezug auf das Chassis gegeben.
+\\
+Die Mechanik des "TAMIYA RC 1:10 TT-01E" Modells basiert auf einem Motor und einer langen Antriebswelle die drei Differenzialgetriebe bewegt. \ref{Getriebe} Die Modelle werden als Vierradantrieb vermarktet. Die Lenkung wird Getrennt vom Antrieb durch einen Kleinen Servo Motor geregelt\ref{Servomotor}. Er bewegt die Spurstange nach rechts/links. Das Chassis nutzt also eine Akkerman Lenkung, wie sie auch bei PKWs üblich ist.
+
+\subsubsection{Elektronische Bauteile und ihre Funktion}
+\begin{figure} %[t]
 	\centering
 	\includegraphics[width=9cm]{img/Hardwarekomponenten.PNG}
 	\caption{Verbindungen der Hardwarekomponenten im rosBerry}
@@ -575,13 +598,13 @@ copy& More table copy$^{\mathrm{a}}$& &  \\
 % wissenschaftliche zitate gehen so \cite{b1}. 
 
 
-%Francis X. Govers - Artificial Intelligence for Robotics-Packt Publishing (2018).pdf
 \begin{thebibliography}{00}
 	\bibitem{b1}Francis X. Govers , Artificial Intelligence for Robotics, Packt Publishing ,2018
-	\bibitem{b2}Amanda Decker , Bachelor Arbeit, Hochschule Mannheim ,2019
+	\bibitem{b2}Amanda Decker , Bachelor Arbeit, Hochschule Mannheim ,2019	%keine wissenschaft
 	\bibitem{b3}Learn Keras for Deep Neural Networks, Jojo Moolayil apress, 2019
 	
-	%https://blog.victormeunier.com/posts/keras_multithread/
+	\bibitem{b4}https://www.tamiya.com/english/rc/manuals.htm	%keine wissenschaft
+	\bibitem{b5}https://blog.victormeunier.com/posts/keras\_multithread/	%keine wissenschaft
 	%TODO
 	\begin{comment}
 			%Bib file  neu machmen mit filter für wissenschaftliches und nicht wissenschaftliches
