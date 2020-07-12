@@ -87,9 +87,12 @@ class ImageProcessor:
 	def imgCallBack(self, newImg):
 		now = rospy.Time.now()
 		send_time = newImg.header.stamp
-		img_delay = now - send_time
+		img_delay = now.secs - send_time.secs
+		im_del =  now.nsecs - send_time.nsecs
+		
 		if(VERBOSE):
-			rospy.loginfo(img_deay)
+			rospy.loginfo("Transfer Delay: {}.{} Sec".format(img_delay, im_del))
+		
 		columns = []
 		#compressed ROS  Image needst to be translated to opencv.
 		markerImg = self.imgDecompresser.compressed_imgmsg_to_cv2(newImg)
@@ -114,26 +117,26 @@ class ImageProcessor:
 		# max(columns) does sort by num of markers first, avg. probability second
 		if columns[0] == max(columns) and columns[0] == [0, 0.0]:
 			if(VERBOSE):
-				rospy.loginfo("No marker detected anywhere.")
+				rospy.loginfo("----------------------------------- No marker detected anywhere.")
 			self.directionPublisher.publish(Move.NotFound)
 		
 		elif columns[0] == max(columns):
 			if(VERBOSE):
-				rospy.loginfo("Go left, I'm {}% sure".format(columns[0][1]))
+				rospy.loginfo("----------------------------------- Go left, I'm {}% sure".format(columns[0][1]))
 			self.directionPublisher.publish(Move.Left)
 		
 		elif columns[1] == max(columns):
 			if(VERBOSE):
-				rospy.loginfo("Go forward, I'm {}% sure".format(columns[1][1]))
+				rospy.loginfo("----------------------------------- Go forward, I'm {}% sure".format(columns[1][1]))
 			self.directionPublisher.publish(Move.Forward)
 		
 		elif columns[2] == max(columns):
 			if(VERBOSE):
-				rospy.loginfo("Go right, I'm {}% sure".format(columns[2][1]))
+				rospy.loginfo("----------------------------------- Go right, I'm {}% sure".format(columns[2][1]))
 			self.directionPublisher.publish(Move.Right)
 
 		else:
-			rospy.logerr("confused AI, the marker is not here, nor is there no marker")
+			rospy.logerr("----------------------------------- confused AI, the marker is not here, nor is there no marker")
 
 
 
