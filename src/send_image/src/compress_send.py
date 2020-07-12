@@ -12,6 +12,7 @@ import rospy
 
 # Ros Messages
 from sensor_msgs.msg import CompressedImage
+import std_msgs.msg
 
 
 def sender():
@@ -25,11 +26,13 @@ def sender():
 	myCam = cv2.VideoCapture(0)	#initialise camera
 	
 	while not rospy.is_shutdown():
-		
+		now = rospy.Time.now()
 		returnVal, capturedImg = myCam.read() #snap a picture
 		rospy.loginfo("published an image")
 		#can not send  directly cv images (numpy arrays) rather use cvbridge to build a ROS message
 		compImg = bridge.cv2_to_compressed_imgmsg(capturedImg, dst_format='png')
+		#attach timestamp to mesage
+		compImg.header.stamp = now
 		pub.publish(compImg)	#send the compressed png
 		#wait to send the next image, do not try to livestream via wlan
 		rate.sleep()
@@ -40,3 +43,5 @@ if __name__ == '__main__':
 		sender()
 	except rospy.ROSInterruptException:
 		pass
+		
+
