@@ -17,16 +17,16 @@ from sensor_msgs.msg import CompressedImage
 def sender():
 	bridge = CvBridge()
 	#build a publisher
-	pub = rospy.Publisher('/camera/image/compressed',CompressedImage , queue_size=1) #datatpye
+	pub = rospy.Publisher('/camera/image/compressed',CompressedImage , queue_size=0) #datatpye
 	#not anonoymus means there can only be one node of this type. (only one cam)
 	rospy.init_node('compress_sender', anonymous=False)
-	rate = rospy.Rate(0.1) # 1hz
+	rate = rospy.Rate(2) # 1hz
 
-	myCam = cv2.VideoCapture(0)	#snap a picture
+	myCam = cv2.VideoCapture(0)	#initialise camera
 	
 	while not rospy.is_shutdown():
 		
-		returnVal, capturedImg = myCam.read()
+		returnVal, capturedImg = myCam.read() #snap a picture
 		rospy.loginfo("published an image")
 		#can not send  directly cv images (numpy arrays) rather use cvbridge to build a ROS message
 		compImg = bridge.cv2_to_compressed_imgmsg(capturedImg, dst_format='png')
