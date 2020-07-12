@@ -21,7 +21,6 @@ thread_graph = Graph()
 with thread_graph.as_default():
 	thread_session = Session()
 	with thread_session.as_default():
-		#model = keras.models.load_model(path_to_model)
 		model = load_model('model/213x160:800@32:0.model',compile=False)
 		graph = tf.get_default_graph()
 
