@@ -85,7 +85,11 @@ class ImageProcessor:
 	
 	#callback method to do most of the work
 	def imgCallBack(self, newImg):
-		
+		now = rospy.Time.now()
+		send_time = newImg.header.stamp
+		img_delay = now - send_time
+		if(VERBOSE):
+			rospy.loginfo(img_deay)
 		columns = []
 		#compressed ROS  Image needst to be translated to opencv.
 		markerImg = self.imgDecompresser.compressed_imgmsg_to_cv2(newImg)
