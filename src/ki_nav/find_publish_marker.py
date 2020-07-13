@@ -28,11 +28,11 @@ with thread_graph.as_default():
 VERBOSE = True #set to True for a lot of debugging output
 SPAM = False	#how to you call an extra verbosity level?
 
-class Move(enum.Enum):
-	Left = "left"
-	Right = "right"
-	Forward = "forward"
-	NotFound = "notfound"
+
+Left = "left"
+Right = "right"
+Forward = "forward"
+NotFound = "notfound"
 
 class ImageProcessor:
 	
@@ -41,7 +41,7 @@ class ImageProcessor:
 		
 		self.imgDecompresser = CvBridge()
 		#build a publisher 
-		self.directionPublisher = rospy.Publisher('Marker', String, queue_size=1)
+		self.directionPublisher = rospy.Publisher('/Marker', String, queue_size=1)
 		#build a subscriber
 		self.sub2Img = rospy.Subscriber('/camera/image/compressed', CompressedImage, self.imgCallBack )
 		rospy.loginfo("build publiser to custom 'Maker' topic")
@@ -118,22 +118,22 @@ class ImageProcessor:
 		if columns[0] == max(columns) and columns[0] == [0, 0.0]:
 			if(VERBOSE):
 				rospy.loginfo("----------------------------------- No marker detected anywhere.")
-			self.directionPublisher.publish(Move.NotFound)
+			self.directionPublisher.publish(NotFound)
 		
 		elif columns[0] == max(columns):
 			if(VERBOSE):
 				rospy.loginfo("----------------------------------- Go left, I'm {}% sure".format(columns[0][1]))
-			self.directionPublisher.publish(Move.Left)
+			self.directionPublisher.publish(Left)
 		
 		elif columns[1] == max(columns):
 			if(VERBOSE):
 				rospy.loginfo("----------------------------------- Go forward, I'm {}% sure".format(columns[1][1]))
-			self.directionPublisher.publish(Move.Forward)
+			self.directionPublisher.publish(Forward)
 		
 		elif columns[2] == max(columns):
 			if(VERBOSE):
 				rospy.loginfo("----------------------------------- Go right, I'm {}% sure".format(columns[2][1]))
-			self.directionPublisher.publish(Move.Right)
+			self.directionPublisher.publish(Right)
 
 		else:
 			rospy.logerr("----------------------------------- confused AI, the marker is not here, nor is there no marker")
