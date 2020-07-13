@@ -1,7 +1,13 @@
 /*
  * 2. Versuch mit Range Message.
  * Diese Mal unter der Verwendung der NewPing Bibliothek
-*/
+ * 
+ * /*
+ * roscore
+ * rosrun rosserial_python serial_node.py /dev/ttyACM0
+ * rostopic echo rangeMsg_topic
+ */
+
 
 #include <ros.h>
 #include <ros/time.h>
@@ -39,11 +45,11 @@ void setup() {
 }
 
 void loop() {
-  if(millis() > publisher_timer) {
+  if((millis() - publisher_timer) > 1000) { // publish Rangewert jede 1000 millisekunde
     rangeMsg.range = (float) sonar.ping_cm() / 100; // ping_cm() return int
     rangeMsg.header.stamp = nh.now();
     pub_range.publish(&rangeMsg);
-    publisher_timer = millis() + 4000;
+    publisher_timer = millis();
   }
   nh.spinOnce();
 }
