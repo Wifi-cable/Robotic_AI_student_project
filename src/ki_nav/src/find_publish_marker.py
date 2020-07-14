@@ -21,7 +21,11 @@ thread_graph = Graph()
 with thread_graph.as_default():
 	thread_session = Session()
 	with thread_session.as_default():
-		model = load_model('model/213x160:800@32:0.model',compile=False)
+#>>> entries = os.listdir('my_directory/')
+#os.path.dirname(os.path.abspath(__file__))
+		path = os.path.dirname(os.path.abspath(__file__)) + '/../model/213x160:800@32:0.model'
+		model = load_model(path,compile=False)
+		#model = load_model('../model/213x160:800@32:0.model',compile=False)
 		graph = tf.get_default_graph()
 
 
