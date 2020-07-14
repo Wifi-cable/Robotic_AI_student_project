@@ -72,10 +72,8 @@ class ImageProcessor:
 		#threadsavety in Python is a nightmare
 		with graph.as_default():
 			with thread_session.as_default():
-				#prediction = model.predict(data)
 				for tile in tiles:
 					tile = numpy.expand_dims(img_to_array( tile.astype("float") / 255.0), axis=0)
-					#self.model._make_predict_function()
 					(noMarker, marker) = model.predict(tile)[0]
 					probability = max(noMarker, marker) * 100
 					has_marker = marker > noMarker
@@ -113,12 +111,18 @@ class ImageProcessor:
 			# calculate average probability
 			column[1] = column[1] /3
 			columns.append(column)
-
 		# publish where to go
-		# max(columns) does sort by num of markers first, avg. probability second
-		if columns[0] == max(columns) and columns[0] == [0, 0.0]:
+		
+		if ((columns[0] == max(columns)) and (columns[0] == [0, 0.0])):
 			if(VERBOSE):
-				rospy.loginfo("----------------------------------- No marker detected anywhere.")
+				rospy.loginfo("---------------------------- No marker detected anywhere.")
+			self.directionPublisher.publish(NotFound)
+			
+			#if unsure where the Marker is, threat situation like marker not found
+			certainty = 20 # threashold of certainty where the marker is
+		if((columns[0][1] < certainty) or (columns[1][1] < certainty) or (columns[2][1] < certainty)):
+			if(VERBOSE or SPAM):
+				rospy.loginfo("-----------------------------not sure where the marker is")
 			self.directionPublisher.publish(NotFound)
 		
 		elif columns[0] == max(columns):
