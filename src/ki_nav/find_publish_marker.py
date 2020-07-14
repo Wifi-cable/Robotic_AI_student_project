@@ -66,7 +66,8 @@ class ImageProcessor:
 				tiles.append(cv2.resize( markerImg[x_start:x_end, y_start:y_end], (step_width, step_height)))	
 				#try not to mix print statments with ROS code. use  instead "rospy.loginfo"
 				if(SPAM):
-					rospy.loginfo("{}:{}x{}:{}".format(x_start, x_end, y_start, y_end))
+					rospy.loginfo(" ")	#new line for readabillity
+					rospy.loginfo("{}:{}x{}:{}".format(round(x_start,2), round(x_end,2), round(y_start,2), round( y_end,2)))
 		
 		#threadsavety in Python is a nightmare
 		with graph.as_default():
@@ -98,7 +99,7 @@ class ImageProcessor:
 		markerImg = self.imgDecompresser.compressed_imgmsg_to_cv2(newImg)
 		myResult = self.splitSeach(markerImg)
 		if(VERBOSE):
-			rospy.loginfo(myResult)
+			rospy.loginfo(round(myResult,2))
 		
 		# sort results into columns & calculate average
 		for idx in range(3):
@@ -122,21 +123,22 @@ class ImageProcessor:
 		
 		elif columns[0] == max(columns):
 			if(VERBOSE):
-				rospy.loginfo("----------------------------------- Go left, I'm {}% sure".format(columns[0][1]))
+			# round(myfloat,2) to get a float with two digits after the comma
+				rospy.loginfo("------------------ Go left, I'm {}% sure".format(round(columns[0][1],2)))
 			self.directionPublisher.publish(Left)
 		
 		elif columns[1] == max(columns):
 			if(VERBOSE):
-				rospy.loginfo("----------------------------------- Go forward, I'm {}% sure".format(columns[1][1]))
+				rospy.loginfo("---------------- Go forward, I'm {}% sure".format(round(columns[1][1],2)))
 			self.directionPublisher.publish(Forward)
 		
 		elif columns[2] == max(columns):
 			if(VERBOSE):
-				rospy.loginfo("----------------------------------- Go right, I'm {}% sure".format(columns[2][1]))
+				rospy.loginfo("-------------- Go right, I'm {}% sure".format(round (columns[2][1],2)))
 			self.directionPublisher.publish(Right)
 
 		else:
-			rospy.logerr("----------------------------------- confused AI, the marker is not here, nor is there no marker")
+			rospy.logerr("--------------- confused AI, the marker is not here, nor is there no marker")
 
 
 
