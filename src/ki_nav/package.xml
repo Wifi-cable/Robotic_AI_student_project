@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>ki_nav</name>
+  <version>1.0.0</version>
+  <description>The KI_nav package to run rosBerry Robots somewhat intelligent node</description>
+
+  <maintainer email="marie.barsalou@stud-hs.mannheim.de">Marie</maintainer>
+
+
+  <license>TODO</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>rospy</build_depend>
+  <build_export_depend>rospy</build_export_depend>
+  <exec_depend>rospy</exec_depend>
+
+  <export>
+
+
+  </export>
+</package>
