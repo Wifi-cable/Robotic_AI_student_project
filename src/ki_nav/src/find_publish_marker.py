@@ -21,7 +21,11 @@ thread_graph = Graph()
 with thread_graph.as_default():
 	thread_session = Session()
 	with thread_session.as_default():
-		model = load_model('model/213x160:800@32:0.model',compile=False)
+#>>> entries = os.listdir('my_directory/')
+#os.path.dirname(os.path.abspath(__file__))
+		path = os.path.dirname(os.path.abspath(__file__)) + '/../model/213x160:800@32:0.model'
+		model = load_model(path,compile=False)
+		#model = load_model('../model/213x160:800@32:0.model',compile=False)
 		graph = tf.get_default_graph()
 
 
@@ -66,15 +70,14 @@ class ImageProcessor:
 				tiles.append(cv2.resize( markerImg[x_start:x_end, y_start:y_end], (step_width, step_height)))	
 				#try not to mix print statments with ROS code. use  instead "rospy.loginfo"
 				if(SPAM):
-					rospy.loginfo("{}:{}x{}:{}".format(x_start, x_end, y_start, y_end))
+					rospy.loginfo(" ")	#new line for readabillity
+					rospy.loginfo("{}:{}x{}:{}".format(round(x_start,2), round(x_end,2), round(y_start,2), round( y_end,2)))
 		
 		#threadsavety in Python is a nightmare
 		with graph.as_default():
 			with thread_session.as_default():
-				#prediction = model.predict(data)
 				for tile in tiles:
 					tile = numpy.expand_dims(img_to_array( tile.astype("float") / 255.0), axis=0)
-					#self.model._make_predict_function()
 					(noMarker, marker) = model.predict(tile)[0]
 					probability = max(noMarker, marker) * 100
 					has_marker = marker > noMarker
@@ -98,7 +101,7 @@ class ImageProcessor:
 		markerImg = self.imgDecompresser.compressed_imgmsg_to_cv2(newImg)
 		myResult = self.splitSeach(markerImg)
 		if(VERBOSE):
-			rospy.loginfo(myResult)
+			rospy.loginfo(round(myResult,2))
 		
 		# sort results into columns & calculate average
 		for idx in range(3):
@@ -112,31 +115,38 @@ class ImageProcessor:
 			# calculate average probability
 			column[1] = column[1] /3
 			columns.append(column)
-
 		# publish where to go
-		# max(columns) does sort by num of markers first, avg. probability second
-		if columns[0] == max(columns) and columns[0] == [0, 0.0]:
+		
+		if ((columns[0] == max(columns)) and (columns[0] == [0, 0.0])):
 			if(VERBOSE):
-				rospy.loginfo("----------------------------------- No marker detected anywhere.")
+				rospy.loginfo("---------------------------- No marker detected anywhere.")
+			self.directionPublisher.publish(NotFound)
+			
+			#if unsure where the Marker is, threat situation like marker not found
+			certainty = 20 # threashold of certainty where the marker is
+		if((columns[0][1] < certainty) or (columns[1][1] < certainty) or (columns[2][1] < certainty)):
+			if(VERBOSE or SPAM):
+				rospy.loginfo("-----------------------------not sure where the marker is")
 			self.directionPublisher.publish(NotFound)
 		
 		elif columns[0] == max(columns):
 			if(VERBOSE):
-				rospy.loginfo("----------------------------------- Go left, I'm {}% sure".format(columns[0][1]))
+			# round(myfloat,2) to get a float with two digits after the comma
+				rospy.loginfo("------------------ Go left, I'm {}% sure".format(round(columns[0][1],2)))
 			self.directionPublisher.publish(Left)
 		
 		elif columns[1] == max(columns):
 			if(VERBOSE):
-				rospy.loginfo("----------------------------------- Go forward, I'm {}% sure".format(columns[1][1]))
+				rospy.loginfo("---------------- Go forward, I'm {}% sure".format(round(columns[1][1],2)))
 			self.directionPublisher.publish(Forward)
 		
 		elif columns[2] == max(columns):
 			if(VERBOSE):
-				rospy.loginfo("----------------------------------- Go right, I'm {}% sure".format(columns[2][1]))
+				rospy.loginfo("-------------- Go right, I'm {}% sure".format(round (columns[2][1],2)))
 			self.directionPublisher.publish(Right)
 
 		else:
-			rospy.logerr("----------------------------------- confused AI, the marker is not here, nor is there no marker")
+			rospy.logerr("--------------- confused AI, the marker is not here, nor is there no marker")
 
 
 

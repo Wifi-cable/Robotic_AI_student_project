@@ -1,0 +1,5 @@
+<launch>
+<!-- this file launches the KI nodes on laptop. it does NOT work on the Raspberry pi -->
+  <node pkg="ki_nav" name="AI_node" type="find_publish_marker.py" output="screen" >
+  </node>
+</launch>
