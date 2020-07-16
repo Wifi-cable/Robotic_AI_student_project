@@ -7,10 +7,12 @@
   <param name="baud" value="115200"/>
   </node>
   #high level controll
-  #take picture
-  <node pkg="send_image" name="image_transport_node" type="compress_send.py" output="screen" >
+  <node pkg="high_level" name="High_level_AI_control" type="high_level_controll.py" output="screen">
   </node>
-  <node pkg="donkey_car" name="low_level_control_node" type="low_level_control.py" output="screen" >
+  #take picture
+  <node pkg="send_image" name="image_transport_node" type="compress_send.py" >
+  </node>
+  <node pkg="donkey_car" name="low_level_control_node" type="low_level_control.py">
   </node>
 
 
