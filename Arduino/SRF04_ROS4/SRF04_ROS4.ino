@@ -30,6 +30,9 @@ sensor_msgs::Range rangeMsg;
 ros::Publisher pub_range("rangeMsg_topic", &rangeMsg);
 
 void setup() {
+  Serial.begin(115200);
+  nh.getHardware()->setBaud(115200);
+  
   nh.initNode();
   nh.advertise(pub_range);
 
