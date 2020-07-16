@@ -90,6 +90,10 @@ class Distance_Direction_subscriber(object):
 	def loop(self):
 		rospy.logwarn("Starting Loop to subscribe and publish")
 		rospy.spin()
+		#post stut down comand streighten Wheels, stop car
+		rospy.logwarn("shutting down high Level controll node")
+		message.angular.z = 0.0	#straighten
+		message.linear.x = -0.0 #stop
 
 
 def main():
