@@ -533,30 +533,45 @@ with graph.as_default():
 	with thread_session.as_default():
 \end{minted}
 Erst innerhalb dieses Blockes kann sicher auf das vor-trainierte Model zugegriffen werden, um damit eine vorhersage zu machen.
-% graph erklären
-% nicht threadlokaler stack
-%workaround
 \subsubsection{Algorithmus zur Bildanalyse }
-
+//kommt noch 
 %mach ich! ~steffen 
 %echt? wann? :p
 %bild teilen
 %bild analysieren
-%  entscheidung treffen, rechts, links geradeaus oder rückwärtz
 \subsection {Auswertung des Verhalten des Roboters}	% mary? %steffen? %heike?
+//kommt noch
 %macht er irgendwas sinnvolles? ist er klüger als eine eintagsfliege
-\section{Ausblick}
-Eine KI die nach Kanten sucht ist nicht so effizient im erkennen von optischen Markern wie eine KI die nach Ecken sucht. Mehr Bildvorbereitung und andere Filter Algorithmen sind vielversprechenderer Ansätze. Für ein Effizientes System sind  Aruko Marker und einige OpenCV features ein empfehlenswertes Konzept. 
-\\
 
-Empfehlungen für nachfolge Projekte:
+%der gute rosBerry hat zu viele false positives, ändert ab und zu die richtung
+%reagiert relativ langsam
+
+\section{Erkenntnisse 
+}
+Auch wen dieses Projekt sehr Lehrreich für alle Beteiligten war, kann ein Studentisches Semesterprojekt nicht an die Leistungen im Rahmen von echten Forschungsarbeiten durchgeführt von Wissenschaftlern mit Master oder Doktor Titel  heranreichen. Nicht nur das Budget sondern auch das Fachwissen sowie die Zeitlichen Gegebenheiten  unterscheiden sich stark. Dieses Kapitel wird zuerst darauf auf mögliche Verbesserungen für eventuelle Nachfolgeprojekte eingehen um dann eine Erkenntnisse zusammenzufassen. 
+
+\subsection{Empfehlungen für nachfolge Projekte}
+
+Empfehlungen auf Basis der Erfahrungen mit diesem Projekt, zunächst die Verbesserungsvorschläge für die Roboter Hardware und Software, danach Ansätze für die KI.\\
+Da dieses Projekt immer wieder Probleme mit der Inkompatibilität der veralteten Python Version und Aktuellen Bibliotheken hatte wird ein Hardware und Software Stack empfohlen der durchgehend das Aktuelle Python 3 verwendet. Auch die Leistungsgrenzen des Raspberry Pies waren schnell erreicht. \\
+
+Empfehlungen:
 \begin{itemize}
 	\item  Besser ein Raspberry Pi 4* als ein Raspberry Pi 3
 	\item  SD Karte mit mehr als 32GB
 	\item Betriebssystem Ubuntu 20* in 64 Bit Variante
-	\item  ROS Neotic*
+	\item  ROS Neotic* auf allen Rechnern
 \end{itemize}
 *oder aktueller wenn verfügbar
+\subsection{Ansätze zur Verbesserung der Erkennung der Marker durch die K.I}
+
+Es ist zu überprüfen ob ein Ecken erkennender Featurematchingalgorythmus nicht dem verwendeten  Kantenerkennungsalgorithmus überlegen ist. Ansätze der künstlichen Intelligenz, die sich darauf konzentrieren \textit{wo} der gesuchte Merkmalspunkte  im Gesichtsfeld des Roboters is, statt sich darauf zu beschenken \textit{ob} ein Merkmalspunkt detektiert wurde, versprechen eine präzisere Navigation. \\
+Es ist in Zukunft zu überprüfen ob, ein Training mit Schwarzweißbildern einen ähnlichen Trainingserfolg bringt.  bei Bleicher Auflösung brauchen RGB Bilder drei mal so viele Daten wie Schwarzeisbilder da sie drei mal so viele Farbkanäle brauchen Das umrechnen von Farbbildern in Schwarzweißbilder ist dank Opencv keine Rechenintensive Operation. inwieweit  zusätzlichen Rechenoperationen die Serialiserungszeit , Versand zeit und Reserialiesierung der Daten wettmacht sprengte den Rahmen dieser Arbeit. In wie fern die Reduktion der Datenmenge das Gesamtsystem Performanter macht ist noch zu überprüfen.
+\\
+Des weiteren ist darauf Hinzuweisen das es schon viele gute Algorithmen zur Navigation mit Hilfe von Optischen Markern gibt, Deren Evaluation jedoch den zeitlichen Rahmen dieses Projektes gesprengt hätten. Für zukünftige Projekte ist ein Vergleich der bereits existierender Lösungen empfehlenswert.
+
+\subsection{Fazit}
+//kommt noch
 \begin{comment}	%  how-to formeln 
 \begin{equation}
 a+b=\gamma\label{eq}
