@@ -21,11 +21,8 @@ thread_graph = Graph()
 with thread_graph.as_default():
 	thread_session = Session()
 	with thread_session.as_default():
-#>>> entries = os.listdir('my_directory/')
-#os.path.dirname(os.path.abspath(__file__))
 		path = os.path.dirname(os.path.abspath(__file__)) + '/../model/213x160:800@32:0.model'
 		model = load_model(path,compile=False)
-		#model = load_model('../model/213x160:800@32:0.model',compile=False)
 		graph = tf.get_default_graph()
 
 
@@ -70,7 +67,7 @@ class ImageProcessor:
 				tiles.append(cv2.resize( markerImg[x_start:x_end, y_start:y_end], (step_width, step_height)))	
 				#try not to mix print statments with ROS code. use  instead "rospy.loginfo"
 				if(SPAM):
-					rospy.loginfo(" ")	#new line for readabillity
+					rospy.loginfo("\n ")	#new line for readabillity
 					rospy.loginfo("{}:{}x{}:{}".format(round(x_start,2), round(x_end,2), round(y_start,2), round( y_end,2)))
 		
 		#threadsavety in Python is a nightmare
@@ -94,7 +91,7 @@ class ImageProcessor:
 		im_del =  now.nsecs - send_time.nsecs
 		
 		if(VERBOSE):
-			rospy.loginfo("Transfer Delay: {}.{} Sec".format(img_delay, im_del))
+			rospy.logwarn("Transfer Delay: {}.{} Sec".format(img_delay, im_del, "\n"))
 		
 		columns = []
 		#compressed ROS  Image needst to be translated to opencv.
