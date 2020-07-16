@@ -5,7 +5,6 @@
 \usepackage{verbatim} % um viele zeilen auszukommentieren
 \usepackage{algorithmic}
 \usepackage{listings}
-\usepackage{listings}
 \usepackage{siunitx}
 \lstset{
 	language=Python,
@@ -37,6 +36,8 @@
 \usepackage{hyperref}
 \hypersetup{colorlinks=true, pdfstartview=FitV, linkcolor=blue, citecolor=black, plainpages=false, pdfpagelabels=true, urlcolor=blue}
 \usepackage[all]{hypcap}
+
+\usepackage[svgpath=/img/]{svg}
 
 
 
@@ -92,11 +93,11 @@ Roboter, ROS, KI, Raspi, Neuronale Netze, Arduino
 %projekteinleitung text hier
 \section{Theorie zu Roboter und seiner Künstlichen Intelligenz}
 
-\subsection{Vergleichbare Projekte}	%mary
-Wenige Projekte der Robotik oder der Künstlichen Intelligenz für Autonome Systeme existieren, ohne das es nicht andere vergleichbare Projekte gibt.
-\\
 
-\subsubsection{Vergleichbare Hardwareansätze — Donkey Cars} %mary
+Wenige Projekte der Robotik oder der Künstlichen Intelligenz für Autonome Systeme existieren, ohne das es nicht andere vergleichbare Projekte gibt.
+
+
+\subsection{Vergleichbare Hardwareansätze — Donkey Cars} %mary
 %Donkey car infos
 Die Hardware des Roboters wurde vom Donkey Car Projekt inspiriert.
 Das Donkey Car Projekt beschäftigt sich damit, ein ferngesteuertes Auto mit einem Raspberry Pi zu steuern.
@@ -108,21 +109,21 @@ Das Video https://youtu.be/iLiI\_IRedhI verweist auf Github für Tiziano Fiorenz
 Das Projekt wurde um einen Arduino und mehrere ROS Nodes erweitert.
 % Tiziano der Rasende Italiener auf youtube
 
-\subsubsection{Vergleichbare Projekte zur Künstlichen Intelligenz} %steffen ? mary?
+\subsection{Vergleichbare Projekte zur Künstlichen Intelligenz} %steffen ? mary?
 Das Neuronale Netz zur Bildklassifizierung ist an das Buch \glqq Artificial Intelligence for Robotics\grqq  \cite{b1} angelehnt.
-Darin vermittelt F. Grovers wie Künstliche Intelligenz für Autonome Systeme funktionieren kann, indem er zeigt wie er einem kleinen Roboter beibringen würde aufzuräumen.
-In einem Kapitel beschreibt der Autor, dass der Roboter mit Hilfe von Neuronalen Netzen lernen soll ob sich Spielzeuge auf dem Teppich befinden, um sie später aufzuräumen.\\
+Darin vermittelt F. Grovers, wie Künstliche Intelligenz für Autonome Systeme funktionieren kann, indem er zeigt, wie er einem kleinen Roboter beibringen würde aufzuräumen.
+In einem Kapitel beschreibt der Autor, dass der Roboter mit Hilfe von Neuronalen Netzen lernen soll, ob sich Spielzeuge auf dem Teppich befinden, um sie später aufzuräumen.\\
 
-Auch die Bachelorarbeit \glqq Bildklassifikation auf einem Raspberry Pi Zero am Beispiel einer Ladestationserkennung\grqq \cite{b2} von Amanda Decker ist ein vergleichbares Projekt.
+Auch die Bachelorarbeit \glqq Bildklassifikation auf einem Raspberry Pi Zero am Beispiel einer Ladestationserkennung \grqq \cite{b2} von Amanda Decker ist ein vergleichbares Projekt.
 Einige der Grundansätze aus dieser Arbeit wurden für dieses Projekt übernommen.
 So haben wir das Neuronale Netz nicht auf einem Raspberry Pi trainiert und einen Marker genommen der sich gut rotieren und spiegeln lässt.
 Somit kann jedes Bild des Datensatzes gespiegelt werden, um mit mehr Daten arbeiten zu können.
-Anders als Amanda Decker jedoch haben wir uns für Keras entschieden, statt eine selbstgeschriebene Künstliche Intelligenz zu verwenden.
+%Anders als Amanda Decker jedoch haben wir uns für Keras entschieden, statt eine selbstgeschriebene Künstliche Intelligenz zu verwenden.
 
 \section{Theoretische Grundlagen von Projekt rosBerry}
+In diesem Kapitel wird auf die Erstellung des Datensatzes für die KI eingegangen sowie auf die Grobübersicht des Softwaresystems auf die Knotenarchitektur. %Wuhuuu Einführungssatz (Kann sich nochmals ändern.)
 
-
-\subsection{Ansätze für die Erstellung vom Datensatz}	%mary
+\subsection{Ansätze für die Erstellung des Datensatzes}	%mary
 \begin{figure} %[!h]
 	\centering
 	\includegraphics[width=9cm]{img/data1455211246.png}
@@ -130,7 +131,7 @@ Anders als Amanda Decker jedoch haben wir uns für Keras entschieden, statt eine
 	\label{Marker}
 \end{figure}
 
-Bei Amanda Deckers Bachelorarbeit schien die KI Schwierigkeiten damit zu haben zwischen dem Marker und einem Blauton zu unterscheiden, der auch im Marker vorkam.
+Bei Amanda Deckers Bachelorarbeit schien die KI Schwierigkeiten damit zu haben, zwischen dem Marker und einem Blauton zu unterscheiden, der auch im Marker vorkam.
 Es schien auch schwierig zu sein ein Binärbild vom Marker zu erzeugen, da die beiden Farben des Markers einen geringen Kontrast zueinander haben.
 Da Kameras in Opencv mit Hilfe von Schachbrettmustern kalibriert werden, wird für dieses Projekt ein Symbol mit ähnlich hohem Kontrast und scharfen Kanten verwendet.
 \\
@@ -143,23 +144,23 @@ Ein Neuronales Netz kann nur so gut sein wie die Daten, mit denen es trainiert u
 In vielen wissenschaftlichen und populärwissenschaftlichen Artikeln wurde beschrieben, wie ein ungeeigneter Datensatz zu unbrauchbaren Ergebnissen führte.
 So wurden Vorurteile der Forscher bestätigt, oder die KI traf Entscheidungen anhand von falschen Kriterien, wie der Bildunterschrift statt des Bildinhalts.
 \\
-Um einen möglichst robusten Datensatz zu bekommen werden verschiedene Techniken angewendet:
+Um einen möglichst robusten Datensatz zu bekommen, werden verschiedene Techniken angewendet:
 \begin{itemize}
 	\item Um zu verhindern, dass die KI alle Bilder mit starken Kontrasten für einen Marker hält, wird ein Ausschnitt einmal mit und einmal ohne den Marker fotografiert.
 	\item Gegen den \glqq schön-wetter KI\grqq-Effekt (eine KI die annimmt jedes gut ausgeleuchtete Bild muss ein Treffer sein) wird der Marker bei verschiedenen Beleuchtungen fotografiert.
 	Dazu gehören direktes Sonnenlicht, Schatten, künstliche Beleuchtung mit LED, Lampen und Neonröhren. 
 	\item Um zu verhindern, dass die KI alles für ihren Marker hält, was eine gewisse Größe hat und quadratisch ist, wurde der Marker aus verschiedenen Distanzen fotografiert. 
-	\item Gegen Noise Anfälligkeit wurden verschiedene Hintergründe bei den Fotos verwendet. Teils weiße Wände, teils strukturierte Hintergründe oder eine Freifläche. 
-	\item Um zu verhindern das sich die KI auf die Bildmitte konzentrieren kann wird der Marker aus verschieden Positionen fotografiert. 
+	\item Gegen Noise-Anfälligkeit wurden verschiedene Hintergründe bei den Fotos verwendet. Teils weiße Wände, teils strukturierte Hintergründe oder eine Freifläche. 
+	\item Um zu verhindern, dass sich die KI auf die Bildmitte konzentrieren kann, wird der Marker aus verschieden Positionen fotografiert. 
 \end{itemize}
 
-% bilder ++
-% wie unterschiedliche bilder
+
 \subsection{Grobübersicht über das System}
 In diesem Kapitel werden wir, bevor wir näher auf die Softwarearchitektur und den Hardwareaufbau von rosBerry eingehen, das System kurz als Gesamtüberblick vorstellen.
 
-\begin{figure}[!ht]
+\begin{figure}%[!ht]
 	\centering
+	%\includesvg[width=9cm]{Gesamtsystem.svg}
 	\includegraphics[width=9cm]{img/Gesamtsystem.PNG}
 	\caption{Gesamtüberblick des Systems}
 	\label{Gesamtzusammenhang}
@@ -172,7 +173,8 @@ Beginnen werden wir mit der Komponente Laptop.
 Sie ist dazu da, dem User die Steuerung des Roboters zu ermöglichen.
 Die Steuerung kann erst erfolgen, wenn auf dem Raspberry Pi ein Accesspoint geöffnet wurde, mit dem sich der Laptop — der Nutzer letztendlich — via WLAN verbindet.
 \\
-Innerhalb der anderen Komponente Roboter — unser rosBerry — befindet sich die beiden Hardware-Elemente Raspberry Pi und ein Arduino. Wobei im Quellcode des Arduinos die ROS-Bibliothek eingebunden wird und somit einen Node im System darstellt.
+Innerhalb der anderen Komponente Roboter — unser rosBerry — befindet sich die beiden Hardware-Elemente Raspberry Pi und ein Arduino. Roscore läuft auf dem Raspberry PI und ein Node - für den Ultraschallsensor - auf dem Arduino.
+
 Der Arduino wird durch ein USB Kabel mit dem Raspberry Pi verbunden.
 Dadurch wird eine Kommunikation ermöglicht, in welcher der Arduino den Raspberry Pi in Zeitabständen mit Sensordaten versorgt.
 \\
@@ -183,10 +185,10 @@ An dieser Stelle ist anzumerken, dass weitere Hardware verwendet wird, die im Ka
 
 %heike
 %grobstruktur,  nodes topics und all das was es schon als text gibt
-In diesem Kapitel stellen wir euch die Software des Roboters vor.
-Den dazugehörige Quellcode finden Sie auf https://github.com/Wifi-cable/Robotic\_AI\_student\_project.
-An dieser Stelle möchten wir darauf hinweisen, dass das Repository von Tiziano Fiorenzani geklont wurde.
-Die Dokumentation seines Projektes finden Sie unter folgende Verlinkung zu Youtube https://youtu.be/iLiI\_IredhI.
+In diesem Kapitel wird die Software-Architektur des Roboters vorgestellt.
+%Den dazugehörige Quellcode finden Sie auf https://github.com/Wifi-cable/Robotic\_AI\_student\_project.
+%An dieser Stelle möchten wir darauf hinweisen, dass das Repository von Tiziano Fiorenzani geklont wurde.
+%Die Dokumentation seines Projektes finden Sie unter folgende Verlinkung zu Youtube https://youtu.be/iLiI\_IredhI.
 
 % Das Bild später bei Existenz aller Knoten aktualisieren.
 \begin{figure}[!ht] 
@@ -208,7 +210,7 @@ Folgende Nodes befinden sich im Softwaresystem:
 	\item /teleop\_twist\_keyboard (Fernsteuerung)
 	\item /donkey\_llc (Hardwarenahe Steuerung)
 	\item /ic2pwm\_board\_node (Bibliothek und Node zum Ansprechen des I2C-Protokolls und deren Verbindung mit ROS)
-	\item serial\_node.py (Publisher der Utraschallsensordaten)
+	\item serial\_node.py (Publisher der Ultraschallsensordaten)
 \end{itemize}
 
 Die zuvor genannten Nodes sind durch Topics miteinander verbunden und tauschen untereinander Nachrichten aus.
@@ -230,52 +232,54 @@ Folgende Topics befinden sich im Softwaresystem:
 Dieses Kapitel ist eine Einleitung zum Starten der ROS Nodes und den hierbei zu beachtenden Punkten.
 
 % Weitere Knoten werden noch folgen
-\begin{lstlisting}[label={list:first},caption=Sample rosBash code.]
-	# Network ubiquityrobot03B
-	# connect via SSH
-	ssh ubuntu@10.42.0.1
-	# enter password
+% ToDo: Zeilenumbruch
+\begin{minted}[frame=lines, breaklines=true, linenos]{Bash}
+# Network ubiquityrobot03B
+# connect via SSH
+ssh ubuntu@10.42.0.1
+# enter password
 
-	# 1. Console - on Raspberry Pi
-	# Login via SSH
-	cd catkin_ws/Robotic_AI_student_project/
-	source devel/setup.bash
-	rosrun i2cpwm_board i2cpwm_board
+# 1. Console - on Raspberry Pi
+# Login via SSH
+cd catkin_ws/Robotic_AI_student_project/
+# If bash.rc wasn't changed to source workspace
+source devel/setup.bash
+rosrun i2cpwm_board i2cpwm_board
 
-	# 2. Console - on Raspberry Pi
-	# Login via SSH
-	cd catkin_ws/Robotic_AI_student_project/
-	source devel/setup.bash
-	rosrun donkey_car low_level_control.py
+# 2. Console - on Raspberry Pi
+# Login via SSH
+cd catkin_ws/Robotic_AI_student_project/
+source devel/setup.bash
+rosrun donkey_car low_level_control.py
 
-	# 3. Console - on Laptop 
-	export ROS_MASTER_URI=http://ubiquityrobot.local:11311
-	export ROS_IP=$(hostname -I)
-	cd catkin_ws/Robotic_AI_student_project/
-	source devel/setup.bash
-	rosrun teleop_twist_keyboard teleop_twist_keyboard.py
+# 3. Console - on Laptop 
+export ROS_MASTER_URI=http://ubiquityrobot.local:11311
+export ROS_IP=$(hostname -I)
+cd catkin_ws/Robotic_AI_student_project/
+source devel/setup.bash
+rosrun teleop_twist_keyboard teleop_twist_keyboard.py
 
-	# 4. Console - on Raspberry Pi
-	# Login via SSH
-	rosrun rosserial_python serial_node.py /dev/ttyACM0
+# 4. Console - on Raspberry Pi
+# Login via SSH
+rosrun rosserial_python serial_node.py /dev/ttyACM0
 
-	# 5. Console - on Laptop
-	export ROS_MASTER_URI=http://ubiquityrobot.local:11311
-	export ROS_IP=$(hostname -I)
-	rostopic echo rangeMsg_topic
-\end{lstlisting}
+# 5. Console - on Laptop
+export ROS_MASTER_URI=http://ubiquityrobot.local:11311
+export ROS_IP=$(hostname -I)
+rostopic echo rangeMsg_topic
+\end{minted}
+
 %----------------------------------------------------------------
 
 \section{Praktische Projektdurchführung}
 
 %----------------------------------------------------------------
 
-\subsection{Hardwareaufbau}%Heike 
-In diesem Kapitel beschreiben wir den Hardwareaufbau des rosBerry.
-Hierfür werden wir die einzelnen verwendeten Hardwarekomponenten — deren Modell und Funktion — vorstellen.
+In diesem Kapitel wird der Hardwareaufbau des rosBerry, sowie die mechanisches Bauteile inklusive Entscheidungskriterien vom Roboter beschrieben. 
+Hierfür werden die einzelnen verwendeten Hardwarekomponenten — deren Modell und Funktion — vorgestellt. 
 
-Zuerst bilden wir die Verbindungen der Hardwarekomponenten untereinander ab, wie in Abbildung \ref{Hardwarekomponenten} zu sehen.
-\subsubsection{Mechanische Bauteile}
+Zuerst werden die Verbindungen der Hardwarekomponenten untereinander abgebildet, wie in Abbildung \ref{Hardwarekomponenten} zu sehen.
+\subsection{Mechanische Bauteile}
 
 \begin{figure} %[!h]
 	\centering
@@ -283,7 +287,7 @@ Zuerst bilden wir die Verbindungen der Hardwarekomponenten untereinander ab, wie
 	\caption{Auszug aus Hersteller Datenblatt:Lenkservo }
 	\label{Servomotor}
 \end{figure}
-Für das Robotik Projekt \textit{rosBerry} wurde ein solides, aber günstiges Chassis gesucht bei dem die Möglichkeit besteht Ersatzteile zu bestellen. Viele qualitativ Hochwertige Modebau Chassis liegen in einem Preisrahmen über 400€, für sie ist die Ersatzteilbeschaffung gut möglich. Günstige, meist Asiatische, Modebau Chassis Hersteller liefern ihre Modelle und Bausätze nur für einen kurzen Zeitraum. Es ist oft nicht möglich zu einem späteren Zeitpunkt das Modell nachzukaufen oder Ersatzteile zu bekommen. Somit ist ein Roboter der darauf aufbaut, wie das Donkey Car nicht reproduzierbar. 
+Für das Robotik Projekt \textit{rosBerry} wurde ein solides, aber günstiges Chassis gesucht bei dem die Möglichkeit besteht Ersatzteile zu bestellen. Viele qualitativ hochwertige Modellbau Chassis liegen in einem Preisrahmen über 400€, für diese ist die Ersatzteilbeschaffung gut möglich. Günstige, meist asiatische Modellbau Chassis Hersteller liefern ihre Modelle und Bausätze nur für einen kurzen Zeitraum. Es ist oft nicht möglich zu einem späteren Zeitpunkt das Modell nachzukaufen oder Ersatzteile zu bekommen. Somit ist ein Roboter der darauf aufbaut, wie das Donkey Car, nicht reproduzierbar. 
 \\
 \begin{figure} %[t]
 	\centering
@@ -291,11 +295,12 @@ Für das Robotik Projekt \textit{rosBerry} wurde ein solides, aber günstiges Ch
 	\caption{Auszug aus Hersteller Datenblatt: Differnzialgetriebe }
 	\label{Getriebe}
 \end{figure}
-Der Kompromiss dieser Abwägung fand sich bei einem älteren Einsteigermodell namens TAMIYA RC 1:10 TT-01E. Tamiya ist ein traditionsreicher Japanischer Hersteller der qualitativ hochwertige Bausatze Ferngesteuerte Fahrzeuge Herstellt. (Er stellt Schiffe und Panzer her, aber vor allen dingen Modellautos) Tamiya ist unter Modellbau Enthusiasten dafür bekannt, alle Prinzipien Japanischer Ingenieurskunst bei der Konstruktion seiner Modelle anzuwenden, statt "Spielzeugquallität" in China herzustellen. Das TT01 Modell hat identische Außenmaße und Kann mit den selben Elektronischen Komponenten betrieben werden wie sein Nachfolgemodell das TT02. Somit ist die Reproduzierbarkeit im Bezug auf das Chassis gegeben.
+Der Kompromiss dieser Abwägung fand sich bei einem älteren Einsteigermodell namens TAMIYA RC 1:10 TT-01E. Tamiya ist ein traditionsreicher japanischer Hersteller der qualitativ hochwertige Bausätze ferngesteuerte Fahrzeuge herstellt. (Er stellt Schiffe, Flugzeuge und Panzer her, aber hauptsächlich Modellautos) Tamiya ist unter Modellbau-Enthusiasten dafür bekannt, alle Prinzipien japanischer Ingenieurskunst bei der Konstruktion seiner Modelle anzuwenden, statt "Spielzeugqualität" in China herzustellen. Das TT01-Modell hat identische Außenmaße und kann mit denselben elektronischen Komponenten betrieben werden, wie sein Nachfolgemodell das TT02. Somit ist die Reproduzierbarkeit im Bezug auf das Chassis gegeben.
 \\
-Die Mechanik des "TAMIYA RC 1:10 TT-01E" Modells basiert auf einem Motor und einer langen Antriebswelle die drei Differenzialgetriebe bewegt. \ref{Getriebe} Die Modelle werden als Vierradantrieb vermarktet. Die Lenkung wird Getrennt vom Antrieb durch einen Kleinen Servo Motor geregelt\ref{Servomotor}. Er bewegt die Spurstange nach rechts/links. Das Chassis nutzt also eine Akkerman Lenkung, wie sie auch bei PKWs üblich ist.
+Die Mechanik des "TAMIYA RC 1:10 TT-01E" Modells basiert auf einem Motor und einer langen Antriebswelle, die drei Differenzialgetriebe bewegt. \ref{Getriebe} Die Modelle werden als Vierradantrieb vermarktet. Die Lenkung wird Getrennt vom Antrieb durch einen Kleinen Servo Motor geregelt\ref{Servomotor}. Er bewegt die Spurstange nach rechts/links. Das Chassis nutzt also eine Akkerman Lenkung, wie sie auch bei PKWs üblich ist.
 
-\subsubsection{Elektronische Bauteile und ihre Funktion}
+\subsection{Elektronische Bauteile und ihre Funktion}
+% SVG ?
 \begin{figure} %[t]
 	\centering
 	\includegraphics[width=9cm]{img/Hardwarekomponenten.PNG}
@@ -325,23 +330,23 @@ Auf jede dieser Nummern wird referenziert und die Hardware mit Modell und Funkti
 	\item Neben dem DC Antriebsmotor befindet sich ein Fahrtenregler, Modell BORSTI 1/10 BRUSHED-ESC 45A.
 	Dieser erhält vom Motorshield ein PWM-Signal, welches er verstärkt.
 	Das verstärkte PWM-Signal wird anschließend in Geschwindigkeit umgesetzt und an den DC-Antriebsmotor weitergeleitet.
-	\item Der UBEC — Modell HWBEC Hobbywing 3A 5V 6V max 5A — wird eingebaut, um den Raspberry Pi mit \SI{5}{V} zu versorgen.
+	\item Der UBEC — Modell HWBEC Hobbywing 3A \SI{5}{V} \SI{6}{V} max \SI{5}{A} — wird eingebaut, um den Raspberry Pi mit \SI{5}{V} zu versorgen.
 	Ohne den UBEC würde der Raspberry Pi aufgrund der höheren elektrischen Spannung beschädigt werden.
 	\item Der Servo — Modell Amewi AMX Racing 4806HB — bekommt vom Motorshield ein PWM Signal übermittelt.
 	Nach dem PWM Signal richten sich die beiden Reifen aus und ermöglichen eine Fahrtrichtung.
-	Dadurch ist rosBerry in der Lage rechts/links Kurven sowie geradeaus zu fahren.
+	Dadurch ist rosBerry in der Lage links\,/\,rechts Kurven sowie geradeaus zu fahren.
 	\item Der Akku dient dazu, die Stromversorgung des Roboters zu sichern.
-	Dieser liefert 7 Volt und versorgt die weitere Hardware mit Strom.
+	Dieser hat eine Nennspannung von \SI{7,2}{Volt}. Er versorgt die Hardware mit Strom.
 	\item Der Motorshield — Modell Adafruit 16-Channel 12-bit PWM/Servo Driver-I2C interface PCA9685 — wird für die Geschwindigkeit und die Richtung der Reifen eingesetzt.
 	Hierzu erzeugt der Motorshield zwei PWM Signale.
 	Das 1. PWM Signal wird an den Servo übermittelt, um den Servo in die gewünschte Position einzustellen.
 	Das 2. PWM Signal wird erzeugt und zum Fahrtenregler gesendet.
 	Dieses wird zur Einstellung der Geschwindigkeit verwendet.
-	\item Der Raspberry Pi 3.b+ ist das Herzstück des rosBerry.
+	\item Der Raspberry Pi 3.B+ ist das Herzstück des rosBerry.
 	Auf ihn läuft zum einem ROS und zum anderen die Software des Roboters, welche im Kapitel ROS Knoten Software Architektur vorgestellt wurde.
 	Über eine I2C-Schnittstelle werden Daten an den Motorshield übertragen.
 	Die Daten geben an, wie das PWM Signal auszusehen hat.
-	\item Der Arduino UNO REV 3 steuert einen Ultraschallsensor an und erzeugt einen ROS Knoten (Publisher).
+	\item Der Arduino UNO REV 3 steuert einen Ultraschallsensor an und erzeugt einen ROS-Knoten (Publisher).
 	Innerhalb des Programms wird das Signal des Sensors in Meter umgewandelt und in eine Range Message gespeichert.
 	Die Range Message namens rangeMsg wird an das Topic rangeMsg\_topic übermittelt.
 	Ein Subscriber — der auf dem Raspberry Pi läuft — subscribed das Topic und erhält regelmäßig Sensordaten über die Reichweite.
@@ -353,9 +358,9 @@ Auf jede dieser Nummern wird referenziert und die Hardware mit Modell und Funkti
 		\label{rosBerryWeitere}
 	\end{figure}
 	\item Der Ultraschallsensor — Modell HC-SR04 — wird zum rechtzeitigen Erkennen eines kommenden Hindernisses eingesetzt.
-	Dieser hat eine maximale Reichweite von 4 Meter, jedoch haben wir uns für das Projekt auf eine Reichweite von 2 Meter geeinigt.
-	Alle x Sekunden sendet dieser ein Signal und verarbeitet dieses.
-	\item Die Kamera — Modell 5 MP — ist durch ein Flexkabel an den Raspberry Pi angeschlossen.
+	Dieser hat eine maximale Reichweite von vier Meter, jedoch haben wir uns für das Projekt auf eine Reichweite von 2 Meter geeinigt.
+	Alle 1/4 Sekunde sendet dieser ein Signal und verarbeitet dieses.
+	\item Die Kamera — Modell 5 MP — ist durch ein Flexkabel an den Raspberry Pi über das CSI-Interface angeschlossen.
 	Diese versorgt die KI mit Bildern, welche einen Marker sucht und findet.
 \end{enumerate}
 
@@ -364,7 +369,7 @@ Auf jede dieser Nummern wird referenziert und die Hardware mit Modell und Funkti
 
 \section{Autonomes Verhalten durch Künstliche Intelligenz}	%mary
 
-Ziel des KI Teils des Projektes besteht darin, dem Roboter beizubringen einem optischen Marker zu folgen.
+Ziel des KI-Teils des Projektes besteht darin, dem Roboter beizubringen, einem optischen Marker zu folgen.
 Dazu muss er erst einmal das Symbol erkennen, dann herausfinden in welcher Richtung sich der Marker befindet.
 Danach erst kann er auf den Marker zufahren.
 \\
@@ -373,39 +378,45 @@ Der schwierigste Teil der Aufgabe besteht darin, den Marker zuverlässig in unte
 
 \subsection{Erster Ansatz für das Neuronale Netz}	%steffen ? mary?
 %netzaufbau am anfang
-Der erste Entwurf unseres Neuronalen Netzes war stark angelehnt an F. Grovers Beispielnetz aus \glqq Artificial Intelligence for Robotics\grqq \cite{b1}.Wie in der Vorlage erstellen wir ein sequentielles Modell mithilfe von Keras.
+Der erste Entwurf unseres Neuronalen Netzes war stark angelehnt an F. Grovers Beispielnetz aus \glqq Artificial Intelligence for Robotics\grqq \cite{b1}. Wie in der Vorlage erstellen wir ein sequentielles Modell mithilfe von Keras.
 
 Die erste Schicht stellt ein convolution layer mit 20 convolutions dar, wovon jede ein Merkmal des Eingangsbildes isolieren soll.
 Die Größe setzen wir auf 5x5, betrachten also zwei benachbarte Pixel in jede Richtung.
 Selbstverständlich muss dafür auch ein Padding hinzugefügt werden, damit das Verfahren auch am Bildrand funktioniert. 
 
 Zudem wird noch eine Aktivierungsfunktion benötigt, hierfür nutzen wir die ReLU-Funktion, die nur positive Werte zulässt und negative Werte durch den Wert 0 ersetzt.
-Diese Aktivierungsfunktion ergibt deshalb Sinn, da das Ergebnis als Farbe dargestellt werden und deshalb einen Wert zwischen 0 und 1 annehmen soll.
-Ein Wert unter Null wäre hier unsinnig.
+Diese Aktivierungsfunktion ist deshalb sinnvoll, da das Ergebnis als Farbe dargestellt werden und deshalb einen Wert zwischen 0 und 1 annehmen soll.
+Ein Wert unter Null wäre hier unbrauchbar.
 
-\begin{lstlisting}[label={list:model_1_1},caption=Sequentielles Modell und erste Schicht]
-	model = Sequential()
-	inputShape = (height, width, depth)
+\begin{minted}[frame=lines]{Bash}
+model = Sequential()
+inputShape = (height, width, depth)
 
-	model.add(Conv2D(20, (5, 5), padding="same", input_shape=inputShape))
-	model.add(Activation("relu"))
-\end{lstlisting}
+model.add(Conv2D(20, (5, 5), padding="same", input_shape=inputShape))
+model.add(Activation("relu"))
+\end{minted}
 
-Die zweite Schicht ist ein maxpooling layer, bei dem wir jeweils 2x2 Pixel nehmen und danach 2x2 Pixel weiterrücken um keine Überlappungen zu haben.
+Die zweite Schicht ist ein Maxpooling-Layer, bei dem wir jeweils 2x2 Pixel nehmen und danach 2x2 Pixel weiterrücken um keine Überlappungen zu haben.
 Das Ergebnis ist ein Bild in ¼ der originalen Größe: aus 640x480px wird 320x240px, aus 128x128px 64x64px usw.
 
 Direkt darauf folgt ein weiteres convolution layer mit der doppelten Anzahl an convolutions — 40 statt vorher 20 — um mehr Mermale zu identifizieren.
 Durch das vorher durchgeführte maxpooling werden nun andere, größere Merkmale erkannt.
 Ebenfalls nutzen wir wieder dieselbe ReLU Aktivierungsfunktion, aus denselben Gründen wie in der ersten Schicht.
 
-\begin{lstlisting}[label={list:model_1_2},caption=Modell: zweite und dritte Schicht]
-	model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
+\begin{minted}[frame=lines]{Bash}
+model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
+model.add(Conv2D(40, (5, 5), padding="same"))
+model.add(Activation("relu"))
+\end{minted}
 
-	model.add(Conv2D(40, (5, 5), padding="same"))
-	model.add(Activation("relu"))
-\end{lstlisting}
+%\begin{lstlisting}[label={list:model_1_2},caption=Modell: zweite und dritte Schicht]
+%	model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
 
-Schicht vier besteht erneut aus einem maxpooling layer, ebenfalls um nochmals größere Merkmale zu erkennen.
+%	model.add(Conv2D(40, (5, 5), padding="same"))
+%	model.add(Activation("relu"))
+%\end{lstlisting}
+
+Schicht vier besteht erneut aus einem Maxpooling-Layer, ebenfalls um nochmals größere Merkmale zu erkennen.
 Aus einem 640x480px großen Bild wird nun 160x120px, aus 128x128px sogar nur noch 32x32px.
 
 Darauf folgt nun eine Schicht, die vorher noch nicht im Neuronalen Netz vorkam:
@@ -498,16 +509,16 @@ Alle weiteren versucht das Model weiter zu verfeinern scheiterten. Die Ursache d
 
 
 \subsection{Anwendung des Trainingsmodells} %steffen
-
+//kommt noch
 \subsubsection{Keras und Tensorflow auf Raspberry Pie Hardware}
-Der initiale Plan sah vor das Neuronale Netz auf dem Raspberry Pi auszuwerten, damit der Roboter komplett autonom (Ohne WLAN und externen Computer) fahren kann. Die Prozessor Leistung und der RAM eines Raspberry Pies 3B+ ist zwar deutlich geringer als der eines Standard Laptops, aber die Nachteile eines Verteilten Systems erschienen Anfangs größer. So wirkte der architektonische Aufwand für  verteilte Systeme und  das einarbeiten in die Bibliothek CV bridge zum versenden von Bildern mit ROS Aufwendig. \\
-Die meisten gängigen Bibliotheken und Frameworks sind, unabhängig vom Zielbetriebssystem auf 64Bit Wortbreite ausgelegt, so auch Tensorflow und Keras.  Das verwendete Ubuntu Image mit ROS für Raspberry Pies jedoch ist ein 32 Bit System. Das bedeutet es gibt keine vorkompilieren Versionen von Tensorflow für das bisherige Setup. Das Kompelieren grosser Tarfiles auf einem Raspberry Pie, dauert oft mehr als eine Stunde. Teilweise läuft der RaspberryPie dabei so heiß das er abstürzt. Ein Ventilator erwies sich als hilfreich, um  Abstürze während des Komplelierungsprozesses zu verhindern.  Tensorflow ist eine große Bibliothek deren Kompelierung aufwendig ist. 
+Der initiale Plan sah vor, dass das neuronale Netz auf dem Raspberry Pi auszuwerten, damit der Roboter komplett autonom (ohne WLAN und externen Computer) fahren kann. Die Prozessorleistung und der RAM eines Raspberry Pies 3B+ ist zwar deutlich geringer als der eines Standard Laptops, aber die Nachteile eines verteilten Systems erschienen anfangs größer. So wirkte der architektonische Aufwand für  verteilte Systeme und  das Einarbeiten in die Bibliothek CV Bridge zum Versenden von Bildern mit ROS aufwendig. \\
+Die meisten gängigen Bibliotheken und Frameworks sind unabhängig vom Zielbetriebssystem auf 64Bit Wortbreite ausgelegt, so auch Tensorflow und Keras.  Das verwendete Ubuntu Image mit ROS für Raspberry Pi jedoch ist ein 32 Bit System. Das bedeutet, es gibt keine vorkompilierten Versionen von Tensorflow für das bisherige Setup. Das Kompelieren großer Tarfiles auf einem Raspberry Pi, dauert oft mehr als eine Stunde. Teilweise läuft der Raspberry Pi dabei so heiß, dass er abstürzt. Ein Ventilator erwies sich als hilfreich, um  Abstürze während des Kompilierungsprozesses zu verhindern. Tensorflow ist eine große Bibliothek deren Kompilierung aufwendig ist. 
 %https://qengineering.eu/install-tensorflow-2.2.0-on-raspberry-pi-4.html
-Sagt über den Raspberry Pie 4   : \\
+Sagt über den Raspberry Pi 4   : \\
 \say{The whole TensorFlow installation procedure from start to end takes many hours (±33 for Python, ±10 for the C++ library). } \\
-Es ist  anzunehmen das der Zeitaufwand für eine Kompilierung auf dem  weniger Performanten Raspberry 3B länger dauert. Vor dem Hintergrund das es  Garantie gibt das 64 Bit Libaries auf auf 32 Bit Systemen reibungslos Funktionieren ist eine Kompilierzeit von über einem Tag nicht akzeptabel. \\
+Es ist  anzunehmen, dass der Zeitaufwand für eine Kompilierung auf dem weniger Performanten Raspberry 3B länger dauert. Vor dem Hintergrund, dass es keine Garantie gibt, dass 64 Bit Libaries auf auf 32 Bit Systemen reibungslos funktionieren, ist eine Kompilierzeit von über einem Tag nicht akzeptabel. \\
 
-Die Entscheidung für ein Verteiltes System wurde getroffen. Dabei zeigten sich weitere erwähnenswerte Inkompatibilitäten. Für jede ROS Version (Distribution) existieren Vor gepackte Installationspakete für ein Ubuntu Betriebssystem. Nur mit diesem System sind sie komplett kompatibel. Das Betriebssystem Ubuntu 18.04  ist mit ROS Melodic vorgesehen. Während das Betriebssystem Python 2.7 und Python 3.6.9.  nutzt ist ROS Melodic auf Python2.7 angewiesen. Die Python Versionen sind Inkompatibel. Tensorflow2 benötigt eine aktuelle Python Version die von ROS Melodic nicht ohne weiteres  unterstützt wird. \\
+Die Entscheidung für ein verteiltes System wurde getroffen. Dabei zeigten sich weitere erwähnenswerte Inkompatibilitäten. Für jede ROS Version (Distribution) existieren vor gepackte Installationspakete für ein Ubuntu Betriebssystem. Nur mit diesem System sind sie komplett kompatibel. Das Betriebssystem Ubuntu 18.04 ist mit ROS Melodic vorgesehen. Während das Betriebssystem Python 2.7 und Python 3.6.9. nutzt ist ROS Melodic auf Python2.7 angewiesen. Die Python Versionen sind Inkompatibel. Tensorflow2 benötigt eine aktuelle Python Version die von ROS Melodic nicht ohne weiteres  unterstützt wird. \\
 
 Tensorflow1 ist zwar mit Python2.7 kompatibel, es ist jedoch nicht Threadsave. Das erschien anfangs kein Problem, da keine parallele Programmierung geplant war. Ein Prototyp Programm mit Anwendung von Neuronalem Netz lief problemlos auf Mac mit Python3. Dieses Programm sollte als Vorlage für einen ROS Knoten dienen. Auf Ubuntu in ROS  traten jedoch viele kryptische Fehlermeldungen auf. 
 
