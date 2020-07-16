@@ -45,7 +45,7 @@ void setup() {
 }
 
 void loop() {
-  if((millis() - publisher_timer) > 1000) { // publish Rangewert jede 1000 millisekunde
+  if((millis() - publisher_timer) > 250) { // publish Rangewert jede 1000 millisekunde
     rangeMsg.range = (float) sonar.ping_cm() / 100; // ping_cm() return int
     rangeMsg.header.stamp = nh.now();
     pub_range.publish(&rangeMsg);
