@@ -79,7 +79,7 @@ class ImageProcessor:
 				for tile in tiles:
 					tile = numpy.expand_dims(img_to_array( tile.astype("float") / 255.0), axis=0)
 					(noMarker, marker) = model.predict(tile)[0]
-					probability = max(noMarker, marker) * 100
+					probability = round((max(noMarker, marker) * 100),2)
 					has_marker = marker > noMarker
 					results.append([has_marker, probability])
 			
@@ -101,7 +101,9 @@ class ImageProcessor:
 		markerImg = self.imgDecompresser.compressed_imgmsg_to_cv2(newImg)
 		myResult = self.splitSeach(markerImg)
 		if(VERBOSE):
-			rospy.loginfo(round(myResult,2))
+			#rospy.loginfo(round(myResult,2))
+			rospy.loginfo(myResult)
+			#rospy.loginfo("{:.2f}".format(myResult))
 		
 		# sort results into columns & calculate average
 		for idx in range(3):
@@ -123,7 +125,7 @@ class ImageProcessor:
 			self.directionPublisher.publish(NotFound)
 			
 			#if unsure where the Marker is, threat situation like marker not found
-			certainty = 20 # threashold of certainty where the marker is
+		certainty = 20 # threashold of certainty where the marker is
 		if((columns[0][1] < certainty) or (columns[1][1] < certainty) or (columns[2][1] < certainty)):
 			if(VERBOSE or SPAM):
 				rospy.loginfo("-----------------------------not sure where the marker is")
