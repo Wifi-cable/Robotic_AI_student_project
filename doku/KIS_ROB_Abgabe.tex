@@ -47,8 +47,11 @@
 \usepackage{textcomp}
 \usepackage{xcolor}
 \usepackage{dirtytalk} % nein, nicht was du denkst.  Packet hilft  gegen verschluckte gänsefüschen
-\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em T
+\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \usepackage{minted}
+\setminted{style=default}
+
 \begin{document}
 
 
@@ -388,7 +391,7 @@ Zudem wird noch eine Aktivierungsfunktion benötigt, hierfür nutzen wir die ReL
 Diese Aktivierungsfunktion ist deshalb sinnvoll, da das Ergebnis als Farbe dargestellt werden und deshalb einen Wert zwischen 0 und 1 annehmen soll.
 Ein Wert unter Null wäre hier unbrauchbar.
 
-\begin{minted}[frame=lines]{Bash}
+\begin{minted}[frame=lines]{Python}
 model = Sequential()
 inputShape = (height, width, depth)
 
@@ -403,7 +406,7 @@ Direkt darauf folgt ein weiteres convolution layer mit der doppelten Anzahl an c
 Durch das vorher durchgeführte maxpooling werden nun andere, größere Merkmale erkannt.
 Ebenfalls nutzen wir wieder dieselbe ReLU Aktivierungsfunktion, aus denselben Gründen wie in der ersten Schicht.
 
-\begin{minted}[frame=lines]{Bash}
+\begin{minted}[frame=lines]{Python}
 model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
 model.add(Conv2D(40, (5, 5), padding="same"))
 model.add(Activation("relu"))
@@ -494,7 +497,7 @@ Das Modell musste also kleiner werden ohne wesentliches Overfitting. Diese Ziehl
 \begin{figure}[!h]
 	\centering
 	\includegraphics[width=9cm]{img/213x160:800@32:0_accuracy.png}
-	\caption{Enderge ergebnis}
+	\caption{End ergebnis}
 	\label{end Ergenisse }
 \end{figure}
 
@@ -518,9 +521,9 @@ Sagt über den Raspberry Pi 4   : \\
 \say{The whole TensorFlow installation procedure from start to end takes many hours (±33 for Python, ±10 for the C++ library). } \\
 Es ist  anzunehmen, dass der Zeitaufwand für eine Kompilierung auf dem weniger Performanten Raspberry 3B länger dauert. Vor dem Hintergrund, dass es keine Garantie gibt, dass 64 Bit Libaries auf auf 32 Bit Systemen reibungslos funktionieren, ist eine Kompilierzeit von über einem Tag nicht akzeptabel. \\
 
-Die Entscheidung für ein verteiltes System wurde getroffen. Dabei zeigten sich weitere erwähnenswerte Inkompatibilitäten. Für jede ROS Version (Distribution) existieren vor gepackte Installationspakete für ein Ubuntu Betriebssystem. Nur mit diesem System sind sie komplett kompatibel. Das Betriebssystem Ubuntu 18.04 ist mit ROS Melodic vorgesehen. Während das Betriebssystem Python 2.7 und Python 3.6.9. nutzt ist ROS Melodic auf Python2.7 angewiesen. Die Python Versionen sind Inkompatibel. Tensorflow2 benötigt eine aktuelle Python Version die von ROS Melodic nicht ohne weiteres  unterstützt wird. \\
+Die Entscheidung für ein verteiltes System wurde getroffen. Dabei zeigten sich weitere erwähnenswerte Inkompatibilitäten. Für jede ROS Version (Distribution) existieren vor gepackte Installationspakete für ein Ubuntu Betriebssystem. Nur mit diesem System sind sie komplett kompatibel. Das Betriebssystem Ubuntu 18.04 ist mit ROS Melodic vorgesehen. Während das Betriebssystem Python 2.7 und Python 3.6.9. nutzt ist ROS Melodic auf Python 2.7 angewiesen. Die Python Versionen sind inkompatibel. Tensorflow2 benötigt eine aktuelle Python Version, die von ROS Melodic nicht ohne weiteres unterstützt wird. \\
 
-Tensorflow1 ist zwar mit Python2.7 kompatibel, es ist jedoch nicht Threadsave. Das erschien anfangs kein Problem, da keine parallele Programmierung geplant war. Ein Prototyp Programm mit Anwendung von Neuronalem Netz lief problemlos auf Mac mit Python3. Dieses Programm sollte als Vorlage für einen ROS Knoten dienen. Auf Ubuntu in ROS  traten jedoch viele kryptische Fehlermeldungen auf. 
+Tensorflow1 ist zwar mit Python2.7 kompatibel, es ist jedoch nicht Threadsave. Das erschien anfangs kein Problem, da keine parallele Programmierung geplant war. Ein Prototyp-Programm mit Anwendung von neuronalem Netz lief problemlos auf Mac mit Python3. Dieses Programm sollte als Vorlage für einen ROS Knoten dienen. Auf Ubuntu in ROS traten jedoch viele kryptische Fehlermeldungen auf. 
 
 
 \begin{minted}[frame=lines]{Bash}
@@ -545,19 +548,31 @@ is not an element of this graph.
 \end{minted}
 
 Es stellte sich heraus das %wer macht das?!?  GCC?  Python interpeter?  Kernel?
-Den Bildanalyse Algorithmus als Hochgradig Parallelisierbar erkannt hat und folglich mehr als einen Thread bei der Ausführung nutzte. 
+Den Bildanalyse-Algorithmus als hochgradig parallelisierbar erkannt hat und folglich mehr als einen Thread bei der Ausführung nutzte. 
 Laut Victor Meunier's Blog %link 
-muss sichergestellt werden das jeder Thread seinen eigenen Graph und seinen eigene Session hat.  Das Schlüsselwort \say{With} hilft den Kontext zu definieren. 
+muss sichergestellt werden, dass jeder Thread seinen eigenen Graph und seinen eigene Session hat. Das Schlüsselwort \say{With} hilft den Kontext zu definieren. \ref{with} \\
 
-\begin{minted}[frame=lines]{python}
+\begin{figure}
+	\centering
+\begin{minted}[frame=lines,
+ fontsize=\footnotesize,
+ framesep=2mm
+ breaklines]
+ {python}
 with graph.as_default():
 	with thread_session.as_default():
 \end{minted}
-Erst innerhalb dieses Blockes kann sicher auf das vor-trainierte Model zugegriffen werden, um damit eine vorhersage zu machen.
+\label{with}
+\caption{Verwendung von Initialisiertem Graph}
+\end{figure}
+
+
+Erst innerhalb dieses Blockes kann sicher auf das vortrainierte Modell zugegriffen werden, um damit eine Vorhersage zu machen.
 \subsubsection{Algorithmus zur Bildanalyse }
-//kommt noch 
+\noindent \\
+// kommt noch 
 %mach ich! ~steffen 
-%echt? wann? :p
+%echt? wann? ~marie
 %bild teilen
 %bild analysieren
 \subsection {Auswertung des Verhalten des Roboters}	% mary? %steffen? %heike?
@@ -569,12 +584,12 @@ Erst innerhalb dieses Blockes kann sicher auf das vor-trainierte Model zugegriff
 
 \section{Erkenntnisse 
 }
-Auch wen dieses Projekt sehr Lehrreich für alle Beteiligten war, kann ein Studentisches Semesterprojekt nicht an die Leistungen im Rahmen von echten Forschungsarbeiten durchgeführt von Wissenschaftlern mit Master oder Doktor Titel  heranreichen. Nicht nur das Budget sondern auch das Fachwissen sowie die Zeitlichen Gegebenheiten  unterscheiden sich stark. Dieses Kapitel wird zuerst darauf auf mögliche Verbesserungen für eventuelle Nachfolgeprojekte eingehen um dann eine Erkenntnisse zusammenzufassen. 
+Auch wenn dieses Projekt sehr lehrreich für alle Beteiligten war, kann ein studentisches Semesterprojekt nicht an die Leistungen im Rahmen von echten Forschungsarbeiten, durchgeführt von Wissenschaftlern mit Master oder Doktor Titel, heranreichen. Nicht nur das Budget sondern auch das Fachwissen, sowie die zeitlichen Gegebenheiten unterscheiden sich stark. Dieses Kapitel wird zuerst darauf auf mögliche Verbesserungen für eventuelle Nachfolgeprojekte eingehen, um dann einige Erkenntnisse zusammenzufassen. 
 
 \subsection{Empfehlungen für nachfolge Projekte}
 
-Empfehlungen auf Basis der Erfahrungen mit diesem Projekt, zunächst die Verbesserungsvorschläge für die Roboter Hardware und Software, danach Ansätze für die KI.\\
-Da dieses Projekt immer wieder Probleme mit der Inkompatibilität der veralteten Python Version und Aktuellen Bibliotheken hatte wird ein Hardware und Software Stack empfohlen der durchgehend das Aktuelle Python 3 verwendet. Auch die Leistungsgrenzen des Raspberry Pies waren schnell erreicht. \\
+Empfehlungen auf Basis der Erfahrungen mit diesem Projekt sind, zunächst die Verbesserungsvorschläge für die Roboter Hardware und Software, danach Ansätze für die KI.\\
+Da dieses Projekt immer wieder Probleme mit der Inkompatibilität der veralteten Python Version und aktuellen Bibliotheken hatte, wird ein Hardware und Software Stack empfohlen, der durchgehend das aktuelle Python 3 verwendet. Auch die Leistungsgrenzen des Raspberry Pi waren schnell erreicht. \\
 
 Empfehlungen:
 \begin{itemize}
@@ -586,10 +601,10 @@ Empfehlungen:
 *oder aktueller wenn verfügbar
 \subsection{Ansätze zur Verbesserung der Erkennung der Marker durch die K.I}
 
-Es ist zu überprüfen ob ein Ecken erkennender Featurematchingalgorythmus nicht dem verwendeten  Kantenerkennungsalgorithmus überlegen ist. Ansätze der künstlichen Intelligenz, die sich darauf konzentrieren \textit{wo} der gesuchte Merkmalspunkte  im Gesichtsfeld des Roboters is, statt sich darauf zu beschenken \textit{ob} ein Merkmalspunkt detektiert wurde, versprechen eine präzisere Navigation. \\
-Es ist in Zukunft zu überprüfen ob, ein Training mit Schwarzweißbildern einen ähnlichen Trainingserfolg bringt.  bei Bleicher Auflösung brauchen RGB Bilder drei mal so viele Daten wie Schwarzeisbilder da sie drei mal so viele Farbkanäle brauchen Das umrechnen von Farbbildern in Schwarzweißbilder ist dank Opencv keine Rechenintensive Operation. inwieweit  zusätzlichen Rechenoperationen die Serialiserungszeit , Versand zeit und Reserialiesierung der Daten wettmacht sprengte den Rahmen dieser Arbeit. In wie fern die Reduktion der Datenmenge das Gesamtsystem Performanter macht ist noch zu überprüfen.
+Es ist zu überprüfen, ob ein Ecken erkennender Featurematchingalgorithmus nicht dem verwendeten Kantenerkennungsalgorithmus überlegen ist. Ansätze der künstlichen Intelligenz, die sich darauf konzentrieren \textit{wo} die gesuchten Merkmalspunkte  im Gesichtsfeld des Roboters ist, statt sich darauf zu beschränken \textit{ob} ein Merkmalspunkt detektiert wurde, versprechen eine präzisere Navigation. \\
+Es ist in Zukunft zu überprüfen, ob ein Training mit schwarzweiß Bildern einen ähnlichen Trainingserfolg bringt. Bei gleicher Auflösung brauchen RGB Bilder drei mal so viele Daten wie schwarzweiß Bilder, da sie drei mal so viele Farbkanäle brauchen. Das Umrechnen von Farbbildern in schwarzweiß Bilder ist dank Opencv keine rechenintensive Operation. Inwieweit zusätzliche Rechenoperationen die Serialisierungszeit , die Versandzeit und die Reserialisierung der Daten aufhebt sprengte den Rahmen dieser Arbeit. Inwiefern die Reduktion der Datenmenge das Gesamtsystem performanter macht ist noch zu überprüfen.
 \\
-Des weiteren ist darauf Hinzuweisen das es schon viele gute Algorithmen zur Navigation mit Hilfe von Optischen Markern gibt, Deren Evaluation jedoch den zeitlichen Rahmen dieses Projektes gesprengt hätten. Für zukünftige Projekte ist ein Vergleich der bereits existierender Lösungen empfehlenswert.
+Des Weiteren ist darauf hinzuweisen, dass es schon viele gute Algorithmen zur Navigation mit Hilfe von optischen Markern gibt, deren Evaluation jedoch den zeitlichen Rahmen dieses Projektes gesprengt hätten. Für zukünftige Projekte ist ein Vergleich der bereits existierender Lösungen empfehlenswert.
 
 % pageref gibt Zahl, nameref der Name der Section, ref ergibt II-C (Kapitel 2 Unterabschnitt C)
 % Referenz geht? \ref{sec:Architektur}
