@@ -60,9 +60,18 @@ class Distance_Direction_subscriber(object):
 			if(orientation =='LEFT'):
 				message.angular.z = 1
 				message.linear.x = 0.4
-				
+			
+			if(orientation =='HALFLEFT'):
+				message.angular.z = 0.5
+				message.linear.x = 0.4
+				#HalfRight = "halfright"
+				#HalfLeft = "halfleft"
 			elif(orientation == 'RIGHT'):
 				message.angular.z = -1
+				message.linear.x = 0.4
+				
+			elif(orientation == 'HALFRIGHT'):
+				message.angular.z = -0.5
 				message.linear.x = 0.4
 			
 			elif(orientation == 'FORWARD'):
