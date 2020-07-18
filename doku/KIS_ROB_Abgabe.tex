@@ -1,7 +1,7 @@
 \documentclass[conference]{IEEEtran}
 
 % wenn ein Fehler kommt zu Incompatible package cite, dass Paket auskommentieren
-\usepackage{cite}
+% \usepackage{cite}
 \usepackage{amsmath,amssymb,amsfonts}
 \usepackage{verbatim} % um viele zeilen auszukommentieren
 \usepackage{algorithmic}
@@ -50,9 +50,7 @@
 % Wenn Quellen über filecontents im Dokument eingefügt werden
 %\addbibresource{bib.bib}
 
-\bibliography{Literatur}
-%\usepackage[ngerman]{babel}		% Achtung umlaut 
-%\usepackage[utf8]{inputenc}       % UTF-8 ist wichtig,  ASCII hat nicht alle Schriftzeichen  
+\bibliography{Literatur}  
 %-----------------------------------
 \usepackage{textcomp}
 \usepackage{xcolor}
@@ -61,6 +59,11 @@
 		\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \usepackage{minted}
 \setminted{breaklines,breakanywhere}
+
+% für Vektorgraphen
+\usepackage{color}
+\usepackage{transparent}
+\graphicspath{{img/}}
 
 %---------------------------
 \defbibfilter{wissenschaftlich}{%
@@ -155,7 +158,7 @@
 	In diesem Kapitel wird auf die Erstellung des Datensatzes für die KI eingegangen sowie auf die Grobübersicht des Softwaresystems auf die Knotenarchitektur. %Wuhuuu Einführungssatz (Kann sich nochmals ändern.)
 	
 	\subsection{Ansätze für die Erstellung des Datensatzes}	%mary
-	\begin{figure} %[!h]
+	\begin{figure} [!h]
 		\centering
 		\includegraphics[width=9cm]{img/data1455211246.png}
 		\caption{Der Optische Marker den die KI suchen wird }
@@ -189,10 +192,12 @@
 	\subsection{Grobübersicht über das System}
 	In diesem Kapitel werden wir, bevor wir näher auf die Softwarearchitektur und den Hardwareaufbau von rosBerry eingehen, das System kurz als Gesamtüberblick vorstellen.
 	
-	\begin{figure}%[!ht]
+	\begin{figure}[!ht]
 		\centering
 		%\includesvg[width=9cm]{Gesamtsystem.svg}
-		\includegraphics[width=9cm]{img/Gesamtsystem.PNG}
+		%\includegraphics[width=9cm]{img/Gesamtsystem.PNG}
+		\def\svgwidth{9cm}
+		\input{img/Gesamtsystem.pdf_tex}
 		\caption{Gesamtüberblick des Systems}
 		\label{Gesamtzusammenhang}
 	\end{figure}
@@ -252,12 +257,19 @@
 		\item /servos\_proportional (Motorsteuerung für Geschwindigkeitsteuerung des Servos in seinem Bewegungsbereich)
 		\item /servos\_drive (Lenken, Umwandlung der Berechnungen von Linear- und Winkeldaten in Servoantriebsdaten)
 		\item /rosout (Standard ROS Output)
-		\item /rangeMsg\_topic (Datenübertragung der Ultraschallsensordaten)
+		%\item /rangeMsg\_topic (Datenübertragung der Ultraschallsensordaten)
 	\end{itemize}
-	
-	%----------------------------------------------------------------
-	% Je nach Formatierung wird dies verändert werden dürfen und der pagebreak entfernt
-	\pagebreak
+
+	% Hier noch Text zu dem AI Schaubild (kommt noch)
+
+	\begin{figure}[!ht] 
+		\centering
+		\def\svgwidth{11cm}
+		\input{img/AI-Only.pdf_tex}
+		\caption{Übersicht über die AI}
+		\label{AI-Only}
+	\end{figure}
+
 	\subsubsection{Launchreihenfolge}%heike
 	
 	Dieses Kapitel ist eine Einleitung zum Starten der ROS Nodes und den 
@@ -384,7 +396,7 @@
 	Zuerst werden die Verbindungen der Hardwarekomponenten untereinander abgebildet, wie in Abbildung \ref{Hardwarekomponenten} zu sehen.
 	\subsection{Mechanische Bauteile}
 	
-	\begin{figure} %[!h]
+	\begin{figure} [!h]
 		\centering
 		%\includegraphics[width=9cm]{img/servo.png}
 		\caption{Auszug aus Hersteller Datenblatt:Lenkservo }
@@ -421,7 +433,9 @@
 	% SVG ?
 	\begin{figure} %[t]
 		\centering
-		\includegraphics[width=9cm]{img/Hardwarekomponenten.PNG}
+		%\includegraphics[width=9cm]{img/Hardwarekomponenten.PNG}
+		\def\svgwidth{9cm}
+		\input{img/Hardwarekomponenten.pdf_tex}
 		\caption{Verbindungen der Hardwarekomponenten im rosBerry}
 		\label{Hardwarekomponenten}
 	\end{figure}
@@ -570,7 +584,7 @@
 	\begin{figure}[!h]
 		\centering
 		\includegraphics[width=9cm]{img/160x120:100@32_accuracy.png}
-		\caption{erster Durchlauf}
+		\caption{Erster Durchlauf}
 		\label{Initiales Ergebnis}
 	\end{figure}
 	Beim ersten Durchlauf des Neuronalen Netzes war die Erkennungsrate des Markers 57\%. Dieses Ergebnis ist bei einer 50/50 Chance kaum besser als Raten.\\
