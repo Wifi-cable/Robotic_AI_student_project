@@ -123,7 +123,7 @@ class ImageProcessor:
 			
 			#if unsure where the Marker is, threat situation like marker not found
 		certainty = 20 # threashold of certainty where the marker is
-		if((columns[0][1] < certainty) or (columns[1][1] < certainty) or (columns[2][1] < certainty)):
+		if((columns[0][1] < certainty) and (columns[1][1] < certainty) and (columns[2][1] < certainty)):
 			if(VERBOSE or SPAM):
 				rospy.loginfo("-----------------------------not sure where the marker is")
 			self.directionPublisher.publish(NotFound)
