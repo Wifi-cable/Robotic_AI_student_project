@@ -34,6 +34,8 @@ Left = "left"
 Right = "right"
 Forward = "forward"
 NotFound = "notfound"
+HalfRight = "halfright"
+HalfLeft = "halfleft"
 
 class ImageProcessor:
 	
@@ -93,6 +95,7 @@ class ImageProcessor:
 		if(VERBOSE):
 			rospy.logwarn("Transfer Delay: {}.{} Sec".format(img_delay, im_del, "\n"))
 		
+		#columns = numpy.array()
 		columns = []
 		#compressed ROS  Image needst to be translated to opencv.
 		markerImg = self.imgDecompresser.compressed_imgmsg_to_cv2(newImg)
@@ -107,26 +110,46 @@ class ImageProcessor:
 			column = [0, 0.0]  # [number of markers in column, average probability]
 			for cnter in range(3):
 			
-				if myResult[idx + cnter* 3][0] == True:
+				if myResult[idx + (cnter * 3)][0] == True:
 					column[0] += 1
-					column[1] += myResult[idx + cnter  * 3][1]
+					column[1] += myResult[idx + (cnter  * 3)][1]
 				
 			# calculate average probability
-			column[1] = column[1] /3
+			#column[1] = column[1] /3
 			columns.append(column)
 		# publish where to go
+		if(VERBOSE):
+			rospy.loginfo("shape of the columns arraylist is: ")
+			rospy.loginfo(columns)
+			rospy.loginfo(max(columns))
+			rospy.loginfo(columns[0])
 		
-		if ((columns[0] == max(columns)) and (columns[0] == [0, 0.0])):
+		#if ((columns[0] == max(columns)) and (columns[0] == [0, 0.0])):
+		if ((columns[0] == [0, 0.0]) and (columns[1] == [0, 0.0]) and (columns[2] == [0, 0.0])):
 			if(VERBOSE):
 				rospy.loginfo("---------------------------- No marker detected anywhere.")
 			self.directionPublisher.publish(NotFound)
 			
 			#if unsure where the Marker is, threat situation like marker not found
-		certainty = 20 # threashold of certainty where the marker is
+		certainty = 30 # threashold of certainty where the marker is
 		if((columns[0][1] < certainty) and (columns[1][1] < certainty) and (columns[2][1] < certainty)):
 			if(VERBOSE or SPAM):
 				rospy.loginfo("-----------------------------not sure where the marker is")
 			self.directionPublisher.publish(NotFound)
+			
+			#marker is somewhat left and ahead
+		elif((columns[0] != [0, 0.0]) and (columns[1] != [0, 0.0])): 
+			if(VERBOSE):
+				certainty = (( columns[0][1] + columns[1][1]) /2)
+				rospy.loginfo("-------------- Go  a little left, I'm {}% sure".format(certainty,2))
+			self.directionPublisher.publish(HalfLeft)
+			
+		#marker is not quite ahead more a little right
+		elif((columns[1] != [0, 0.0]) and (columns[2] != [0, 0.0])):
+			if(VERBOSE):
+				certainty = (( columns[1][1] + columns[2][1]) /2)
+				rospy.loginfo("-------------- Go  a little right, I'm {}% sure".format(round(certainty,2)))
+			self.directionPublisher.publish(HalfRight)
 		
 		elif columns[0] == max(columns):
 			if(VERBOSE):
