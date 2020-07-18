@@ -50,7 +50,7 @@
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em T
 \kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \usepackage{minted}
-\setminted{style=default}
+\setminted{breaklines,breakanywhere}
 
 \begin{document}
 
@@ -523,42 +523,73 @@ Es ist  anzunehmen, dass der Zeitaufwand für eine Kompilierung auf dem weniger 
 
 Die Entscheidung für ein verteiltes System wurde getroffen. Dabei zeigten sich weitere erwähnenswerte Inkompatibilitäten. Für jede ROS Version (Distribution) existieren vor gepackte Installationspakete für ein Ubuntu Betriebssystem. Nur mit diesem System sind sie komplett kompatibel. Das Betriebssystem Ubuntu 18.04 ist mit ROS Melodic vorgesehen. Während das Betriebssystem Python 2.7 und Python 3.6.9. nutzt ist ROS Melodic auf Python 2.7 angewiesen. Die Python Versionen sind inkompatibel. Tensorflow2 benötigt eine aktuelle Python Version, die von ROS Melodic nicht ohne weiteres unterstützt wird. \\
 
-Tensorflow1 ist zwar mit Python2.7 kompatibel, es ist jedoch nicht Threadsave. Das erschien anfangs kein Problem, da keine parallele Programmierung geplant war. Ein Prototyp-Programm mit Anwendung von neuronalem Netz lief problemlos auf Mac mit Python3. Dieses Programm sollte als Vorlage für einen ROS Knoten dienen. Auf Ubuntu in ROS traten jedoch viele kryptische Fehlermeldungen auf. 
+Tensorflow1 ist zwar mit Python2.7 kompatibel, es ist jedoch nicht 
+Threadsave. Das erschien anfangs kein Problem, da keine parallele 
+Programmierung geplant war. Ein Prototyp-Programm mit Anwendung von 
+neuronalem Netz lief problemlos auf Mac mit Python3. Dieses Programm 
+sollte als Vorlage für einen ROS Knoten dienen. Auf Ubuntu in ROS traten 
+jedoch viele kryptische Fehlermeldungen auf.  Die Tatsache das Die 
+Fehlermeldungen bei gleicher Eingabe so unterschiedlich waren verwirrte 
+anfangs. \ref{ Error1}, \ref{Error2}, \ref{Error3}
 
-
-\begin{minted}[frame=lines]{Bash}
-Not found: 
-Container localhost does not exist. 
-(Could not find resource:
- localhost/conv2d_2/kernel)
+\begin{figure}
+	\centering
+	\begin{minted}[frame=lines,
+	fontsize=\footnotesize,
+	framesep=2mm]{Bash}
+Not found: Container localhost does not exist. 
+(Could not find resource: localhost/conv2d_2/kernel)
 [[{{node conv2d_2/Conv2D/ReadVariableOp}}]]
 \end{minted}
+\label{Error1}
+\caption{Localost existiert nicht}
+\end{figure}
 
-\begin{minted}[frame=lines]{Bash}
+\begin{figure}
+	\centering
+	\begin{minted}[frame=lines,
+	fontsize=\footnotesize,
+	framesep=2mm]{Bash}
 InvalidArgumentError: Tensor 
 dropout__input:0, specified in either 
 feed_devices or fetch_devices
  was not found in the Graph
 \end{minted}
-\begin{minted}[frame=lines]{Bash}
+\label{Error2}
+\caption{Unverständliche Fehlermeldung}
+\end{figure}
+
+
+
+\begin{figure}
+\centering
+\begin{minted}[frame=lines,
+fontsize=\footnotesize,
+framesep=2mm]{Bash}
+
 ValueError: Tensor Tensor
 ("activation_5/Softmax:0",
 shape=(?, 2), dtype=float32) 
 is not an element of this graph.
 \end{minted}
+\label{Error3}
+\caption{Tensorflow Graphenelement unbekannt}
+\end{figure}
 
-Es stellte sich heraus das %wer macht das?!?  GCC?  Python interpeter?  Kernel?
-Den Bildanalyse-Algorithmus als hochgradig parallelisierbar erkannt hat und folglich mehr als einen Thread bei der Ausführung nutzte. 
-Laut Victor Meunier's Blog %link 
+Es stellte sich heraus das entweder ROS, Python, Tensorflow oder die Kernel 
+des Betriebssystems den Bildanalyse-Algorithmus als hochgradig 
+parallelisierbar erkannt hat. Der Algorithmus im  ROS Knoten nutzte mehr 
+als einen Thread bei der Ausführung um die Mehrkern CPU auszunutzen. 
+Die abschließende Uhrsache konnte zum zeit des Papers nicht geklärt 
+werden.
+Laut Victor Meunier's Blog[Referenz hier] %link 
 muss sichergestellt werden, dass jeder Thread seinen eigenen Graph und seinen eigene Session hat. Das Schlüsselwort \say{With} hilft den Kontext zu definieren. \ref{with} \\
 
 \begin{figure}
 	\centering
 \begin{minted}[frame=lines,
  fontsize=\footnotesize,
- framesep=2mm
- breaklines]
- {python}
+ framesep=2mm]{python}
 with graph.as_default():
 	with thread_session.as_default():
 \end{minted}
