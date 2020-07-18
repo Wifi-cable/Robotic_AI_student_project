@@ -1,0 +1,38 @@
+% Encoding: UTF-8
+ @Online{Tamiya,
+  author    = {TAMIYA},
+  publisher = {TAMIYA},
+  title     = {RC Manual Download},
+  url       = {https://www.tamiya.com/english/rc/manuals.htm},
+  urldate   = {2020-07-18},
+  year      = {2003},
+ }
+ @Online{Keras,
+  author    = {Radek Kozieł},
+  publisher = {Hugo},
+  title     = {How to do multithreading with Keras},
+  url       = {https://blog.victormeunier.com/posts/keras\_multithread/},
+  urldate   = {2020-07-18},
+  year      = {2019-02-10},
+ }
+ @Book{moolayil2019learn,
+  author    = {Moolayil, Jojo and Moolayil, Jojo and John, Suresh},
+  publisher = {Springer},
+  title     = {Learn Keras for Deep Neural Networks},
+  year      = {2019},
+ }
+ @Book{govers2018artificial,
+  author    = {Govers, Francis X},
+  publisher = {Packt Publishing Limited},
+  title     = {Artificial intelligence for robotics: Build intelligent robots that perform human tasks using AI techniques},
+  year      = {2018},
+ }
+ @Thesis{Amanda\_Decker\_Bachelor,
+  author = {Amanda Decker},
+  school = {Hochschule Mannheim},
+  title  = {Bildklassifikation auf einem Raspberry Pi Zero am Beispiel einer Ladestationserkennung},
+  type   = {Bachelor-Thesis},
+  year   = {2019},
+ }
+
+@Comment{jabref-meta: databaseType:biblatex;}
