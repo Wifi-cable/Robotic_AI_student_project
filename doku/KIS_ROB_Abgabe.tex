@@ -89,7 +89,7 @@ Das ist schwer zu schreiben, aber aus Sicht eines Lesers sehr informativ.
 \end{comment}
 
 \begin{IEEEkeywords}
-Roboter, ROS, KI, Raspi, Neuronale Netze, Arduino
+Roboter, ROS, Raspi, Neuronale Netze, Arduino
 \end{IEEEkeywords}
 
 %\section{Einleitung }  wollen wir  eine machen?
@@ -97,8 +97,10 @@ Roboter, ROS, KI, Raspi, Neuronale Netze, Arduino
 \section{Theorie zu Roboter und seiner Künstlichen Intelligenz}
 
 
-Wenige Projekte der Robotik oder der Künstlichen Intelligenz für Autonome Systeme existieren, ohne das es nicht andere vergleichbare Projekte gibt.
-
+Wenige Projekte in Robotik oder Künstlichen Intelligenz für Autonome 
+Systeme existieren, ohne das es nicht andere vergleichbare Projekte gibt. 
+Eine vollständige oder zumindest Repräsentative Darstellung würde den 
+Rahmen einer Studentischen Projektarbeit sprengen.
 
 \subsection{Vergleichbare Hardwareansätze — Donkey Cars} %mary
 %Donkey car infos
@@ -108,9 +110,16 @@ Mehr Informationen zu diesem Projekt gibt es auf ihrer Website https://docs.donk
 Donkey Cars fahren größtenteils mit Hilfe von quelloffenem Python Code. \\
 \\
 Auf Youtube hat ein Benutzer namens Tiziano Fiorenzani gezeigt, wie ein Donkey Car mit ROS betrieben werden kann.
-Das Video https://youtu.be/iLiI\_IRedhI verweist auf Github für Tiziano Fiorenzanis Code.
-Das Projekt wurde um einen Arduino und mehrere ROS Nodes erweitert.
-% Tiziano der Rasende Italiener auf youtube
+Das Video https://youtu.be/iLiI\_IRedhI verweist auf Github für Tiziano 
+Fiorenzanis Code. Es wurde eine Abzweigung eines Github-Repositoriums 
+erstellt. Auf 
+\url{https://github.com/Wifi-cable/Robotic_AI_student_project/}
+%\href{https://github.com/Wifi-cable/Robotic_AI_student_project/}{Quellcode
+% }
+Findet sich der Quellcode des Projektes. 
+Das Projekt wurde um einen Arduino und mehrere ROS Knoten sowie um 
+Launchfiles erweitert.
+
 
 \subsection{Vergleichbare Projekte zur Künstlichen Intelligenz} %steffen ? mary?
 Das Neuronale Netz zur Bildklassifizierung ist an das Buch \glqq Artificial Intelligence for Robotics\grqq  \cite{b1} angelehnt.
@@ -370,9 +379,24 @@ Für das Robotik Projekt \textit{rosBerry} wurde ein solides, aber günstiges Ch
 	\caption{Auszug aus Hersteller Datenblatt: Differnzialgetriebe }
 	\label{Getriebe}
 \end{figure}
-Der Kompromiss dieser Abwägung fand sich bei einem älteren Einsteigermodell namens TAMIYA RC 1:10 TT-01E. Tamiya ist ein traditionsreicher japanischer Hersteller der qualitativ hochwertige Bausätze ferngesteuerte Fahrzeuge herstellt. (Er stellt Schiffe, Flugzeuge und Panzer her, aber hauptsächlich Modellautos) Tamiya ist unter Modellbau-Enthusiasten dafür bekannt, alle Prinzipien japanischer Ingenieurskunst bei der Konstruktion seiner Modelle anzuwenden, statt "Spielzeugqualität" in China herzustellen. Das TT01-Modell hat identische Außenmaße und kann mit denselben elektronischen Komponenten betrieben werden, wie sein Nachfolgemodell das TT02. Somit ist die Reproduzierbarkeit im Bezug auf das Chassis gegeben.
+Der Kompromiss dieser Abwägung fand sich bei einem älteren 
+Einsteigermodell namens TAMIYA RC 1:10 TT-01E. Tamiya ist ein 
+traditionsreicher japanischer Hersteller der qualitativ hochwertige Bausätze 
+ferngesteuerte Fahrzeuge herstellt. (Er stellt Schiffe, Flugzeuge und Panzer 
+her, aber hauptsächlich Modellautos) Tamiya ist unter 
+Modellbau-Enthusiasten dafür bekannt, alle Prinzipien japanischer 
+Ingenieurskunst bei der Konstruktion seiner Modelle anzuwenden, statt 
+\textit{Spielzeugqualität} in China herzustellen. Das TT01-Modell hat 
+identische Außenmaße und kann mit denselben elektronischen Komponenten 
+betrieben werden, wie sein Nachfolgemodell das TT02. Somit ist die 
+Reproduzierbarkeit im Bezug auf das Chassis gegeben.
 \\
-Die Mechanik des "TAMIYA RC 1:10 TT-01E" Modells basiert auf einem Motor und einer langen Antriebswelle, die drei Differenzialgetriebe bewegt. \ref{Getriebe} Die Modelle werden als Vierradantrieb vermarktet. Die Lenkung wird Getrennt vom Antrieb durch einen Kleinen Servo Motor geregelt\ref{Servomotor}. Er bewegt die Spurstange nach rechts/links. Das Chassis nutzt also eine Akkerman Lenkung, wie sie auch bei PKWs üblich ist.
+Die Mechanik des \textit{TAMIYA RC 1:10 TT-01E } Modells basiert auf 
+einem Motor und einer langen Antriebswelle, die drei Differenzialgetriebe 
+bewegt. \ref{Getriebe} Die Modelle werden als Vierradantrieb vermarktet. 
+Die Lenkung wird Getrennt vom Antrieb durch einen Kleinen Servo Motor 
+geregelt\ref{Servomotor}. Er bewegt die Spurstange nach rechts/links. Das 
+Chassis nutzt also eine Akkerman Lenkung, wie sie auch bei PKWs üblich ist.
 
 \subsection{Elektronische Bauteile und ihre Funktion}
 % SVG ?
@@ -685,8 +709,7 @@ Erst innerhalb dieses Blockes kann sicher auf das vortrainierte Modell zugegriff
 %der gute rosBerry hat zu viele false positives, ändert ab und zu die richtung
 %reagiert relativ langsam
 
-\section{Erkenntnisse 
-}
+\section{Erkenntnisse }
 Auch wenn dieses Projekt sehr lehrreich für alle Beteiligten war, kann ein studentisches Semesterprojekt nicht an die Leistungen im Rahmen von echten Forschungsarbeiten, durchgeführt von Wissenschaftlern mit Master oder Doktor Titel, heranreichen. Nicht nur das Budget sondern auch das Fachwissen, sowie die zeitlichen Gegebenheiten unterscheiden sich stark. Dieses Kapitel wird zuerst darauf auf mögliche Verbesserungen für eventuelle Nachfolgeprojekte eingehen, um dann einige Erkenntnisse zusammenzufassen. 
 
 \subsection{Empfehlungen für nachfolge Projekte}
