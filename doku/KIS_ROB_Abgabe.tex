@@ -1,46 +1,7 @@
 \documentclass[conference]{IEEEtran}
 
-\usepackage{filecontents}
-
-\begin{filecontents}{bib.bib}
-	@Online{Tamiya,
-		author    = {TAMIYA},
-		publisher = {TAMIYA},
-		title     = {RC Manual Download},
-		url       = {https://www.tamiya.com/english/rc/manuals.htm},
-		urldate   = {2020-07-18},
-		year      = {2003}
-	}
-	@Online{Keras,
-		author    = {Radek Kozieł},
-		publisher = {Hugo},
-		title     = {How to do multithreading with Keras},
-		url       = {https://blog.victormeunier.com/posts/keras\_multithread/},
-		urldate   = {2020-07-18},
-		year      = {2019-02-10}
-	}
-	@Book{moolayil2019learn,
-		author    = {Moolayil, Jojo and Moolayil, Jojo and John, Suresh},
-		publisher = {Springer},
-		title     = {Learn Keras for Deep Neural Networks},
-		year      = {2019}
-	}
-	@Book{govers2018artificial,
-		author    = {Govers, Francis X},
-		publisher = {Packt Publishing Limited},
-		title     = {Artificial intelligence for robotics: Build intelligent robots that perform human tasks using AI techniques},
-		year      = {2018}
-	}
-	@Thesis{Amanda,
-		author = {Amanda Decker},
-		school = {Hochschule Mannheim},
-		title  = {Bildklassifikation auf einem Raspberry Pi Zero am Beispiel einer Ladestationserkennung},
-		type   = {Bachelor-Thesis},
-		year   = {2019}
-	}
-\end{filecontents}
-
-%\usepackage{cite}
+% wenn ein Fehler kommt zu Incompatible package cite, dass Paket auskommentieren
+\usepackage{cite}
 \usepackage{amsmath,amssymb,amsfonts}
 \usepackage{verbatim} % um viele zeilen auszukommentieren
 \usepackage{algorithmic}
@@ -86,7 +47,10 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[backend=biber,defernumbers=false]{biblatex}
-\addbibresource{bib.bib}
+% Wenn Quellen über filecontents im Dokument eingefügt werden
+%\addbibresource{bib.bib}
+
+\bibliography{Literatur}
 %\usepackage[ngerman]{babel}		% Achtung umlaut 
 %\usepackage[utf8]{inputenc}       % UTF-8 ist wichtig,  ASCII hat nicht alle Schriftzeichen  
 %-----------------------------------

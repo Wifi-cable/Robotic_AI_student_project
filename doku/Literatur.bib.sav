@@ -1,0 +1,58 @@
+% Encoding: UTF-8
+
+@Book{moolayil2019learn,
+  author    = {Moolayil, Jojo and Moolayil, Jojo and John, Suresh},
+  publisher = {Springer},
+  title     = {Learn Keras for Deep Neural Networks},
+  year      = {2019},
+  groups    = {wissenschaftliche Quellen},
+}
+
+@Thesis{Amanda_Decker_Bachelor,
+  author = {Amanda Decker},
+  school = {Hochschule Mannheim},
+  title  = {Bildklassifikation auf einem Raspberry Pi Zero am Beispiel einer Ladestationserkennung},
+  type   = {Bachelor-Thesis},
+  year   = {2019},
+  groups = {nicht-wissenschaftliche Quellen},
+}
+
+@Online{Tamiya,
+  author    = {TAMIYA},
+  groups    = {nicht-wissenschaftliche Quellen},
+  publisher = {TAMIYA},
+  title     = {RC Manual Download},
+  url       = {https://www.tamiya.com/english/rc/manuals.htm},
+  urldate   = {2020-07-18},
+  year      = {2003},
+}
+
+@Book{govers2018artificial,
+  author    = {Govers, Francis X},
+  publisher = {Packt Publishing Limited},
+  title     = {Artificial intelligence for robotics: Build intelligent robots that perform human tasks using AI techniques},
+  year      = {2018},
+  groups    = {wissenschaftliche Quellen},
+}
+
+@Online{Keras,
+  author    = {Radek Kozieł},
+  groups    = {nicht-wissenschaftliche Quellen},
+  publisher = {Hugo},
+  title     = {How to do multithreading with Keras},
+  url       = {https://blog.victormeunier.com/posts/keras_multithread/},
+  urldate   = {2020-07-18},
+  year      = {2019-02-10},
+}
+
+@Comment{jabref-meta: databaseType:bibtex;}
+
+@Comment{jabref-meta: grouping:
+0 AllEntriesGroup:;
+1 StaticGroup:wissenschaftliche Quellen\;0\;0\;0x8a8a8aff\;\;\;;
+1 StaticGroup:nicht-wissenschaftliche Quellen\;0\;1\;0x8a8a8aff\;\;\;;
+}
+
+@Comment{jabref-entrytype: online: req[author;publisher;title;url;urldate;year] opt[]}
+
+@Comment{jabref-entrytype: thesis: req[author;school;title;type;year] opt[]}
