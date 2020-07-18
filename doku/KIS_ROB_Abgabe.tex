@@ -232,11 +232,17 @@ Folgende Topics befinden sich im Softwaresystem:
 \pagebreak
 \subsubsection{Launchreihenfolge}%heike
 
-Dieses Kapitel ist eine Einleitung zum Starten der ROS Nodes und den hierbei zu beachtenden Punkten.
+Dieses Kapitel ist eine Einleitung zum Starten der ROS Nodes und den 
+hierbei zu beachtenden Punkten. Ohne Vorkonfiguration und Launchfiles ist 
+die Knotenaufrufreihenvolge langwierig. Manche Schritte müssen auf einem 
+Laptop durchgeführt werden, andere via SSH auf dem Raspberry Pi.So muss 
+Laptop erfahren das der ROScore (Master Node) bereits auf dem Raspberry 
+Pi läuft.
 
 % Weitere Knoten werden noch folgen
 % ToDo: Zeilenumbruch
-\begin{minted}[frame=lines, breaklines=true, linenos]{Bash}
+\begin{minted}[frame=lines, breaklines=true 
+fontsize=\footnotesize,]{Bash}
 # Network ubiquityrobot03B
 # connect via SSH
 ssh ubuntu@10.42.0.1
@@ -272,6 +278,72 @@ export ROS_IP=$(hostname -I)
 rostopic echo rangeMsg_topic
 \end{minted}
 
+Mehrere Schritte sind Möglich um diesen Prozess zu vereinfachen. Die 
+meisten Optionen sind eine frage der persönlichen Präferenz des ROS 
+Benutzers.  So kann ein Eintrag in die Systemweit geltende Datei 
+\textit{bash.rc} die Eingabe von \textit{source devel/setup.bash} im ROS 
+workspace ersetzen. \\
+Eine weitere Erleichterung ist der Eintrag eines Shellscripts in die 
+setup.bash Datei. \ref{Einzeiler} Dieser Eintrag Setzt die ROS Host IP 
+Variable auf die aktuelle IP Adresse des Laptops.
+\begin{figure}
+	\centering
+	\begin{minted}[frame=lines,breaklines=true,
+	fontsize=\footnotesize,
+	framesep=2mm
+	]{Bash}
+export ROS_IP=$(ip -br -4 address show dev wlp3s0 | awk '{print $3}' | 
+awk -F '/' '{print $1}')
+\end{minted}
+\label{Einzeiler}
+\caption{Bash Einzeiler, Autor J.K }
+\end{figure}
+\\
+Eine weitere Möglichkeit der Vereinfachung besteht im erstellen von 
+SSH-Keys. 
+
+\subsubsection{Launchfiles}
+
+Launchfiles die viele ROS Knoten auf einmal starten sind eine Beliebte 
+Vereinfachung. Um die \textit{Keyboard Demo}  \ref{demo} zu starten, oder 
+den Roboter Fernzusteuern existiert ein Lauchfile im \textit{Donkey Car} 
+Fork 
+des Github Quelle.
+\begin{figure}
+	\centering
+	\begin{minted}[frame=lines,breaklines=true,
+	fontsize=\footnotesize,
+	framesep=2mm
+	]{Bash}
+#call on Raspbeery Pi to launch hardware nodes
+roslaunch donkey_car keyboard_demo.launch
+#call keyboard node from laptop 
+rosrun teleop_twist_keyboard teleop_twist_keyboard.py
+	\end{minted}
+	\label{demo}
+	\caption{Tastatur Steuerung per Launchfile }
+\end{figure}
+
+Um die benötigten Knoten Für die Künstliche Intelligenz komfortabel zu 
+starten wurden zwei Launchfiles geschrieben \ref{KI-launch} .  Das ist 
+Notwendig da die 
+Anwendung verteilt läuft. (siehe spätere Artikel)
+
+\begin{figure}
+	\centering
+	\begin{minted}[frame=lines,breaklines=true,
+	fontsize=\footnotesize,
+	framesep=2mm
+	]{Bash}
+#call from Raspberry Pi
+roslaunch donkey_car hardware.launch
+#call from Laptop
+export ROS_MASTER_URI=http://ubiquityrobot.local:11311
+roslaunch ki_nav start_AI.launch
+	\end{minted}
+	\label{KI-launch}
+	\caption{Künstliche Intelligenz starten per Launchfile }
+\end{figure}
 %----------------------------------------------------------------
 
 \section{Praktische Projektdurchführung}
@@ -286,7 +358,7 @@ Zuerst werden die Verbindungen der Hardwarekomponenten untereinander abgebildet,
 
 \begin{figure} %[!h]
 	\centering
-	\includegraphics[width=9cm]{img/Lenkung.png}
+	\includegraphics[width=9cm]{img/servo.png}
 	\caption{Auszug aus Hersteller Datenblatt:Lenkservo }
 	\label{Servomotor}
 \end{figure}
@@ -294,7 +366,7 @@ Für das Robotik Projekt \textit{rosBerry} wurde ein solides, aber günstiges Ch
 \\
 \begin{figure} %[t]
 	\centering
-	\includegraphics[width=9cm]{img/differenzial.png}
+	\includegraphics[width=9cm]{img/geer.png}
 	\caption{Auszug aus Hersteller Datenblatt: Differnzialgetriebe }
 	\label{Getriebe}
 \end{figure}
@@ -447,7 +519,7 @@ Die Funktion kann durchaus für mehr als zwei Ausgangswerte genutzt werden, für
 \subsubsection{Erste Auswertung der Ergebnisse}	%steffen? 
 %wiso war das scheisse 
 %weil wir einfach das Beispiel aus dem Buch kopiert haben…
-
+//kommt noch
 \subsection{Schritte zur Verbesserung der Erkennungsrate} %mary
 %was haben wir dann gemacht 
 
