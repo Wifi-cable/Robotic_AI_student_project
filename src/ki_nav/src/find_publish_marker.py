@@ -166,10 +166,11 @@ class ImageProcessor:
 			if(VERBOSE):
 				rospy.loginfo("-------------- Go right, I'm {}% sure".format(round (columns[2][1],2)))
 			self.directionPublisher.publish(Right)
-
+		
 		else:
 			rospy.logerr("--------------- confused AI, the marker is not here, nor is there no marker")
-
+	
+	
 
 
 def main():
