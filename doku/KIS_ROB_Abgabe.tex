@@ -113,7 +113,7 @@
 	Eine vollständige oder zumindest Repräsentative Darstellung würde den 
 	Rahmen einer Studentischen Projektarbeit sprengen.
 	
-	\subsection{Vergleichbare Hardwareansätze — Donkey Cars} %mary
+	\subsection{Vergleichbare Hardwareansätze - Donkey Cars} %mary
 	%Donkey car infos
 	Die Hardware des Roboters wurde vom Donkey Car Projekt inspiriert.
 	Das Donkey Car Projekt beschäftigt sich damit, ein ferngesteuertes Auto mit einem Raspberry Pi zu steuern.
@@ -193,9 +193,9 @@
 	\\
 	Beginnen werden wir mit der Komponente Laptop.
 	Sie ist dazu da, dem User die Steuerung des Roboters zu ermöglichen.
-	Die Steuerung kann erst erfolgen, wenn auf dem Raspberry Pi ein Accesspoint geöffnet wurde, mit dem sich der Laptop — der Nutzer letztendlich — via WLAN verbindet.
+	Die Steuerung kann erst erfolgen, wenn auf dem Raspberry Pi ein Accesspoint geöffnet wurde, mit dem sich der Laptop - der Nutzer letztendlich - via WLAN verbindet.
 	\\
-	Innerhalb der anderen Komponente Roboter — unser rosBerry — befindet sich die beiden Hardware-Elemente Raspberry Pi und ein Arduino. Roscore läuft auf dem Raspberry PI und ein Node - für den Ultraschallsensor - auf dem Arduino.
+	Innerhalb der anderen Komponente Roboter - unser rosBerry - befindet sich die beiden Hardware-Elemente Raspberry Pi und ein Arduino. Roscore läuft auf dem Raspberry PI und ein Node - für den Ultraschallsensor - auf dem Arduino.
 	
 	Der Arduino wird durch ein USB Kabel mit dem Raspberry Pi verbunden.
 	Dadurch wird eine Kommunikation ermöglicht, in welcher der Arduino den Raspberry Pi in Zeitabständen mit Sensordaten versorgt.
@@ -223,7 +223,7 @@
 	Treu nach den Prinzipien von ROS besteht die Software aus vielen ROS Nodes, welche als Oval dargestellt werden. 
 	Jeder Node erledigt kleine Aufgaben und kann als Subscriber und/oder Publisher fungieren.
 	Die Kommunikation zwischen Subscriber und Publisher erfolgt durch ROS Messages (Nachrichten).
-	Diese werden durch verschiedene Topics — werden als Rechteck dargestellt — kommuniziert.
+	Diese werden durch verschiedene Topics - werden als Rechteck dargestellt - kommuniziert.
 	Die Topics kann man als Kanäle für Nachrichten betrachten.
 	
 	Folgende Nodes befinden sich im Softwaresystem:
@@ -390,7 +390,7 @@
 	%----------------------------------------------------------------
 	
 	In diesem Kapitel wird der Hardwareaufbau des rosBerry, sowie die mechanisches Bauteile inklusive Entscheidungskriterien vom Roboter beschrieben. 
-	Hierfür werden die einzelnen verwendeten Hardwarekomponenten — deren Modell und Funktion — vorgestellt. 
+	Hierfür werden die einzelnen verwendeten Hardwarekomponenten - deren Modell und Funktion - vorgestellt. 
 	
 	Zuerst werden die Verbindungen der Hardwarekomponenten untereinander abgebildet, wie in Abbildung \ref{Hardwarekomponenten} zu sehen.
 	\subsection{Mechanische Bauteile}
@@ -455,19 +455,19 @@
 	Auf jede dieser Nummern wird referenziert und die Hardware mit Modell und Funktion aufgelistet.
 	
 	\begin{enumerate}
-		\item Der DC-Antriebsmotor — Modell Tamiya Mabuchi RS 540 SH — steuert alle vier Räder des rosBerry an.
+		\item Der DC-Antriebsmotor - Modell Tamiya Mabuchi RS 540 SH - steuert alle vier Räder des rosBerry an.
 		Ohne ihn wird der Roboter nicht in Bewegung kommen.
 		\item Neben dem DC Antriebsmotor befindet sich ein Fahrtenregler, Modell BORSTI 1/10 BRUSHED-ESC 45A.
 		Dieser erhält vom Motorshield ein PWM-Signal, welches er verstärkt.
 		Das verstärkte PWM-Signal wird anschließend in Geschwindigkeit umgesetzt und an den DC-Antriebsmotor weitergeleitet.
-		\item Der UBEC — Modell HWBEC Hobbywing 3A \SI{5}{V} \SI{6}{V} max \SI{5}{A} — wird eingebaut, um den Raspberry Pi mit \SI{5}{V} zu versorgen.
+		\item Der UBEC - Modell HWBEC Hobbywing 3A \SI{5}{V} \SI{6}{V} max \SI{5}{A} - wird eingebaut, um den Raspberry Pi mit \SI{5}{V} zu versorgen.
 		Ohne den UBEC würde der Raspberry Pi aufgrund der höheren elektrischen Spannung beschädigt werden.
-		\item Der Servo — Modell Amewi AMX Racing 4806HB — bekommt vom Motorshield ein PWM Signal übermittelt.
+		\item Der Servo - Modell Amewi AMX Racing 4806HB - bekommt vom Motorshield ein PWM Signal übermittelt.
 		Nach dem PWM Signal richten sich die beiden Reifen aus und ermöglichen eine Fahrtrichtung.
 		Dadurch ist rosBerry in der Lage links\,/\,rechts Kurven sowie geradeaus zu fahren.
 		\item Der Akku dient dazu, die Stromversorgung des Roboters zu sichern.
 		Dieser hat eine Nennspannung von \SI{7,2}{Volt}. Er versorgt die Hardware mit Strom.
-		\item Der Motorshield — Modell Adafruit 16-Channel 12-bit PWM/Servo Driver-I2C interface PCA9685 — wird für die Geschwindigkeit und die Richtung der Reifen eingesetzt.
+		\item Der Motorshield - Modell Adafruit 16-Channel 12-bit PWM/Servo Driver-I2C interface PCA9685 - wird für die Geschwindigkeit und die Richtung der Reifen eingesetzt.
 		Hierzu erzeugt der Motorshield zwei PWM Signale.
 		Das 1. PWM Signal wird an den Servo übermittelt, um den Servo in die gewünschte Position einzustellen.
 		Das 2. PWM Signal wird erzeugt und zum Fahrtenregler gesendet.
@@ -479,7 +479,7 @@
 		\item Der Arduino UNO REV 3 steuert einen Ultraschallsensor an und erzeugt einen ROS-Knoten (Publisher).
 		Innerhalb des Programms wird das Signal des Sensors in Meter umgewandelt und in eine Range Message gespeichert.
 		Die Range Message namens rangeMsg wird an das Topic rangeMsg\_topic übermittelt.
-		Ein Subscriber — der auf dem Raspberry Pi läuft — subscribed das Topic und erhält regelmäßig Sensordaten über die Reichweite.
+		Ein Subscriber - der auf dem Raspberry Pi läuft - subscribed das Topic und erhält regelmäßig Sensordaten über die Reichweite.
 		
 		\begin{figure}
 			\centering
@@ -487,10 +487,10 @@
 			\caption{Weitere Hardwareelemente}
 			\label{rosBerryWeitere}
 		\end{figure}
-		\item Der Ultraschallsensor — Modell HC-SR04 — wird zum rechtzeitigen Erkennen eines kommenden Hindernisses eingesetzt.
+		\item Der Ultraschallsensor - Modell HC-SR04 - wird zum rechtzeitigen Erkennen eines kommenden Hindernisses eingesetzt.
 		Dieser hat eine maximale Reichweite von vier Meter, jedoch haben wir uns für das Projekt auf eine Reichweite von 2 Meter geeinigt.
 		Alle 1/4 Sekunde sendet dieser ein Signal und verarbeitet dieses.
-		\item Die Kamera — Modell 5 MP — ist durch ein Flexkabel an den Raspberry Pi über das CSI-Interface angeschlossen.
+		\item Die Kamera - Modell 5 MP - ist durch ein Flexkabel an den Raspberry Pi über das CSI-Interface angeschlossen.
 		Diese versorgt die KI mit Bildern, welche einen Marker sucht und findet.
 	\end{enumerate}
 	
@@ -508,7 +508,8 @@
 	
 	\subsection{Erster Ansatz für das Neuronale Netz}	%steffen ? mary?
 	%netzaufbau am anfang
-	Der erste Entwurf unseres Neuronalen Netzes war stark angelehnt an F. Grovers Beispielnetz aus \glqq Artificial Intelligence for Robotics\grqq \cite{govers2018artificial}. Wie in der Vorlage erstellen wir ein sequentielles Modell mithilfe von Keras.
+	Der erste Entwurf unseres Neuronalen Netzes war stark angelehnt an F. Grovers Beispielnetz aus \glqq Artificial Intelligence for Robotics\grqq \cite{govers2018artificial}. 
+	Wie in der Vorlage erstellen wir ein sequentielles Modell mithilfe von Keras.
 	
 	Die erste Schicht stellt ein convolution layer mit 20 convolutions dar, wovon jede ein Merkmal des Eingangsbildes isolieren soll.
 	Die Größe setzen wir auf 5x5, betrachten also zwei benachbarte Pixel in jede Richtung.
@@ -518,26 +519,36 @@
 	Diese Aktivierungsfunktion ist deshalb sinnvoll, da das Ergebnis als Farbe dargestellt werden und deshalb einen Wert zwischen 0 und 1 annehmen soll.
 	Ein Wert unter Null wäre hier unbrauchbar.
 	
-	\begin{minted}[frame=lines]{Python}
-	model = Sequential()
-	inputShape = (height, width, depth)
-	
-	model.add(Conv2D(20, (5, 5), padding="same", input_shape=inputShape))
-	model.add(Activation("relu"))
-	\end{minted}
+	\begin{figure}[!h]
+		\centering
+		\begin{minted}[frame=lines]{Python}
+model = Sequential()
+inputShape = (height, width, depth)
+
+model.add(Conv2D(20, (5, 5), padding="same", input_shape=inputShape))
+model.add(Activation("relu"))
+		\end{minted}
+		\caption{Modell: erste Schicht}
+		\label{Schicht eins}
+	\end{figure}
 	
 	Die zweite Schicht ist ein Maxpooling-Layer, bei dem wir jeweils 2x2 Pixel nehmen und danach 2x2 Pixel weiterrücken um keine Überlappungen zu haben.
 	Das Ergebnis ist ein Bild in ¼ der originalen Größe: aus 640x480px wird 320x240px, aus 128x128px 64x64px usw.
 	
-	Direkt darauf folgt ein weiteres convolution layer mit der doppelten Anzahl an convolutions — 40 statt vorher 20 — um mehr Mermale zu identifizieren.
+	Direkt darauf folgt ein weiteres convolution layer mit der doppelten Anzahl an convolutions - 40 statt vorher 20 - um mehr Mermale zu identifizieren.
 	Durch das vorher durchgeführte maxpooling werden nun andere, größere Merkmale erkannt.
 	Ebenfalls nutzen wir wieder dieselbe ReLU Aktivierungsfunktion, aus denselben Gründen wie in der ersten Schicht.
 	
-	\begin{minted}[frame=lines]{Python}
-	model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
-	model.add(Conv2D(40, (5, 5), padding="same"))
-	model.add(Activation("relu"))
-	\end{minted}
+	\begin{figure}[!h]
+		\centering
+		\begin{minted}[frame=lines]{Python}
+model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
+model.add(Conv2D(40, (5, 5), padding="same"))
+model.add(Activation("relu"))
+		\end{minted}
+		\caption{Modell: zweite und dritte Schicht}
+		\label{Schicht zwei und drei}
+	\end{figure}
 	
 	%\begin{lstlisting}[label={list:model_1_2},caption=Modell: zweite und dritte Schicht]
 	%	model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
@@ -553,27 +564,38 @@
 	Zuerst werden die dreidimensionalen Bildinformationen mit der Funktion Flatten() in ein eindimensionales Array geplättet, bevor wir eine vollverknüpfte Schicht mittels Dense(500) hinzufügen.
 	Erneut nutzen wir die ReLU Aktivierungsfunktion, aus bekannten Gründen.
 	
-	\begin{lstlisting}[label={list:model_1_3},caption=Modell: vierte und fünfte Schicht]
-	model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
-	
-	model.add(Flatten())
-	model.add(Dense(500))
-	model.add(Activation("relu"))
-	\end{lstlisting}
+	\begin{figure}[!h]
+		\centering
+		\begin{minted}[frame=lines]{Python}
+model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
+
+model.add(Flatten())
+model.add(Dense(500))
+model.add(Activation("relu"))
+		\end{minted}
+		\caption{Modell: vierte und fünfte Schicht}
+		\label{Schicht vier und fünf}
+	\end{figure}
 	
 	Abschließend benötigen wir zwei Neuronen für die beiden Ausgangswerte "Marker" und "kein Marker".
 	Zur Aktivierung nutzen wir die Softmax-Funktion, die auch normalisierte Exponentialfunktion genannt wird.
 	Sie transformiert mehrdimensionale Vektoren in einen Wertebereich zwischen 0 und 1, wobei alle Komponenten zusammen 1 ergeben müssen, das heißt wenn "Marker" einen Wert von 0,65 hat, muss "kein Marker" einen Wert von 0,35 haben. 
 	Die Funktion kann durchaus für mehr als zwei Ausgangswerte genutzt werden, für unseren Anwendungsfall werden jedoch nicht mehr Ausgangswerte benötigt.
 	
-	\begin{lstlisting}[label={list:model_1_4},caption=Modell: finale sechste Schicht]
-	model.add(Dense(2))
-	model.add(Activation("softmax"))
-	\end{lstlisting}
-	
+	\begin{figure}[!h]
+		\centering
+		\begin{minted}[frame=lines]{Python}
+model.add(Dense(2))
+model.add(Activation("softmax"))
+		\end{minted}
+		\caption{Modell: finale sechste Schicht}
+		\label{Schicht sechs}
+	\end{figure}
+
 	\subsubsection{Erste Auswertung der Ergebnisse}	%steffen? 
 	%wiso war das scheisse 
 	%weil wir einfach das Beispiel aus dem Buch kopiert haben…
+
 	//kommt noch
 	\subsection{Schritte zur Verbesserung der Erkennungsrate} %mary
 	%was haben wir dann gemacht 
@@ -639,7 +661,7 @@
 	
 	\subsection{Anwendung des Trainingsmodells} %steffen
 	//kommt noch
-	\subsubsection{Keras und Tensorflow auf Raspberry Pie Hardware}
+	\subsubsection{Keras und Tensorflow auf Raspberry Pi Hardware}
 	Der initiale Plan sah vor, dass das neuronale Netz auf dem Raspberry Pi auszuwerten, damit der Roboter komplett autonom (ohne WLAN und externen Computer) fahren kann. Die Prozessorleistung und der RAM eines Raspberry Pies 3B+ ist zwar deutlich geringer als der eines Standard Laptops, aber die Nachteile eines verteilten Systems erschienen anfangs größer. So wirkte der architektonische Aufwand für  verteilte Systeme und  das Einarbeiten in die Bibliothek CV Bridge zum Versenden von Bildern mit ROS aufwendig. \\
 	Die meisten gängigen Bibliotheken und Frameworks sind unabhängig vom Zielbetriebssystem auf 64Bit Wortbreite ausgelegt, so auch Tensorflow und Keras.  Das verwendete Ubuntu Image mit ROS für Raspberry Pi jedoch ist ein 32 Bit System. Das bedeutet, es gibt keine vorkompilierten Versionen von Tensorflow für das bisherige Setup. Das Kompelieren großer Tarfiles auf einem Raspberry Pi, dauert oft mehr als eine Stunde. Teilweise läuft der Raspberry Pi dabei so heiß, dass er abstürzt. Ein Ventilator erwies sich als hilfreich, um  Abstürze während des Kompilierungsprozesses zu verhindern. Tensorflow ist eine große Bibliothek deren Kompilierung aufwendig ist. 
 	%https://qengineering.eu/install-tensorflow-2.2.0-on-raspberry-pi-4.html
@@ -724,18 +746,49 @@
 	Erst innerhalb dieses Blockes kann sicher auf das vortrainierte Modell zugegriffen werden, um damit eine Vorhersage zu machen.
 	\subsubsection{Algorithmus zur Bildanalyse }
 	\noindent \\
-	// kommt noch 
 	%mach ich! ~steffen 
 	%echt? wann? ~marie
-	%bild teilen
-	%bild analysieren
-	\subsection {Auswertung des Verhalten des Roboters}	% mary? %steffen? %heike?
-	//kommt noch
-	%macht er irgendwas sinnvolles? ist er klüger als eine eintagsfliege
-	
-	%der gute rosBerry hat zu viele false positives, ändert ab und zu die richtung
-	%reagiert relativ langsam
-	
+	%rechtzeitig!
+% Bild schnipseln 
+Nachdem wir durch diverse Modifikationen am Modell eine zufriedenstellende Erkennungsrate erreicht haben, steht im nächsten Schritt die Anwendung des Trainingsmodells an.
+Wie andere Teile des Roboters wird diese als ROS Node realisiert, die am Ende ihrer Berechnungen entweder eine Richtung ("left", "forward", "right") oder den Fehlerstatus "notfound"\ als ROS Nachricht veröffentlicht.
+
+Um die Fahrtrichtung herauszufinden teilen wir das Bild erst in neun gleich gro{\ss}e Teile auf und wenden das Trainingsmodell auf alle Teile an.
+Wird der Marker am häufigtsen in den linken drei Teilen erkannt soll der Roboter nach links fahren, wird er in den rechten Teilen am häufigtsen erkannt soll er nach rechts fahren, ebenso wird mit der Mitte verfahren.
+Falls der Marker in keinem der drei Teile überhaupt erkannt wird, wird ein Fehlerstatus veröffentlicht der bedeutet, dass der Marker aktuell nicht gefunden werden kann.
+
+Der erste Ansatz ein Bild zu unterteilen ist es, dieses in neun nicht-überlappende Teile zu teilen, wobei aus einem 640x480px Eingangsbild neun 213x160px Bilder werden. 
+Dabei entstehen möglilcherweise zu kleine Bildteile oder nur teilweise im Bild vorhandene Marker, sodass zusätzlich eine alternative Zerteilmethode getestet wurde. 
+Hier wurde das Bild mit in sich überlappende Teile geteilt, die jeweils 25\% des Gesamtbildes ausmachen - bei einer Auflösung von 640x480px entstehen so neun 320x240px Bilder.
+Nachteil hiervon ist, dass der Marker durch die Überlappungen möglicherweise in mehreren Teilbildern mit ähnlich hoher Wahrscheinlichkeit erkannt wird.
+
+% Braucht das ein Erklärbild? Ich hab das Gefühl das braucht irgendeine Grafik.
+
+Um zu ermitteln, welches der beiden Vorgeghensweisen besser funktioniert, haben wir Beide mit dem aktuell besten Trainingsmodell auf das gesamte Trainingsset angewendet und die Ergebnisse verglichen.
+Voraussetzung dafür war natürlich, dass das Trainingsset nun neben den Labeln "Marker" und "Kein Marker" auch noch Informationen über die Position der Marker erhält.
+Dabei stellte sich heraus, dass die erste Variante - neun Teilbilder zu je 213x160px - zuverlässiger arbeitet, sodass diese den Weg in die KI Navigation fand.
+
+% Richtung errechnen
+
+Zur Berechnung der Richtung wurde von den je drei linken, mittigen und rechten Teilbildern gespeichert, ob und mit welcher Wahrscheinlichkeit der Marker pro Richtung durchschnittlich erkannt wurde.
+Die Richtung, die die höchste Anzahl erkannter Marker hat, wird ausgegeben, bei gleicher Anzahl erkannter Marker entscheidet die höhere Wahrscheinlichkeit.
+Wird also in allen Teilbildern kein Marker erkannt, wird dennoch eine Richtung ausgegeben, da das Modell immer wenigstens eine kleine Wahrscheinlichkeit für einen Marker pro Bild errechnet.
+
+% Benötigt das Codebeispiele?
+
+\subsection {Auswertung des Verhalten des Roboters}	% mary? %steffen? %heike?
+%macht er irgendwas sinnvolles? ist er klüger als eine eintagsfliege
+Wie wirkt sich das programmierte Verhalten nun in realen Tests aus?
+
+Die Tatsache, dass auch kleine Wahrscheinlichkeiten als Richtung interpretiert werden, stellte sich schnell als problematisch heraus.
+Theoretisch ist das erwünschtes Verhalten - der Roboter kann damit meistens in irgendeine Richtung fahren, die ihm am ehesten richtig erscheint.
+In der Praxis stellte sich aber heraus, dass der Roboter damit zu häufig zu falschen Objekten fährt, die er als marker-ähnlich einschätzt. Dieses Fehlverhalten wurde durch eine Untergrenze korrigiert. Die KI muss sich wenigstens 20\% sicher sein, den Marker gefunden zu haben bevor sie den Roboter in diese Richtung steuert, andernfalls wird der Fehlerstatus propagiert.
+
+Ein verwandtes Problem ist, dass der Roboter häufig zwischen zwei Richtungen schwankt, wenn sich der Marker nah an der Grenze zweier Richtungen befindet.
+% Lösung? Oder ist das einfach nur nervig?
+
+% reagiert relativ langsam
+
 	\section{Erkenntnisse }
 	Auch wenn dieses Projekt sehr lehrreich für alle Beteiligten war, kann ein studentisches Semesterprojekt nicht an die Leistungen im Rahmen von echten Forschungsarbeiten, durchgeführt von Wissenschaftlern mit Master oder Doktor Titel, heranreichen. Nicht nur das Budget sondern auch das Fachwissen, sowie die zeitlichen Gegebenheiten unterscheiden sich stark. Dieses Kapitel wird zuerst darauf auf mögliche Verbesserungen für eventuelle Nachfolgeprojekte eingehen, um dann einige Erkenntnisse zusammenzufassen. 
 	
