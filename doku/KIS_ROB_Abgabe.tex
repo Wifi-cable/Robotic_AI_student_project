@@ -104,8 +104,6 @@
 		Roboter, ROS, Raspi, Neuronale Netze, Arduino
 	\end{IEEEkeywords}
 	
-	%\section{Einleitung }  wollen wir  eine machen?
-	%projekteinleitung text hier
 	\section{Theorie zu Roboter und seiner Künstlichen Intelligenz}
 		
 	Wenige Projekte in Robotik oder Künstlichen Intelligenz für Autonome 
@@ -117,30 +115,33 @@
 	%Donkey car infos
 	Die Hardware des Roboters wurde vom Donkey Car Projekt inspiriert.
 	Das Donkey Car Projekt beschäftigt sich damit, ein ferngesteuertes Auto mit einem Raspberry Pi zu steuern.
-	Mehr Informationen zu diesem Projekt gibt es auf ihrer Website https://docs.donkeycar.com.
+	Mehr Informationen zu diesem Projekt gibt es auf ihrer Website 
+	\url{https://docs.donkeycar.com} .
 	Donkey Cars fahren größtenteils mit Hilfe von quelloffenem Python Code. \\
 	\\
 	Auf Youtube hat ein Benutzer namens Tiziano Fiorenzani gezeigt, wie ein Donkey Car mit ROS betrieben werden kann.
-	Das Video https://youtu.be/iLiI\_IRedhI verweist auf Github für Tiziano 
+	Das Video \url{https://youtu.be/iLiI\_IRedhI}  verweist auf Github für 
+	Tiziano 
 	Fiorenzanis Code. Es wurde eine Abzweigung eines Github-Repositoriums 
 	erstellt. Auf 
 	\url{https://github.com/Wifi-cable/Robotic_AI_student_project/}
-	%\href{https://github.com/Wifi-cable/Robotic_AI_student_project/}{Quellcode
-	% }
-	Findet sich der Quellcode des Projektes. 
-	Das Projekt wurde um einen Arduino und mehrere ROS Knoten sowie um 
-	Launchfiles erweitert.
+	Findet sich der Quellcode des Projektes rosBerry. 
+	Das Projekt wurde um einen Arduino und mehrere ROS Knoten, eine 
+	einfache Künstliche Intelligenz sowie um Launchfiles erweitert.
 		
-	\subsection{Vergleichbare Projekte zur Künstlichen Intelligenz} %steffen ? mary?
+	\subsection{Vergleichbare Projekte zur Künstlichen Intelligenz} 
 	Das Neuronale Netz zur Bildklassifizierung ist an das Buch \glqq Artificial Intelligence for Robotics\grqq  \cite{govers2018artificial} angelehnt.
-	Darin vermittelt F. Grovers, wie Künstliche Intelligenz für Autonome Systeme funktionieren kann, indem er zeigt, wie er einem kleinen Roboter beibringen würde aufzuräumen.
+	Darin vermittelt F. Grovers, wie Künstliche Intelligenz für Autonome 
+	Systeme funktionieren kann.
 	In einem Kapitel beschreibt der Autor, dass der Roboter mit Hilfe von Neuronalen Netzen lernen soll, ob sich Spielzeuge auf dem Teppich befinden, um sie später aufzuräumen.\\
 	
-	Auch die Bachelorarbeit \glqq Bildklassifikation auf einem Raspberry Pi Zero am Beispiel einer Ladestationserkennung \grqq \cite{Amanda} von Amanda Decker ist ein vergleichbares Projekt.
+	Auch die Bachelorarbeit \glqq Bildklassifikation auf einem Raspberry Pi 
+	Zero am Beispiel einer Ladestationserkennung\grqq  \cite{Amanda} von 
+	Amanda Decker ist ein vergleichbares Projekt.
 	Einige der Grundansätze aus dieser Arbeit wurden für dieses Projekt übernommen.
 	So haben wir das Neuronale Netz nicht auf einem Raspberry Pi trainiert und einen Marker genommen der sich gut rotieren und spiegeln lässt.
-	Somit kann jedes Bild des Datensatzes gespiegelt werden, um mit mehr Daten arbeiten zu können.
-	%Anders als Amanda Decker jedoch haben wir uns für Keras entschieden, statt eine selbstgeschriebene Künstliche Intelligenz zu verwenden.
+	Somit kann jedes Bild des Datensatzes gespiegelt werden, um mit mehr 
+	Daten arbeiten zu können.
 	
 	\section{Theoretische Grundlagen von Projekt rosBerry}
 	In diesem Kapitel wird auf die Erstellung des Datensatzes für die KI eingegangen sowie auf die Grobübersicht des Softwaresystems auf die Knotenarchitektur. %Wuhuuu Einführungssatz (Kann sich nochmals ändern.)
@@ -153,8 +154,14 @@
 		\label{Marker}
 	\end{figure}
 	
-	Bei Amanda Deckers Bachelorarbeit schien die KI Schwierigkeiten damit zu haben, zwischen dem Marker und einem Blauton zu unterscheiden, der auch im Marker vorkam.
-	Es schien auch schwierig zu sein ein Binärbild vom Marker zu erzeugen, da die beiden Farben des Markers einen geringen Kontrast zueinander haben.
+	Bei Amanda Deckers Bachelorarbeit \cite{Amanda} schien die KI 
+	Schwierigkeiten damit zu haben, zwischen dem Marker und einem Blauton 
+	zu unterscheiden, der auch im Marker vorkam.
+	Es schien auch schwierig zu sein ein Binärbild vom Marker zu erzeugen, 
+	da die beiden Farben des Markers einen geringen Kontrast zueinander 
+	haben. (Binärbilder enthalten nur die Farben Schwarz und Weiß. Sie 
+	entscheiden anhand eines Schwellwerts welche der beiden Farben ein 
+	Pixel bekommen wird )
 	Da Kameras in Opencv mit Hilfe von Schachbrettmustern kalibriert werden, wird für dieses Projekt ein Symbol mit ähnlich hohem Kontrast und scharfen Kanten verwendet.
 	\\
 	
@@ -162,9 +169,8 @@
 	Es verfügt auch über einen maximalen Kontrast und klare, gerade Kanten.
 	\\
 	\noindent
-	Ein Neuronales Netz kann nur so gut sein wie die Daten, mit denen es trainiert und getestet wurde.
-	In vielen wissenschaftlichen und populärwissenschaftlichen Artikeln wurde beschrieben, wie ein ungeeigneter Datensatz zu unbrauchbaren Ergebnissen führte.
-	So wurden Vorurteile der Forscher bestätigt, oder die KI traf Entscheidungen anhand von falschen Kriterien, wie der Bildunterschrift statt des Bildinhalts.
+	Ein Neuronales Netz kann nur so gut sein wie die Daten, mit denen es 
+	trainiert und getestet wurde.
 	\\
 	Um einen möglichst robusten Datensatz zu bekommen, werden verschiedene Techniken angewendet:
 	\begin{itemize}
@@ -178,7 +184,9 @@
 	
 	
 	\subsection{Grobübersicht über das System}
-	In diesem Kapitel werden wir, bevor wir näher auf die Softwarearchitektur und den Hardwareaufbau von rosBerry eingehen, das System kurz als Gesamtüberblick vorstellen.
+	In diesem Kapitel wird zuerst auf die Softwarearchitektur und der 
+	Hardwareaufbau von rosBerry eingegangen, danach wird das Software 
+	System erklärt.
 	
 	\begin{figure}[!ht]
 		\centering
@@ -187,12 +195,12 @@
 		\caption{Gesamtüberblick des Systems}
 		\label{Gesamtzusammenhang}
 	\end{figure}
-	Die Abbildung \ref{Gesamtzusammenhang} zeigt das System, welches auf mehreren Komponenten basiert.
-	Innerhalb des Systems wird eine Software eingesetzt, die auf dem Robot Operating System (ROS) basiert.
+	Die Abbildung \ref{Gesamtzusammenhang} zeigt das System, welches auf 
+	dem Robot Operating System (ROS) basiert.
 	Diese Software läuft verteilt auf den Komponenten Laptop, Raspberry PI und Arduino, wie in Abbildung \ref{Gesamtzusammenhang} zu sehen.
 	\\
-	Beginnen werden wir mit der Komponente Laptop.
-	Sie ist dazu da, dem User die Steuerung des Roboters zu ermöglichen.
+	Die Komponente Laptop ermöglicht dem User die Versteuerung des 
+	Roboters.
 	Die Steuerung kann erst erfolgen, wenn auf dem Raspberry Pi ein Accesspoint geöffnet wurde, mit dem sich der Laptop - der Nutzer letztendlich - via WLAN verbindet.
 	\\
 	Innerhalb der anderen Komponente Roboter - unser rosBerry - befindet sich die beiden Hardware-Elemente Raspberry Pi und ein Arduino. Roscore läuft auf dem Raspberry PI und ein Node - für den Ultraschallsensor - auf dem Arduino.
@@ -235,10 +243,11 @@
 		\item serial\_node.py (Publisher der Ultraschallsensordaten)
 	\end{itemize}
 	
-	Die zuvor genannten Nodes sind durch Topics miteinander verbunden und tauschen untereinander Nachrichten aus.
-	Folgende Topics befinden sich im Softwaresystem:
+	Die Nodes  tauschen Nachrichten über Topics aus.
+	Die folgenden Topics befinden sich im Softwaresystem:
 	\begin{itemize}
-		\item /cmd\_vel (command velocity, die Beschleunigungssteuerung)
+		\item /cmd\_vel (command velocity, die Beschleunigungssteuerung und 
+		Lenkung)
 		\item /servos\_absolute (Steuerung des Servos mit absoluten Impulsstart- und Stoppwerten)
 		\item /servos\_proportional (Motorsteuerung für Geschwindigkeitsteuerung des Servos in seinem Bewegungsbereich)
 		\item /servos\_drive (Lenken, Umwandlung der Berechnungen von Linear- und Winkeldaten in Servoantriebsdaten)
@@ -247,7 +256,8 @@
 	\end{itemize}
 
 	% Hier noch Text zu dem AI Schaubild (kommt noch)
-	Die nächste Abbildung veranschaulicht den Bereich der AI und des Ultraschallsensors innerhalb von ROS. Hierbei handelt es sich um einen Ausschnitt aus dem rosGraph.
+	Die nächste Abbildung veranschaulicht alle Knoten und Topics für die 
+	Künstliche Intelligenz. 
 
 	\begin{figure}[!ht] 
 		\centering
@@ -258,13 +268,30 @@
 	\end{figure}
 
 	\begin{itemize}
-		\item Auf dem Raspberry Pi befindet sich der Publisher /compress\_sender. Dieser schießt Fotos über das Programm OpenCV. Im Anschluss werden die Bilder mit der ROS Bridge komprimiert. Das komprimierte Bild wird über das Topic /camera/image/compressed versendet.
+		\item Auf dem Raspberry Pi befindet sich der Publisher 
+		/compress\_sender. Dieser erstellt Fotos mit hilfe von OpenCV. Im 
+		Anschluss werden die Bilder mit hilfe der CV-Bridge in ROS Bilder 
+		umgewandelt und komprimiertet. Die so erstellte ROS Nachricht, wird 
+		Per Wlan über das Topic /camera/image/compressed versendet.
 		
-		\item Der Node /AI befindet sich aufgrund der besseren Rechenleistung auf dem Laptop. Dieser erhält das komprimierte Bild und wendet darauf das Trainingsmodell an. Nach der Auswertung wird das Bild über WLAN und dem Topic /Marker an den Node /high\_level\_control, der sich auf dem Raspberry Pi befindet, versendet.
+		\item Der Node /AI befindet sich auf dem Laptop. Dieser abonniert das 
+		komprimierte Bild und wendet darauf das Keras Trainingsmodell an. 
+		Nach der Auswertung wird eine String Nachricht über WLAN durch 
+		das  Topic /Marker an den Node /high\_level\_control,  versendet. 
+		Dieser String endhält eine Richtungsangabe wie \say{Left} oder 
+		\say{Forward}. Das senden über W-lan ist nötig da sich die  
+		/high\_level\_control auf dem Raspberry Pi befindet.
 		
 		\item Der Publisher /serial\_node wird im Quellcode auf dem Arduino initialisiert. Dieser sendet in kurzen Zeitabständen über das Topic /rngMsg\_topic die erhaltenen Ultraschallsensordaten.
 		
-		\item Der /high\_level\_controller abonniert die beiden Topics /Marker und /rangeMsg\_Topic. Er ist für die Steuerung der Geschwindigkeit und der Richtung anhand der KI Daten und der Ultraschallsensordaten zuständig. Anschließend wird über das Topic /cmd\_vel (value) eine Twist\_Message versendet.
+		\item Der /high\_level\_controller Knoten abonniert die beiden Topics 
+		/Marker und /rangeMsg\_Topic. Er ist für die Steuerung der 
+		Geschwindigkeit und der Richtung anhand der KI Daten und der 
+		Ultraschallsensordaten zuständig. Der Knoten hat einen Publisher der 
+		auf dem  Topic /cmd\_vel (value) eine Geometry/Twist\_Message 
+		versendet. So werden Geschwindigkeit und Lenkung des Roboters 
+		Gesteuert. ( angular.z für die Lenkung und linear.x für die 
+		Beschleunigung)
 		
 		
 	\end{itemize}
