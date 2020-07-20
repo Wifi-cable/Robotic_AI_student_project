@@ -69,18 +69,19 @@
 		
 	\title{rosBerry - ein autonomer Roboter auf Basis von ROS und eines Modellautos mit Maker-Elektronik}
 	
-	\author{\IEEEauthorblockN{1\textsuperscript{st} Welter, Heike}
+	\author{\IEEEauthorblockN{1\textsuperscript{st} Barsalou, marie}
 		\IEEEauthorblockA{ 
-			Heike.Welter@stud.hs-mannheim.de}%
+			Marie.Barsalou@stud.hs-mannheim.de}%
 		\and
-		\IEEEauthorblockN{2\textsuperscript{nd} Matheis, Steffen}
+		\IEEEauthorblockN{2\textsuperscript{nd} Welter, Heike}
 		\IEEEauthorblockA{
-			Steffen.Matheis@stud.hs-mannheim.de }
+			Heike.Welter@stud.hs-mannheim.de }
 		\and
-		\IEEEauthorblockN{3\textsuperscript{rd} Barsalou, Marie }
-		\IEEEauthorblockA{ 
-			Marie.Barsalou@stud.hs-mannheim.de}
+		\IEEEauthorblockN{3\textsuperscript{rd} Matheis, Steffen }
+		\IEEEauthorblockA{ Steffen.Matheis@stud.hs-mannheim.de
+			}
 	}
+
 	
 	\maketitle
 	
@@ -139,7 +140,8 @@
 	Zero am Beispiel einer Ladestationserkennung\grqq  \cite{Amanda} von 
 	Amanda Decker ist ein vergleichbares Projekt.
 	Einige der Grundansätze aus dieser Arbeit wurden für dieses Projekt übernommen.
-	So haben wir das Neuronale Netz nicht auf einem Raspberry Pi trainiert und einen Marker genommen der sich gut rotieren und spiegeln lässt.
+	So wurde das Neuronale Netz nicht auf einem Raspberry Pi trainiert und 
+	einen Marker wurde  genommen der sich gut rotieren und spiegeln lässt.
 	Somit kann jedes Bild des Datensatzes gespiegelt werden, um mit mehr 
 	Daten arbeiten zu können.
 	
@@ -418,7 +420,7 @@
 	
 	\begin{figure} [!h]
 		\centering
-		\includegraphics[width=9cm]{img/servo.png}
+		\includegraphics[width=9cm]{img/servo.pdf}
 		\caption{Auszug aus Hersteller Datenblatt:Lenkservo }
 		\label{Servomotor}
 	\end{figure}
@@ -539,7 +541,8 @@
 	\subsection{Erster Ansatz für das Neuronale Netz}	%steffen ? mary?
 
 	Der erste Entwurf unseres Neuronalen Netzes war stark angelehnt an F. Grovers Beispielnetz aus \glqq Artificial Intelligence for Robotics\grqq \cite{govers2018artificial}. 
-	Wie in der Vorlage erstellen wir ein sequentielles Modell mithilfe von Keras.
+	Wie in der Vorlage wird ein sequentielles Modell mithilfe von Keras 
+	erstellt.
 	
 	Die erste Schicht stellt eine Convolution-Layer mit 20 Convolutions dar, 
 	wovon jede ein Merkmal des Eingangsbildes isolieren soll.
@@ -733,7 +736,7 @@ model.add(Activation("softmax"))
 	\end{figure}
 	
 	Alle weiteren versucht das Model weiter zu verfeinern scheiterten. Die 
-	Ursache dafür ist nicht eindeutig geklärt. Eine mögliche Erklärung ist,  
+	Ursache dafür ist nicht eindeutig geklärt. Eine mögliche Erklärung ist, 
 	dass der Datensatz für die Komplexität des Models zu klein war . Auch 
 	möglich ist, dass die Grenzen der Optimierer ADAM und Stochastic 
 	Gradient Descent erreicht waren. Auch Programmierfehler konnten nicht 
@@ -851,7 +854,7 @@ Threadsave. Das erschien anfangs kein Problem, da keine parallele
 	als einen Thread bei der Ausführung um die Mehrkern CPU auszunutzen. 
 	Die abschließende Uhrsache konnte zum zeit des Papers nicht geklärt 
 	werden.
-	Laut Victor Meunier's Blog //[Referenz fehlt hier] %link 
+	Laut Victor Meunier's Blog  \cite{Keras} 
 	muss sichergestellt werden, dass jeder Thread seinen eigenen Graph und seinen eigene Session hat. Das Schlüsselwort \say{With} hilft den Kontext zu definieren. \ref{with} \\
 	
 	\begin{figure}
@@ -881,17 +884,23 @@ Wie andere Teile des Roboters wird diese als ROS Node realisiert, die am Ende ih
 Um die Fahrtrichtung herauszufinden, wird das Bild erst in neun gleich 
 gro{\ss}e Teile aufgeteilt. Das Trainingsmodell  wird auf alle Teile 
 angewendet.
-Wird der Marker am häufigtsen in den linken drei Teilen erkannt soll der Roboter nach links fahren, wird er in den rechten Teilen am häufigtsen erkannt soll er nach rechts fahren, ebenso wird mit der Mitte verfahren.
+Wird der Marker am häufigsten in den linken drei Teilen erkannt soll der 
+Roboter nach links fahren, wird er in den rechten Teilen am häufigsten 
+erkannt soll er nach rechts fahren, ebenso wird mit der Mitte verfahren.
 Falls der Marker in keinem der drei Teile überhaupt erkannt wird, wird ein Fehlerstatus veröffentlicht der bedeutet, dass der Marker aktuell nicht gefunden werden kann.
 
 Der erste Ansatz ein Bild zu unterteilen ist es, dieses in neun nicht-überlappende Teile zu teilen, wobei aus einem 640x480px Eingangsbild neun 213x160px Bilder werden. 
-Dabei entstehen möglilcherweise zu kleine Bildteile oder nur teilweise im Bild vorhandene Marker, sodass zusätzlich eine alternative Zerteilmethode getestet wurde. 
+Dabei entstehen möglicherweise zu kleine Bildteile oder nur teilweise im 
+Bild vorhandene Marker, sodass zusätzlich eine alternative Zerteilmethode 
+getestet wurde. 
 Hier wurde das Bild mit in sich überlappende Teile geteilt, die jeweils 25\% des Gesamtbildes ausmachen - bei einer Auflösung von 640x480px entstehen so neun 320x240px Bilder.
 Nachteil hiervon ist, dass der Marker durch die Überlappungen möglicherweise in mehreren Teilbildern mit ähnlich hoher Wahrscheinlichkeit erkannt wird.
 
 % Braucht das ein Erklärbild? Ich hab das Gefühl das braucht irgendeine Grafik.
 
-Um zu ermitteln, welches der beiden Vorgeghensweisen besser funktioniert, haben wir Beide mit dem aktuell besten Trainingsmodell auf das gesamte Trainingsset angewendet und die Ergebnisse verglichen.
+Um zu ermitteln, welches der beiden Vorgeghensweisen besser funktioniert, 
+haben wurden Beide mit dem aktuell besten Trainingsmodell auf das 
+gesamte Trainingsset angewendet und die Ergebnisse verglichen.
 Voraussetzung dafür war natürlich, dass das Trainingsset nun neben den Labeln "Marker" und "Kein Marker" auch noch Informationen über die Position der Marker erhält.
 Dabei stellte sich heraus, dass die erste Variante - neun Teilbilder zu je 213x160px - zuverlässiger arbeitet, sodass diese den Weg in die KI Navigation fand.
 
@@ -904,8 +913,9 @@ Wird also in allen Teilbildern kein Marker erkannt, wird dennoch eine Richtung a
 % Benötigt das Codebeispiele?
 
 \subsection {Auswertung des Verhalten des Roboters}	% mary? %steffen? %heike?
-%macht er irgendwas sinnvolles? ist er klüger als eine eintagsfliege
-Wie wirkt sich das programmierte Verhalten nun in realen Tests aus?
+%macht er irgendwas sinnvolles? ist er klüger als eine eintagsfliege?
+%Wie wirkt sich das programmierte Verhalten nun in realen Tests aus?
+//Sektion ist noch in Arbeit, Bester Ansatz noch nicht endgültig geklärt
 
 Die Tatsache, dass auch kleine Wahrscheinlichkeiten als Richtung interpretiert werden, stellte sich schnell als problematisch heraus.
 Theoretisch ist das erwünschtes Verhalten - der Roboter kann damit meistens in irgendeine Richtung fahren, die ihm am ehesten richtig erscheint.
@@ -913,7 +923,7 @@ In der Praxis stellte sich aber heraus, dass der Roboter damit zu häufig zu fal
 
 Ein verwandtes Problem ist, dass der Roboter häufig zwischen zwei Richtungen schwankt, wenn sich der Marker nah an der Grenze zweier Richtungen befindet.
 % Lösung? Oder ist das einfach nur nervig?
-
+%ich arbeite mit Hochdruck drann ~ mary
 % reagiert relativ langsam
 
 	\section{Erkenntnisse }
@@ -921,7 +931,9 @@ Ein verwandtes Problem ist, dass der Roboter häufig zwischen zwei Richtungen sc
 	
 	\subsection{Empfehlungen für nachfolge Projekte}
 	
-	Empfehlungen auf Basis der Erfahrungen mit diesem Projekt sind, zunächst die Verbesserungsvorschläge für die Roboter Hardware und Software, danach Ansätze für die KI.\\
+	 Auf Basis der Erfahrungen mit diesem Projekt sind endstehen einige 
+	 Empfehlungen. Zunächst die Verbesserungsvorschläge für die Roboter 
+	 Hardware und Software, danach Ansätze  und Empfehlungen für die KI.\\
 	Da dieses Projekt immer wieder Probleme mit der Inkompatibilität der veralteten Python Version und aktuellen Bibliotheken hatte, wird ein Hardware und Software Stack empfohlen, der durchgehend das aktuelle Python 3 verwendet. Auch die Leistungsgrenzen des Raspberry Pi waren schnell erreicht. \\
 	
 	Empfehlungen:
@@ -982,12 +994,13 @@ Ein verwandtes Problem ist, dass der Roboter häufig zwischen zwei Richtungen sc
 	% wissenschaftliche zitate gehen so \cite{b1}. 
 	
 	% Dummy Cites zum Testen
+	\begin{comment}
 	\cite{Amanda}
 	\cite{Keras}
 	\cite{Tamiya}
 	\cite{govers2018artificial}
 	\cite{moolayil2019learn}
-	
+	\end{comment}
 	%\nocite{*}
 	\printbibheading
 	\printbibliography[filter=wissenschaftlich, heading=subbibliography, title={Fachliteratur}]
