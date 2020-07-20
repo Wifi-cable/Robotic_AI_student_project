@@ -270,7 +270,7 @@
 	\begin{itemize}
 		\item Auf dem Raspberry Pi befindet sich der Publisher 
 		/compress\_sender. Dieser erstellt Fotos mit hilfe von OpenCV. Im 
-		Anschluss werden die Bilder mit hilfe der CV-Bridge in ROS Bilder 
+		Anschluss werden die Bilder mit Hilfe der CV-Bridge in ROS Bilder 
 		umgewandelt und komprimiertet. Die so erstellte ROS Nachricht, wird 
 		Per Wlan über das Topic /camera/image/compressed versendet.
 		
@@ -298,15 +298,13 @@
 
 	\subsubsection{Launchreihenfolge}%heike
 	
-	Dieses Kapitel ist eine Einleitung zum Starten der ROS Nodes und den 
-	hierbei zu beachtenden Punkten. Ohne Vorkonfiguration und Launchfiles ist 
+	Dieses Kapitel ist eine Anleitung zum Starten der ROS Nodes. Ohne 
+	Vorkonfiguration und Launchfiles ist 
 	die Knotenaufrufreihenvolge langwierig. Manche Schritte müssen auf einem 
-	Laptop durchgeführt werden, andere via SSH auf dem Raspberry Pi.So muss 
-	Laptop erfahren das der ROScore (Master Node) bereits auf dem Raspberry 
-	Pi läuft.
+	Laptop durchgeführt werden, andere via SSH auf dem Raspberry Pi. So 
+	muss der Laptop erfahren das ein ROScore (Master Node) bereits auf dem 
+	Raspberry Pi läuft.
 	
-	% Weitere Knoten werden noch folgen
-	% ToDo: Zeilenumbruch
 	\begin{minted}[frame=lines, breaklines=true 
 	fontsize=\footnotesize,]{Bash}
 	# Network ubiquityrobot03B
@@ -334,14 +332,10 @@
 	source devel/setup.bash
 	rosrun teleop_twist_keyboard teleop_twist_keyboard.py
 	
-	# 4. Console - on Raspberry Pi
-	# Login via SSH
-	rosrun rosserial_python serial_node.py /dev/ttyACM0
-	
 	# 5. Console - on Laptop
 	export ROS_MASTER_URI=http://ubiquityrobot.local:11311
 	export ROS_IP=$(hostname -I)
-	rostopic echo rangeMsg_topic
+
 	\end{minted}
 	
 	Mehrere Schritte sind Möglich um diesen Prozess zu vereinfachen. Die 
@@ -373,8 +367,7 @@
 	Launchfiles die viele ROS Knoten auf einmal starten sind eine Beliebte 
 	Vereinfachung. Um die \textit{Keyboard Demo}  \ref{demo} zu starten, oder 
 	den Roboter Fernzusteuern existiert ein Lauchfile im \textit{Donkey Car} 
-	Fork 
-	des Github Quelle.
+	Fork der Github Quelle.
 	\begin{figure}
 		\centering
 		\begin{minted}[frame=lines,breaklines=true,
@@ -391,9 +384,8 @@
 	\end{figure}
 	
 	Um die benötigten Knoten Für die Künstliche Intelligenz komfortabel zu 
-	starten wurden zwei Launchfiles geschrieben \ref{KI-launch} .  Das ist 
-	Notwendig da die 
-	Anwendung verteilt läuft. (siehe spätere Artikel)
+	starten wurden zwei Launchfiles geschrieben \ref{KI-launch}.  Das ist 
+	Notwendig da die Anwendung verteilt läuft. (siehe spätere Artikel)
 	
 	\begin{figure}
 		\centering
@@ -416,7 +408,9 @@
 	
 	%----------------------------------------------------------------
 	
-	In diesem Kapitel wird der Hardwareaufbau des rosBerry, sowie die mechanisches Bauteile inklusive Entscheidungskriterien vom Roboter beschrieben. 
+	In diesem Kapitel wird der Hardwareaufbau des rosBerry, sowie die 
+	mechanisches Bauteile beschrieben. Zusätzlich wird auf einige 
+	Entscheidungskriterien für die Auswahl von Bauteilen eingegangen. 
 	Hierfür werden die einzelnen verwendeten Hardwarekomponenten - deren Modell und Funktion - vorgestellt. 
 	
 	Zuerst werden die Verbindungen der Hardwarekomponenten untereinander abgebildet, wie in Abbildung \ref{Hardwarekomponenten} zu sehen.
@@ -438,12 +432,12 @@
 	\end{figure}
 	Der Kompromiss dieser Abwägung fand sich bei einem älteren 
 	Einsteigermodell namens TAMIYA RC 1:10 TT-01E. Tamiya ist ein 
-	traditionsreicher japanischer Hersteller der qualitativ hochwertige Bausätze 
-	ferngesteuerte Fahrzeuge herstellt. (Er stellt Schiffe, Flugzeuge und Panzer 
-	her, aber hauptsächlich Modellautos) Tamiya ist unter 
+	traditionsreicher japanischer Hersteller der qualitativ hochwertige 
+	Bausätze ferngesteuerte Fahrzeuge herstellt. (Er stellt Schiffe, Flugzeuge 
+	und Panzer her, aber hauptsächlich Modellautos) Tamiya ist unter 
 	Modellbau-Enthusiasten dafür bekannt, alle Prinzipien japanischer 
 	Ingenieurskunst bei der Konstruktion seiner Modelle anzuwenden, statt 
-	\textit{Spielzeugqualität} in China herzustellen. Das TT01-Modell hat 
+	\say{Spielzeugqualität} in China herzustellen. Das TT01-Modell hat 
 	identische Außenmaße und kann mit denselben elektronischen Komponenten 
 	betrieben werden, wie sein Nachfolgemodell das TT02. Somit ist die 
 	Reproduzierbarkeit im Bezug auf das Chassis gegeben.
@@ -466,11 +460,12 @@
 	\end{figure}
 	
 	Wie aus der Abbildung \ref{Hardwarekomponenten} zu erkennen, ist die meiste Hardware mit Jumper Wire verbunden.
-	Ausnahmen der Anschlüsse bilden die Verbindungen des Raspberry Pis zur Kamera (Flexkabel), zum Arduino (USB) und zum Motorshield (I2C).
+	Ausnahmen der Anschlüsse bilden die Verbindungen des Raspberry Pi's 
+	zur Kamera (Flexkabel), zum Arduino (USB) und zum Motorshield (I2C).
 	\\
 	
-	Als Nächstes wird rosBerry mit den Hardwaremodellen vorgestellt.
-	\\
+	%Als Nächstes wird rosBerry mit den Hardwaremodellen vorgestellt.
+	
 	\begin{figure}[!ht]
 		\centering
 		\includegraphics[width=9cm]{img/RosBerryGesamt.png}
@@ -479,7 +474,8 @@
 	\end{figure}
 	
 	Die verwendete Hardware ist in Abbildung \ref{rosBerryGesamt} mit Nummern versehen.
-	Auf jede dieser Nummern wird referenziert und die Hardware mit Modell und Funktion aufgelistet.
+	Auf jede dieser Nummern wird referenziert und der Hardwaretyp und 
+	seine Funktion aufgelistet.
 	
 	\begin{enumerate}
 		\item Der DC-Antriebsmotor - Modell Tamiya Mabuchi RS 540 SH - steuert alle vier Räder des rosBerry an.
@@ -490,20 +486,25 @@
 		\item Der UBEC - Modell HWBEC Hobbywing 3A \SI{5}{V} \SI{6}{V} max \SI{5}{A} - wird eingebaut, um den Raspberry Pi mit \SI{5}{V} zu versorgen.
 		Ohne den UBEC würde der Raspberry Pi aufgrund der höheren elektrischen Spannung beschädigt werden.
 		\item Der Servo - Modell Amewi AMX Racing 4806HB - bekommt vom Motorshield ein PWM Signal übermittelt.
-		Nach dem PWM Signal richten sich die beiden Reifen aus und ermöglichen eine Fahrtrichtung.
+		Nach dem PWM Signal richten sich die beiden Vorderräder aus.
 		Dadurch ist rosBerry in der Lage links\,/\,rechts Kurven sowie geradeaus zu fahren.
 		\item Der Akku dient dazu, die Stromversorgung des Roboters zu sichern.
-		Dieser hat eine Nennspannung von \SI{7,2}{Volt}. Er versorgt die Hardware mit Strom.
-		\item Der Motorshield - Modell Adafruit 16-Channel 12-bit PWM/Servo Driver-I2C interface PCA9685 - wird für die Geschwindigkeit und die Richtung der Reifen eingesetzt.
+		Dieser hat eine Nennspannung von \SI{7,2}{Volt}. 
+		\item Der Motorshield - Modell Adafruit 16-Channel 12-bit PWM/Servo 
+		Driver-I\textsuperscript{2}C interface PCA9685 - wird für die 
+		Motorsteuerung eingesetzt.
 		Hierzu erzeugt der Motorshield zwei PWM Signale.
-		Das 1. PWM Signal wird an den Servo übermittelt, um den Servo in die gewünschte Position einzustellen.
-		Das 2. PWM Signal wird erzeugt und zum Fahrtenregler gesendet.
-		Dieses wird zur Einstellung der Geschwindigkeit verwendet.
+		Das 1. PWM Signal wird an den Servo übermittelt, um den Servo in die 
+		gewünschte Position drehen.
+		Das 2. PWM Signal wird zum Fahrtenregler gesendet.
+		Dadurch wird die Geschwindigkeit geregelt.
 		\item Der Raspberry Pi 3.B+ ist das Herzstück des rosBerry.
 		Auf ihn läuft zum einem ROS und zum anderen die Software des Roboters, welche im Kapitel ROS Knoten Software Architektur vorgestellt wurde.
-		Über eine I2C-Schnittstelle werden Daten an den Motorshield übertragen.
+		Über eine I\textsuperscript{2}C-Schnittstelle werden Daten an den 
+		Motorshield übertragen.
 		Die Daten geben an, wie das PWM Signal auszusehen hat.
-		\item Der Arduino UNO REV 3 steuert einen Ultraschallsensor an und erzeugt einen ROS-Knoten (Publisher).
+		\item Der Arduino UNO  steuert einen Ultraschallsensor an und erzeugt 
+		einen ROS-Knoten (Publisher).
 		Innerhalb des Programms wird das Signal des Sensors in Meter umgewandelt und in eine Range Message gespeichert.
 		Die Range Message namens rangeMsg wird an das Topic rangeMsg\_topic übermittelt.
 		Ein Subscriber - der auf dem Raspberry Pi läuft - subscribed das Topic und erhält regelmäßig Sensordaten über die Reichweite.
@@ -514,8 +515,9 @@
 			\caption{Weitere Hardwareelemente}
 			\label{rosBerryWeitere}
 		\end{figure}
-		\item Der Ultraschallsensor - Modell HC-SR04 - wird zum rechtzeitigen Erkennen eines kommenden Hindernisses eingesetzt.
-		Dieser hat eine maximale Reichweite von vier Meter, jedoch haben wir uns für das Projekt auf eine Reichweite von 2 Meter geeinigt.
+		\item Der Ultraschallsensor - Modell HC-SR04 - wird zum rechtzeitigen 
+		Erkennen von Hindernissen eingesetzt.
+		Dieser hat eine maximale Reichweite von vier Meter.
 		Alle 1/4 Sekunde sendet dieser ein Signal und verarbeitet dieses.
 		\item Die Kamera - Modell 5 MP - ist durch ein Flexkabel an den Raspberry Pi über das CSI-Interface angeschlossen.
 		Diese versorgt die KI mit Bildern, welche einen Marker sucht und findet.
@@ -531,19 +533,26 @@
 	Danach erst kann er auf den Marker zufahren.
 	\\
 	
-	Der schwierigste Teil der Aufgabe besteht darin, den Marker zuverlässig in unterschiedlichen Umgebungen zu erkennen.
+	Dazu muss  der Marker zuverlässig in unterschiedlichen Umgebungen 
+	erkannt werden.
 	
 	\subsection{Erster Ansatz für das Neuronale Netz}	%steffen ? mary?
-	%netzaufbau am anfang
+
 	Der erste Entwurf unseres Neuronalen Netzes war stark angelehnt an F. Grovers Beispielnetz aus \glqq Artificial Intelligence for Robotics\grqq \cite{govers2018artificial}. 
 	Wie in der Vorlage erstellen wir ein sequentielles Modell mithilfe von Keras.
 	
-	Die erste Schicht stellt ein convolution layer mit 20 convolutions dar, wovon jede ein Merkmal des Eingangsbildes isolieren soll.
-	Die Größe setzen wir auf 5x5, betrachten also zwei benachbarte Pixel in jede Richtung.
+	Die erste Schicht stellt eine Convolution-Layer mit 20 Convolutions dar, 
+	wovon jede ein Merkmal des Eingangsbildes isolieren soll.
+	Die Größe wird auf 5x5 gesetzt, Betracht also zwei benachbarte Pixel in 
+	jede Richtung.
 	Selbstverständlich muss dafür auch ein Padding hinzugefügt werden, damit das Verfahren auch am Bildrand funktioniert. 
 	
-	Zudem wird noch eine Aktivierungsfunktion benötigt, hierfür nutzen wir die ReLU-Funktion, die nur positive Werte zulässt und negative Werte durch den Wert 0 ersetzt.
-	Diese Aktivierungsfunktion ist deshalb sinnvoll, da das Ergebnis als Farbe dargestellt werden und deshalb einen Wert zwischen 0 und 1 annehmen soll.
+	Zudem wird noch eine Aktivierungsfunktion benötigt, in diesem Fall  die 
+	ReLU-Funktion, die nur positive Werte zulässt und negative Werte durch 
+	den Wert 0 ersetzt.
+	Diese Aktivierungsfunktion ist deshalb sinnvoll, da das Ergebnis als 
+	Farbpixel dargestellt werden und deshalb einen Wert zwischen 0 und 1 
+	annehmen soll.
 	Ein Wert unter Null wäre hier unbrauchbar.
 	
 	\begin{figure}[!h]
@@ -559,12 +568,17 @@ model.add(Activation("relu"))
 		\label{Schicht eins}
 	\end{figure}
 	
-	Die zweite Schicht ist ein Maxpooling-Layer, bei dem wir jeweils 2x2 Pixel nehmen und danach 2x2 Pixel weiterrücken um keine Überlappungen zu haben.
+	Die zweite Schicht ist ein Maxpooling-Layer, bei der  jeweils 2x2 Pixel 
+	genommen werden und danach 2x2 Pixel weiter gerückt wird, um keine 
+	Überlappungen zu haben.
 	Das Ergebnis ist ein Bild in ¼ der originalen Größe: aus 640x480px wird 320x240px, aus 128x128px 64x64px usw.
 	
-	Direkt darauf folgt ein weiteres convolution layer mit der doppelten Anzahl an convolutions - 40 statt vorher 20 - um mehr Mermale zu identifizieren.
+	Direkt darauf folgt eine weiteres Convolution Layer mit der doppelten 
+	Anzahl an Convolutions - 40 statt vorher 20 - um mehr Merkmale zu 
+	identifizieren.
 	Durch das vorher durchgeführte maxpooling werden nun andere, größere Merkmale erkannt.
-	Ebenfalls nutzen wir wieder dieselbe ReLU Aktivierungsfunktion, aus denselben Gründen wie in der ersten Schicht.
+	 Dieselbe ReLU Aktivierungsfunktion wird genutzt, aus denselben 
+	 Gründen wie in der ersten Schicht.
 	
 	\begin{figure}[!h]
 		\centering
@@ -588,8 +602,11 @@ model.add(Activation("relu"))
 	Aus einem 640x480px großen Bild wird nun 160x120px, aus 128x128px sogar nur noch 32x32px.
 	
 	Darauf folgt nun eine Schicht, die vorher noch nicht im Neuronalen Netz vorkam:
-	Zuerst werden die dreidimensionalen Bildinformationen mit der Funktion Flatten() in ein eindimensionales Array geplättet, bevor wir eine vollverknüpfte Schicht mittels Dense(500) hinzufügen.
-	Erneut nutzen wir die ReLU Aktivierungsfunktion, aus bekannten Gründen.
+	Zuerst werden die dreidimensionalen Bildinformationen mit der Funktion 
+	Flatten() in ein eindimensionales Array geplättet, bevor  eine 
+	vollverknüpfte Schicht mittels Dense(500) hinzufügt wird.
+	Erneut wird die  die ReLU Aktivierungsfunktion genutzt, aus bekannten 
+	Gründen.
 	
 	\begin{figure}[!h]
 		\centering
@@ -604,8 +621,10 @@ model.add(Activation("relu"))
 		\label{Schicht vier und fünf}
 	\end{figure}
 	
-	Abschließend benötigen wir zwei Neuronen für die beiden Ausgangswerte "Marker" und "kein Marker".
-	Zur Aktivierung nutzen wir die Softmax-Funktion, die auch normalisierte Exponentialfunktion genannt wird.
+	Abschließend werden zwei Neuronen für die beiden Ausgangswerte 
+	"Marker" und "kein Marker" benötigt.
+	Zur Aktivierung wird die Softmax-Funktion genutzt, die auch 
+	normalisierte Exponentialfunktion genannt wird.
 	Sie transformiert mehrdimensionale Vektoren in einen Wertebereich zwischen 0 und 1, wobei alle Komponenten zusammen 1 ergeben müssen, das heißt wenn "Marker" einen Wert von 0,65 hat, muss "kein Marker" einen Wert von 0,35 haben. 
 	Die Funktion kann durchaus für mehr als zwei Ausgangswerte genutzt werden, für unseren Anwendungsfall werden jedoch nicht mehr Ausgangswerte benötigt.
 	
@@ -625,9 +644,7 @@ model.add(Activation("softmax"))
 
 	//kommt noch
 	\subsection{Schritte zur Verbesserung der Erkennungsrate} %mary
-	%was haben wir dann gemacht 
-	
-	
+
 	\begin{figure}[!h]
 		\centering
 		\includegraphics[width=9cm]{img/160x120:100@32_accuracy.png}
@@ -638,9 +655,18 @@ model.add(Activation("softmax"))
 	
 	Die Schritte von  \glqq Learn Keras for Deep Neural Networkss\grqq \cite{moolayil2019learn} zum verbessern des Designs von Neurnalen Netzen wurden zur verbesserung der Trainignsergebnisse verwedet. 
 	
-	\cite{moolayil2019learn} Rät dazu mit einer kleinen Architektur anfangen das bedeutet wenige Schichten und wenige Neuronen. Es liegt nahe das kleine Architekturen Ressourcen schonender sind als grosse Architekturen. Dieser ansatz erscheint sinnvoll da Steigende Resourcenanforderngen bei gleichbleibender Hardware zu steigender Rechenzeit pro Epoche bedeuten. \\
+	\cite{moolayil2019learn} Rät dazu mit einer kleinen Architektur anfangen 
+	das bedeutet wenige Schichten und eine geringe Anzahl an Neuronen. Es 
+	liegt nahe das kleine Architekturen Ressourcen schonender sind als 
+	grosse Architekturen. Dieser ansatz erscheint sinnvoll da Steigende 
+	Resourcenanforderngen bei gleichbleibender Hardware zu steigender 
+	Rechenzeit pro Epoche bedeuten. \\
 	
-	Das Netz nutzte anfangs nur eine Auflösung von 128x128 Pixel und 100 Epochen. Da jedes einzelne Pixel eine Eingangsneurone wird, ist anzunehmen, dass die geringe Auflösung im Buch gewählt wurde, um Rechenleistung zu sparen. \\
+	Das Netz nutzte anfangs nur eine Auflösung von 128x128 Pixel und 100 
+	Epochen. Da jedes einzelne Pixel eine Eingangsneurone wird, ist 
+	anzunehmen, dass die geringe Auflösung im Buch 
+	\cite{govers2018artificial}.  gewählt wurde, um Rechenleistung zu 
+	sparen. \\
 	
 	\begin{figure}[!h]
 		\centering
@@ -650,23 +676,53 @@ model.add(Activation("softmax"))
 	\end{figure}
 	
 	\cite{moolayil2019learn} Rät die Anzahl an Neuronen pro Schicht erhöhen, wenn Anfangs kein befriedigenden Ergebnisse erzieht werden.
-	Bei voller Bildauflösung von 640x480 Pixel erweist sich das Neuronale Netz auf der Hardware eines handelsüblichen Laptops als nicht mehr lauffähig. Für weitere Durchläufe wurden die nächsten Versuche auf einer Workstation mit mehr Grafkikkarten und Deutlich mehr RAM gemacht. Die Erkennungsrate stieg bei größerer Auflösung und mehr Durchläufen tatsächlich auf über 80\%. Damit vergrösserte sich jedoch das Modell (die Gewichte der KI) auf über ein Gigabyte. Ein so großes Modell kann nicht zeitnahe auf einem Raspberry Pie angewedet werden, da es nicht mehr in den RAM passt. Auch auf Standart Laptops ist zu erwarten das ein größeres Modell echt zeit Berechnungen erschwert. \\
+	Bei voller Bildauflösung von 640x480 Pixel erweist sich das Neuronale 
+	Netz auf der Hardware eines handelsüblichen Laptops als nicht mehr 
+	lauffähig. Für weitere Durchläufe wurden die nächsten Versuche auf einer 
+	Workstation mit mehr Grafkikkarten und Deutlich mehr RAM gemacht. 
+	Die Erkennungsrate stieg bei größerer Auflösung und mehr Durchläufen 
+	tatsächlich auf über 80\%. Damit vergrösserte sich jedoch das Modell (die 
+	Gewichte der KI) auf über ein Gigabyte. Ein so großes Modell kann nicht 
+	zeitnahe auf einem Raspberry Pie angewedet werden, da es nicht mehr in 
+	den RAM passt. Auch auf Standard Laptops ist zu erwarten das ein 
+	größeres Modell echt zeit Berechnungen erschwert. \\
 	
-	
-	Um mit einer höhreren Auflösung trainiren zu können wurden die nächsten Trainingseinheiten auf einem performateren Server durchgeführt. Der zusätzliche Arbeitsspeicher und die Grafikarten bringen bei einer aktivierung der CUDA beschleunigung einen grossen Geschwikdikeitszuwachs . \\
+	Um mit einer höheren Auflösung trainieren zu können wurden die 
+	nächsten Trainingseinheiten auf einem performanteren Server 
+	durchgeführt. Der zusätzliche Arbeitsspeicher und die Grafikarten 
+	bringen bei einer Aktivierung der CUDA Beschleunigung einen großen 
+	Geschwindigkeitszuwachs . \\
 	
 	Ein weiteres Problem das zu Tage trat war das Overfitting. Das Modell entwickelte sich gut auf Trainingsdaten, schnitt jedoch deutlich schlechter bei Testdaten ab, mit denen es nicht trainiert hatte. Die Kurven liefen bei mehr als 200 Epochen weit auseinander.\\
 	
 	
-	Weiterhin Rät \cite{moolayil2019learn} mehr Schichten benutzen, Beispielsweise abwechselnd eine Dichte schicht( dense layer) und eine Dropout Schicht.
+	Weiterhin Rät \cite{moolayil2019learn} mehr Schichten benutzen, 
+	Beispielsweise abwechselnd eine Dichte Schicht( dense layer) und eine 
+	Dropout Schicht.
 	
-	Dropout Schichten im Neuronalen Netz verbesserten das Overfitting Problem. Somit waren mehr Trainingsläufe ohne overfitting möglich. Das neuronale Netz erreichte so werte von rund 85\%. \\
+	Dropout Schichten im Neuronalen Netz verbesserten das Overfitting 
+	Problem. Somit waren mehr Trainingsläufe ohne Overfitting möglich. Das 
+	neuronale Netz erreichte so werte von rund 85\%. \\
 	
-	Das Modell das TensorFlow bei voller Auflösung oder 307200 Eingangsneuronen erstellt ist über ein Gigabyte groß. Je größer das Modell ist, des do unwahrscheinlicher das ein Raspberry Pi das Modell in absehbarer Zeit auf ein Bild anwenden kann. Somit erwies sich der Ansatz einfach die Auflösung zu erhöhen als nicht  zielführend für den Anwendungsfall. \\
+	Das TensorFlow/Keras Modell, dass bei voller Auflösung oder 307200 
+	Eingangsneuronen erstellt wurde, hat eine Größe von über einem 
+	Gigabyte. Je größer das Modell ist, des do unwahrscheinlicher, dass ein 
+	Raspberry Pi das Modell in absehbarer Zeit auf ein Bild anwenden kann. 
+	Somit erwies sich der Ansatz einfach die Auflösung zu erhöhen,  nicht als 
+	zielführend für den Anwendungsfall. \\
 	
-	Das Modell musste also kleiner werden ohne wesentliches Overfitting. Diese Ziehl wurde durch die Kombination von Dropoutschichten, mehr Durchläufen und kleinerer Pixelanzahl erreicht. \\
+	Das Modell musste also kleiner werden, ohne wesentliches Overfitting. 
+	Diese Ziehl wurde durch die Kombination von Dropoutschichten, mehr 
+	Durchläufen und kleinerer Pixelanzahl erreicht. \\
 	
-	\cite{moolayil2019learn} Rät weiterhin, die Daten neu analysieren, wenn eine weitere Steigerung der Anzahl an Schichten und der Neuronen keine weitere Steigerung der Erkennungsrate bringt. Es wurden als Bilder mit sehr geringem Kontrast aussortiert, extrem Dunkle Bilder sowie Bilder auf denen der Marker sehr weit entfernt war. Sie wurden durch Bessere Daten ersetzt. (neue Bilder wurden angefertigt jeweils mit und Ohne Marker) Dieser Schritt verursachte eine Merkliche Verbesserung des Trainingsergebnis.
+	 Wenn eine  Steigerung der Anzahl an Schichten und der Neuronen keine 
+	 weitere Steigerung der Erkennungsrate bringt, Rät 
+	 \cite{moolayil2019learn} die Daten neu analysieren. Es wurden als 
+	 Bilder mit sehr geringem Kontrast aussortiert, extrem Dunkle Bilder 
+	 sowie Bilder auf denen der Marker sehr weit entfernt war. Sie wurden 
+	 durch Bessere Daten ersetzt. (neue Bilder wurden angefertigt jeweils mit 
+	 und Ohne Marker) Dieser Schritt verursachte eine Merkliche 
+	 Verbesserung des Trainingsergebnis.
 	\\
 		
 	\begin{figure}[!h]
@@ -676,7 +732,12 @@ model.add(Activation("softmax"))
 		\label{end Ergenisse }
 	\end{figure}
 	
-	Alle weiteren versucht das Model weiter zu verfeinern scheiterten. Die Ursache dafür ist nicht eindeutig geklärt. Eine mögliche Erklärung ist  das der Datensatz für die komplexität des Models zu klein war . Auch möglich ist das die Grenzen der Optimierer ADAM und Stochastic Gradient Descent erreicht waren. Auch Programmierfehler konnten nicht ausgeschlossen werden. 
+	Alle weiteren versucht das Model weiter zu verfeinern scheiterten. Die 
+	Ursache dafür ist nicht eindeutig geklärt. Eine mögliche Erklärung ist,  
+	dass der Datensatz für die Komplexität des Models zu klein war . Auch 
+	möglich ist, dass die Grenzen der Optimierer ADAM und Stochastic 
+	Gradient Descent erreicht waren. Auch Programmierfehler konnten nicht 
+	ausgeschlossen werden. 
 	
 	\begin{figure}[!h]
 		\centering
@@ -689,23 +750,58 @@ model.add(Activation("softmax"))
 	\subsection{Anwendung des Trainingsmodells} %steffen
 	//kommt noch
 	\subsubsection{Keras und Tensorflow auf Raspberry Pi Hardware}
-	Der initiale Plan sah vor, dass das neuronale Netz auf dem Raspberry Pi auszuwerten, damit der Roboter komplett autonom (ohne WLAN und externen Computer) fahren kann. Die Prozessorleistung und der RAM eines Raspberry Pies 3B+ ist zwar deutlich geringer als der eines Standard Laptops, aber die Nachteile eines verteilten Systems erschienen anfangs größer. So wirkte der architektonische Aufwand für  verteilte Systeme und  das Einarbeiten in die Bibliothek CV Bridge zum Versenden von Bildern mit ROS aufwendig. \\
-	Die meisten gängigen Bibliotheken und Frameworks sind unabhängig vom Zielbetriebssystem auf 64Bit Wortbreite ausgelegt, so auch Tensorflow und Keras.  Das verwendete Ubuntu Image mit ROS für Raspberry Pi jedoch ist ein 32 Bit System. Das bedeutet, es gibt keine vorkompilierten Versionen von Tensorflow für das bisherige Setup. Das Kompelieren großer Tarfiles auf einem Raspberry Pi, dauert oft mehr als eine Stunde. Teilweise läuft der Raspberry Pi dabei so heiß, dass er abstürzt. Ein Ventilator erwies sich als hilfreich, um  Abstürze während des Kompilierungsprozesses zu verhindern. Tensorflow ist eine große Bibliothek deren Kompilierung aufwendig ist. 
-	%https://qengineering.eu/install-tensorflow-2.2.0-on-raspberry-pi-4.html
+	Der initiale Plan sah vor, dass das neuronale Netz auf dem Raspberry Pi 
+	auszuwerten, damit der Roboter komplett autonom (ohne WLAN und 
+	externen Computer) fahren kann. Die Prozessorleistung und der RAM 
+	eines Raspberry Pies 3B+ ist zwar deutlich geringer als, der eines 
+	Standard Laptops, aber die Nachteile eines verteilten Systems erschienen 
+	anfangs größer. Besonders der architektonische Aufwand für  verteilte 
+	Systeme und das Einarbeiten in die Bibliothek CV Bridge zum Versenden 
+	von Bildern per ROS Topic wirkte aufwendig. \\
+	Die meisten gängigen Bibliotheken und Frameworks sind unabhängig vom 
+	Zielbetriebssystem auf 64Bit Wortbreite ausgelegt, so auch Tensorflow 
+	und Keras. Das verwendete Ubuntu Image mit ROS für Raspberry Pi 
+	jedoch ist ein 32 Bit System. Das bedeutet, es gibt keine vorkompilierten 
+	Versionen von Tensorflow für das bisherige Setup. Das Kompilieren 
+	großer Tarfiles auf einem Raspberry Pi, dauert oft länger als eine Stunde. 
+	Teilweise läuft der Raspberry Pi dabei so heiß, dass er abstürzt. Ein 
+	externer Ventilator erwies sich als hilfreich.  Da Tensorflow  eine große 
+	Bibliothek ist, wäre ihre Kompilierung aufwendig.
+	//quelle muss noch in bib.bib 
+	:https://qengineering.eu/install-tensorflow-2.2.0-on-raspberry-pi-4.html
 	Sagt über den Raspberry Pi 4   : \\
-	\say{The whole TensorFlow installation procedure from start to end takes many hours (±33 for Python, ±10 for the C++ library). } \\
-	Es ist  anzunehmen, dass der Zeitaufwand für eine Kompilierung auf dem weniger Performanten Raspberry 3B länger dauert. Vor dem Hintergrund, dass es keine Garantie gibt, dass 64 Bit Libaries auf auf 32 Bit Systemen reibungslos funktionieren, ist eine Kompilierzeit von über einem Tag nicht akzeptabel. \\
+	\say{The whole TensorFlow installation procedure from start to end takes 
+	many hours (±33 for Python, ±10 for the C++ library). } \\
+	(Übersetzt der komplette TensorFlow Installationsprozess von Anfang bis 
+	ende braucht viele Stunden. Für Python rund 33 Stunden, für die C++ 
+	Bibliothek rund 10 Stunden. )
+	Es ist  anzunehmen, dass der Zeitaufwand für eine Kompilierung auf dem 
+	weniger Performanten Raspberry 3B länger dauert. Da es keine Garantie 
+	gibt, dass Bibliotheken die für  64 Bit Systeme geschrieben wurden, auch 
+	auf auf 32 Bit Systemen reibungslos funktionieren, ist eine Kompilierzeit 
+	von über einem Tag nicht akzeptabel. \\
 	
-	Die Entscheidung für ein verteiltes System wurde getroffen. Dabei zeigten sich weitere erwähnenswerte Inkompatibilitäten. Für jede ROS Version (Distribution) existieren vor gepackte Installationspakete für ein Ubuntu Betriebssystem. Nur mit diesem System sind sie komplett kompatibel. Das Betriebssystem Ubuntu 18.04 ist mit ROS Melodic vorgesehen. Während das Betriebssystem Python 2.7 und Python 3.6.9. nutzt ist ROS Melodic auf Python 2.7 angewiesen. Die Python Versionen sind inkompatibel. Tensorflow2 benötigt eine aktuelle Python Version, die von ROS Melodic nicht ohne weiteres unterstützt wird. \\
-	
-	Tensorflow1 ist zwar mit Python2.7 kompatibel, es ist jedoch nicht 
-	Threadsave. Das erschien anfangs kein Problem, da keine parallele 
+Somit wurde die Entscheidung für ein verteiltes System getroffen. Dabei 
+zeigten sich weitere erwähnenswerte Inkompatibilitäten. Für jede ROS 
+Version (Distribution) existieren vor gepackte Installationspakete für ein 
+Ubuntu Betriebssystem. Nur mit diesem System sind sie komplett 
+kompatibel. Das Betriebssystem Ubuntu 18.04 ist mit ROS Melodic 
+vorgesehen. Während das Betriebssystem Python 2.7 und Python 3.6.9. 
+nutzt ist ROS Melodic auf Python 2.7 angewiesen. Die Python Versionen sind 
+inkompatibel. Tensorflow2 benötigt eine aktuelle Python Version, die von 
+ROS Melodic nicht ohne weiteres unterstützt wird. \\
+
+Tensorflow1 ist zwar mit Python2.7 kompatibel, es ist jedoch nicht 
+Threadsave. Das erschien anfangs kein Problem, da keine parallele 
 	Programmierung geplant war. Ein Prototyp-Programm mit Anwendung von 
-	neuronalem Netz lief problemlos auf Mac mit Python3. Dieses Programm 
+	neuronalem Netz lief problemlos auf Mac mit Python3.(Ohne ROS 
+	Publisher und Subscriber) Dieses Programm 
 	sollte als Vorlage für einen ROS Knoten dienen. Auf Ubuntu in ROS traten 
 	jedoch viele kryptische Fehlermeldungen auf. \ref{Error1}, \ref{Error2}, 
 	\ref{Error3} Die Tatsache das Die Fehlermeldungen beim Durchlauf eines 
 	unveränderten Programms unterschiedlich waren verwirrte anfangs. 
+	Nicht deterministisches Verhalten deutet entweder auf Pseudozufall hin, 
+	oder auf Probleme bei der Parallelen Ausführung. 
 	
 	\begin{figure}
 		\centering
@@ -755,7 +851,7 @@ model.add(Activation("softmax"))
 	als einen Thread bei der Ausführung um die Mehrkern CPU auszunutzen. 
 	Die abschließende Uhrsache konnte zum zeit des Papers nicht geklärt 
 	werden.
-	Laut Victor Meunier's Blog[Referenz hier] %link 
+	Laut Victor Meunier's Blog //[Referenz fehlt hier] %link 
 	muss sichergestellt werden, dass jeder Thread seinen eigenen Graph und seinen eigene Session hat. Das Schlüsselwort \say{With} hilft den Kontext zu definieren. \ref{with} \\
 	
 	\begin{figure}
@@ -777,10 +873,14 @@ model.add(Activation("softmax"))
 	%echt? wann? ~marie
 	%rechtzeitig!
 % Bild schnipseln 
-Nachdem wir durch diverse Modifikationen am Modell eine zufriedenstellende Erkennungsrate erreicht haben, steht im nächsten Schritt die Anwendung des Trainingsmodells an.
+Nachdem durch diverse Modifikationen am Modell  zufriedenstellende 
+Erkennungsraten erreicht wurden, steht im nächsten Schritt die Anwendung 
+des Trainingsmodells an.
 Wie andere Teile des Roboters wird diese als ROS Node realisiert, die am Ende ihrer Berechnungen entweder eine Richtung ("left", "forward", "right") oder den Fehlerstatus "notfound"\ als ROS Nachricht veröffentlicht.
 
-Um die Fahrtrichtung herauszufinden teilen wir das Bild erst in neun gleich gro{\ss}e Teile auf und wenden das Trainingsmodell auf alle Teile an.
+Um die Fahrtrichtung herauszufinden, wird das Bild erst in neun gleich 
+gro{\ss}e Teile aufgeteilt. Das Trainingsmodell  wird auf alle Teile 
+angewendet.
 Wird der Marker am häufigtsen in den linken drei Teilen erkannt soll der Roboter nach links fahren, wird er in den rechten Teilen am häufigtsen erkannt soll er nach rechts fahren, ebenso wird mit der Mitte verfahren.
 Falls der Marker in keinem der drei Teile überhaupt erkannt wird, wird ein Fehlerstatus veröffentlicht der bedeutet, dass der Marker aktuell nicht gefunden werden kann.
 
