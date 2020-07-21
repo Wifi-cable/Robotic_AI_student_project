@@ -49,7 +49,6 @@ class ImageProcessor:
 		self.directionPublisher = rospy.Publisher('/Marker', String, queue_size=1)
 		#build a subscriber
 		self.sub2Img = rospy.Subscriber('/camera/image/compressed', CompressedImage, self.imgCallBack )
-		#self.sub2Img = rospy.Subscriber('/camera/image/compressed', CompressedImage, self.highscoreCallback )
 
 		rospy.loginfo("build publiser to custom 'Maker' topic")
 		rospy.loginfo("build a subscriber to '/camera/image/compressed' topic")
@@ -57,10 +56,12 @@ class ImageProcessor:
 	#splits the immage in 9 tiles, seaches to seach for the marker in each
 	#@param : Image from the robot camera in cv2 png fomat
 	#@return : an array with likelyhoods to have found the marker for each tile
-	def splitSeach(self, markerImg):
+	def splitSearch(self, markerImg):
 		IMG_HEIGHT, IMG_WIDTH, colors = markerImg.shape
 		tiles = []
 		results = []
+		has_marker_chance = []	# for debugging
+		no_marker_percent = []	#for debuging 
 		
 		# split into 9 tiles
 		step_width = IMG_WIDTH // 3
@@ -75,9 +76,9 @@ class ImageProcessor:
 		
 		if(SPAM):
 			rospy.loginfo("IMG: {}x{}".format(round(IMG_WIDTH,2), round(IMG_HEIGHT,2)))
-			cv2.imshow("Livestream ",markerImg)
-			rospy.sleep(0.5)
-			cv2.destroyAllWindows()
+			#cv2.imshow("Livestream ",markerImg)
+			#rospy.sleep(0.5)
+			#cv2.destroyAllWindows()
 			
 		for i in range(3):
 			for j in range(3):
@@ -89,17 +90,47 @@ class ImageProcessor:
 				if(SPAM):
 					rospy.loginfo("{}:{}x{}:{}".format(round(x_start,2), round(x_end,2), round(y_start,2), round( y_end,2)))
 		
+		certaintyLevel = 10
 		#threadsavety in Python is a nightmare
 		with graph.as_default():
 			with thread_session.as_default():
+			
 				for tile in tiles:
-				
 					tile = numpy.expand_dims(img_to_array( tile.astype("float") / 255.0), axis=0)
 					(noMarker, marker) = model.predict(tile)[0]
 					probability = round((max(noMarker, marker) * 100),2)
-					has_marker = marker > noMarker
+					certainty = ((marker - noMarker)* 100)
+					
+					if(SPAM):#output the difference in certainty 
+						rospy.loginfo("degree  of certainty")
+						rospy.loginfo(certainty)
+					has_marker_chance.append(marker*100)	#fill debug array
+					no_marker_percent.append(noMarker*100) #fill debug array
+					
+					
+					if((marker > noMarker) and (certainty > certaintyLevel)):# bad bad BUG!
+						#has_marker = marker
+						has_marker = True
+					else: 
+						#has_marker = noMarker
+						has_marker = False
 					results.append([has_marker, probability])
-			
+			#output formated array content of AI results
+			if(VERBOSE):
+				rospy.loginfo("certainty of Marker found")
+				rospy.loginfo("{:6.2f} {:6.2f} {:6.2f}". format(has_marker_chance[0],has_marker_chance[3],has_marker_chance[6])  )
+				rospy.loginfo("{:6.2f} {:6.2f} {:6.2f}". format(has_marker_chance[1],has_marker_chance[4],has_marker_chance[7])  )
+
+				rospy.loginfo("{:6.2f} {:6.2f} {:6.2f}". format(has_marker_chance[2],has_marker_chance[5],has_marker_chance[8]) )
+				
+				rospy.loginfo(" percent certainty that there is No Marker")
+				rospy.loginfo("{:6.2f} {:6.2f} {:6.2f}".
+				format(no_marker_percent[0 ], no_marker_percent[3 ], no_marker_percent[6 ]))
+				rospy.loginfo("{:6.2f} {:6.2f} {:6.2f}".
+				format(no_marker_percent[1 ], no_marker_percent[4 ], no_marker_percent[ 7]))
+				rospy.loginfo("{:6.2f} {:6.2f} {:6.2f}".
+				format(no_marker_percent[ 2], no_marker_percent[ 5], no_marker_percent[ 8]))
+				
 		return results
 	
 	
@@ -122,15 +153,13 @@ class ImageProcessor:
 		if(VERBOSE):
 			rospy.logwarn("Transfer Delay: {}.{} Sec".format(img_delay, im_del, "\n"))
 		
-		#columns = numpy.array()
 		columns = []
 		#compressed ROS  Image needst to be translated to opencv.
 		markerImg = self.imgDecompresser.compressed_imgmsg_to_cv2(newImg)
-		myResult = self.splitSeach(markerImg)
+		myResult = self.splitSearch(markerImg)
 		if(VERBOSE):
-			#rospy.loginfo(round(myResult,2))
 			rospy.loginfo(myResult)
-			#rospy.loginfo("{:.2f}".format(myResult))
+			
 		
 		# sort results into columns & calculate average
 		for idx in range(3):
@@ -230,15 +259,6 @@ class ImageProcessor:
 		#or fase means  (-1 * x)
 		#add all numbers per column up.
 		
-		'''
-		for idx in range(3):
-			column = [0, 0.0]  # [number of markers in column, average probability]
-			for cnter in range(3):
-			
-				if myResult[(idx * 3) + cnter][0] == True:
-					column[0] += 1
-					column[1] += myResult[(idx * 3) + cnter][1]
-		'''
 		
 		#the myResults array is nested, one dimentional.[ [bool, float] [bool,float]...
 		#this loop looks at 3 columns if the array where 3D
