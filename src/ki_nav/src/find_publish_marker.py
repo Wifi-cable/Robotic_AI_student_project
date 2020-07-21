@@ -25,10 +25,9 @@ with thread_graph.as_default():
 		model = load_model(path,compile=False)
 		graph = tf.get_default_graph()
 
-
 VERBOSE = True #set to True for a lot of debugging output
 SPAM = False	#how to you call an extra verbosity level?
-
+LIMIT_OUTPUT = True #outputs verbose content 3 times. does not scroll 
 
 Left = "left"
 Right = "right"
@@ -36,8 +35,6 @@ Forward = "forward"
 NotFound = "notfound"
 HalfRight = "halfright"
 HalfLeft = "halfleft"
-
-
 
 class ImageProcessor:
 	
@@ -71,14 +68,9 @@ class ImageProcessor:
 			now = str(rospy.Time.now)
 			cv2.imshow("stream ",markerImg)
 			cv2.waitKey(3)
-			#rospy.sleep(5.5)
-			#cv2.destroyAllWindows()
 		
 		if(SPAM):
 			rospy.loginfo("IMG: {}x{}".format(round(IMG_WIDTH,2), round(IMG_HEIGHT,2)))
-			#cv2.imshow("Livestream ",markerImg)
-			#rospy.sleep(0.5)
-			#cv2.destroyAllWindows()
 			
 		for i in range(3):
 			for j in range(3):
@@ -86,7 +78,7 @@ class ImageProcessor:
 				y_start, y_end = j * step_height, (j + 1) * step_height
 				
 				tiles.append(cv2.resize( markerImg[x_start:x_end, y_start:y_end], (step_width, step_height)))	
-				#try not to mix print statments with ROS code. use  instead "rospy.loginfo"
+				
 				if(SPAM):
 					rospy.loginfo("{}:{}x{}:{}".format(round(x_start,2), round(x_end,2), round(y_start,2), round( y_end,2)))
 		
@@ -109,10 +101,8 @@ class ImageProcessor:
 					
 					
 					if((marker > noMarker) and (certainty > certaintyLevel)):# bad bad BUG!
-						#has_marker = marker
 						has_marker = True
 					else: 
-						#has_marker = noMarker
 						has_marker = False
 					results.append([has_marker, probability])
 			#output formated array content of AI results
@@ -120,7 +110,6 @@ class ImageProcessor:
 				rospy.loginfo("certainty of Marker found")
 				rospy.loginfo("{:6.2f} {:6.2f} {:6.2f}". format(has_marker_chance[0],has_marker_chance[3],has_marker_chance[6])  )
 				rospy.loginfo("{:6.2f} {:6.2f} {:6.2f}". format(has_marker_chance[1],has_marker_chance[4],has_marker_chance[7])  )
-
 				rospy.loginfo("{:6.2f} {:6.2f} {:6.2f}". format(has_marker_chance[2],has_marker_chance[5],has_marker_chance[8]) )
 				
 				rospy.loginfo(" percent certainty that there is No Marker")
@@ -143,13 +132,17 @@ class ImageProcessor:
 		global VERBOSE 
 		global SPAM 
 		
-		if(self.counter >= 3):
-			VERBOSE = False
-			SPAM =  False
-			#cv2.destroyAllWindows()
-			#rospy.logwarn("OFFFFFFFFF!!!!!!")
-		self.counter = self.counter + 1
-		#rospy.logwarn(self.counter)
+		#this improves readabillity for debug purposes
+		if(LIMIT_OUTPUT and (SPAM or VERBOSE)):
+			rospy.loginfo("your output will be limited to 3 times")
+		if(LIMIT_OUTPUT):
+			
+			if(self.counter >= 3):
+				VERBOSE = False
+				SPAM =  False
+				
+			self.counter = self.counter + 1
+			
 		if(VERBOSE):
 			rospy.logwarn("Transfer Delay: {}.{} Sec".format(img_delay, im_del, "\n"))
 		
@@ -171,7 +164,6 @@ class ImageProcessor:
 					column[1] += myResult[(idx * 3) + cnter][1]
 		
 			# calculate average probability
-			#column[1] = column[1] /3
 			columns.append(column)
 		# publish where to go
 		if(VERBOSE):
@@ -235,9 +227,6 @@ class ImageProcessor:
 		else:
 			rospy.logerr("--------------- confused AI, the marker is not here, nor is there no marker")
 	
-	
-		
-		
 		
 	def highscoreCallback(self, newImg):
 		now = rospy.Time.now()
@@ -253,13 +242,6 @@ class ImageProcessor:
 		
 		if(VERBOSE):
 			rospy.loginfo(myResult)
-		#have [[t/f, %]
-		#can not be numpy array because it has mixed data types 
-		#can have two arrays one for true and one for false, 
-		#or fase means  (-1 * x)
-		#add all numbers per column up.
-		
-		
 		#the myResults array is nested, one dimentional.[ [bool, float] [bool,float]...
 		#this loop looks at 3 columns if the array where 3D
 		#idx:  0, 3, 6, | 1, 4, 7| 2, 5, 8
