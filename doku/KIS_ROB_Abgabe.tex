@@ -69,7 +69,7 @@
 		
 	\title{rosBerry - ein autonomer Roboter auf Basis von ROS und eines Modellautos mit Maker-Elektronik}
 	
-	\author{\IEEEauthorblockN{1\textsuperscript{st} Barsalou, marie}
+	\author{\IEEEauthorblockN{1\textsuperscript{st} Barsalou, Marie}
 		\IEEEauthorblockA{ 
 			Marie.Barsalou@stud.hs-mannheim.de}%
 		\and
@@ -86,7 +86,7 @@
 	\maketitle
 	
 	\begin{abstract}
-		Ziel von Projekt rosBerry besteht darin, einen kleinen, schnellen aber dennoch preisgünstigen Roboter aus leicht verfügbaren Standardbauteilen zu bauen.
+		Ziel des Projektes rosBerry ist, einen kleinen, schnellen aber dennoch preisgünstigen Roboter aus leicht verfügbaren Standardbauteilen zu bauen.
 		Zusätzlich soll er mit dem Robot Operating System betrieben und mit einer Künstlichen Intelligenz versehen werden.
 		Der Roboter soll einen optischen Marker erkennen und darauf zufahren.
 		Frontalzusammenstöße mit Wänden soll er dabei vermeiden.
@@ -101,32 +101,29 @@
 	Das ist schwer zu schreiben, aber aus Sicht eines Lesers sehr informativ. 
 	\end{comment}
 	
-	\begin{IEEEkeywords}
-		Roboter, ROS, Raspi, Neuronale Netze, Arduino
-	\end{IEEEkeywords}
+
+{\small\textbf{\textit{Stichworte}\textendash{}\textendash{}Roboter, ROS, Raspi, Neuronale Netze, Arduino}}
 	
-	\section{Theorie zu Roboter und seiner Künstlichen Intelligenz}
+	\section{Theorie zum Roboter und seiner Künstlichen Intelligenz}
 		
-	Wenige Projekte in Robotik oder Künstlichen Intelligenz für Autonome 
-	Systeme existieren, ohne das es nicht andere vergleichbare Projekte gibt. 
-	Eine vollständige oder zumindest Repräsentative Darstellung würde den 
-	Rahmen einer Studentischen Projektarbeit sprengen.
+	Es existieren wenige Projekte in der Robotik und in der Künstlichen Intelligenz, bei denen man nicht vergleichbare Projekte findet.
+	Detailliertere Untersuchungen würden den Rahmen einer Studentischen Projektarbeit sprengen.
 	
 	\subsection{Vergleichbare Hardwareansätze - Donkey Cars} %mary
 	%Donkey car infos
 	Die Hardware des Roboters wurde vom Donkey Car Projekt inspiriert.
 	Das Donkey Car Projekt beschäftigt sich damit, ein ferngesteuertes Auto mit einem Raspberry Pi zu steuern.
 	Mehr Informationen zu diesem Projekt gibt es auf ihrer Website 
-	\url{https://docs.donkeycar.com} .
+	\url{https://docs.donkeycar.com}.
 	Donkey Cars fahren größtenteils mit Hilfe von quelloffenem Python Code. \\
 	\\
 	Auf Youtube hat ein Benutzer namens Tiziano Fiorenzani gezeigt, wie ein Donkey Car mit ROS betrieben werden kann.
 	Das Video \url{https://youtu.be/iLiI\_IRedhI}  verweist auf Github für 
 	Tiziano 
-	Fiorenzanis Code. Es wurde eine Abzweigung eines Github-Repositoriums 
+	Fiorenzanis Code. Es wurde eine Abzweigung seines Github-Repositoriums 
 	erstellt. Auf 
 	\url{https://github.com/Wifi-cable/Robotic_AI_student_project/}
-	Findet sich der Quellcode des Projektes rosBerry. 
+	befindet sich der Quellcode des Projektes rosBerry. 
 	Das Projekt wurde um einen Arduino und mehrere ROS Knoten, eine 
 	einfache Künstliche Intelligenz sowie um Launchfiles erweitert.
 		
@@ -141,11 +138,11 @@
 	Amanda Decker ist ein vergleichbares Projekt.
 	Einige der Grundansätze aus dieser Arbeit wurden für dieses Projekt übernommen.
 	So wurde das Neuronale Netz nicht auf einem Raspberry Pi trainiert und 
-	einen Marker wurde  genommen der sich gut rotieren und spiegeln lässt.
+	ein Marker wurde  genommen der sich gut rotieren und spiegeln lässt.
 	Somit kann jedes Bild des Datensatzes gespiegelt werden, um mit mehr 
 	Daten arbeiten zu können.
 	
-	\section{Theoretische Grundlagen von Projekt rosBerry}
+	\section{Theoretische Grundlagen}
 	In diesem Kapitel wird auf die Erstellung des Datensatzes für die KI eingegangen sowie auf die Grobübersicht des Softwaresystems auf die Knotenarchitektur. %Wuhuuu Einführungssatz (Kann sich nochmals ändern.)
 	
 	\subsection{Ansätze für die Erstellung des Datensatzes}	%mary
@@ -163,11 +160,11 @@
 	da die beiden Farben des Markers einen geringen Kontrast zueinander 
 	haben. (Binärbilder enthalten nur die Farben Schwarz und Weiß. Sie 
 	entscheiden anhand eines Schwellwerts welche der beiden Farben ein 
-	Pixel bekommen wird )
+	Pixel bekommen wird)
 	Da Kameras in Opencv mit Hilfe von Schachbrettmustern kalibriert werden, wird für dieses Projekt ein Symbol mit ähnlich hohem Kontrast und scharfen Kanten verwendet.
 	\\
 	
-	Dieses Symbol\ref{Marker} ist nicht nur in 4 Richtungen rotierbar, sondern auch zweifach spiegelbar, ohne den Marker zu verfälschen. (Rotationsinvarianz und Spiegelungsinvarianz)
+	Dieses Symbol (Abb. \ref{Marker}) ist nicht nur in 4 Richtungen rotierbar, sondern auch zweifach spiegelbar, ohne den Marker zu verfälschen. (Rotationsinvarianz und Spiegelungsinvarianz)
 	Es verfügt auch über einen maximalen Kontrast und klare, gerade Kanten.
 	\\
 	\noindent
@@ -199,18 +196,21 @@
 	\end{figure}
 	Die Abbildung \ref{Gesamtzusammenhang} zeigt das System, welches auf 
 	dem Robot Operating System (ROS) basiert.
-	Diese Software läuft verteilt auf den Komponenten Laptop, Raspberry PI und Arduino, wie in Abbildung \ref{Gesamtzusammenhang} zu sehen.
+	Diese Software läuft verteilt auf den Komponenten Laptop, Raspberry Pi und Arduino, wie in Abbildung \ref{Gesamtzusammenhang} zu sehen.
 	\\
-	Die Komponente Laptop ermöglicht dem User die Versteuerung des 
+	Die Komponente Laptop ermöglicht dem User die Steuerung des 
 	Roboters.
 	Die Steuerung kann erst erfolgen, wenn auf dem Raspberry Pi ein Accesspoint geöffnet wurde, mit dem sich der Laptop - der Nutzer letztendlich - via WLAN verbindet.
 	\\
-	Innerhalb der anderen Komponente Roboter - unser rosBerry - befindet sich die beiden Hardware-Elemente Raspberry Pi und ein Arduino. Roscore läuft auf dem Raspberry PI und ein Node - für den Ultraschallsensor - auf dem Arduino.
+	Die andere Komponente - der Roboter - besteht aus einem Raspberry Pi und einem Arduino.
+	Der Pi ist mit Roscore ausgestattet, auf dem Arduino läuft ein Node für den Ultraschallsensor.
+	% ? Besser als das hier: ?
+	% Innerhalb der anderen Komponente Roboter - unser rosBerry - befindet sich die beiden Hardware-Elemente Raspberry Pi und ein Arduino. Roscore läuft auf dem Raspberry Pi und ein Node - für den Ultraschallsensor - auf dem Arduino.
 	
 	Der Arduino wird durch ein USB Kabel mit dem Raspberry Pi verbunden.
 	Dadurch wird eine Kommunikation ermöglicht, in welcher der Arduino den Raspberry Pi in Zeitabständen mit Sensordaten versorgt.
 	\\
-	An dieser Stelle ist anzumerken, dass weitere Hardware verwendet wird, die im Kapitel Hardwareaufbau näher vorgestellt wird.
+	An dieser Stelle ist anzumerken, dass weitere verwendete Hardware im Kapitel Hardwareaufbau näher vorgestellt wird.
 	
 	%----------------------------------------------------------------
 	\subsection{Architektur der ROS-Knoten}\label{sec:Architektur}
@@ -233,7 +233,7 @@
 	Treu nach den Prinzipien von ROS besteht die Software aus vielen ROS Nodes, welche als Oval dargestellt werden. 
 	Jeder Node erledigt kleine Aufgaben und kann als Subscriber und/oder Publisher fungieren.
 	Die Kommunikation zwischen Subscriber und Publisher erfolgt durch ROS Messages (Nachrichten).
-	Diese werden durch verschiedene Topics - werden als Rechteck dargestellt - kommuniziert.
+	Diese werden durch verschiedene Topics (Themen) kommuniziert, die in den Abbildungen als Rechteck dargesteltt werden.
 	Die Topics kann man als Kanäle für Nachrichten betrachten.
 	
 	Folgende Nodes befinden sich im Softwaresystem:
@@ -261,9 +261,10 @@
 	Die nächste Abbildung veranschaulicht alle Knoten und Topics für die 
 	Künstliche Intelligenz. 
 
+	% TODO full width figure (how?)
 	\begin{figure}[!ht] 
 		\centering
-		\def\svgwidth{11cm}
+		\def\svgwidth{\linewidth}
 		\input{img/AI-Only.pdf_tex}
 		\caption{Übersicht über die AI}
 		\label{AI-Only}
@@ -292,7 +293,7 @@
 		Ultraschallsensordaten zuständig. Der Knoten hat einen Publisher der 
 		auf dem  Topic /cmd\_vel (value) eine Geometry/Twist\_Message 
 		versendet. So werden Geschwindigkeit und Lenkung des Roboters 
-		Gesteuert. ( angular.z für die Lenkung und linear.x für die 
+		Gesteuert. (angular.z für die Lenkung und linear.x für die 
 		Beschleunigung)
 		
 		
@@ -376,7 +377,7 @@
 		fontsize=\footnotesize,
 		framesep=2mm
 		]{Bash}
-		#call on Raspbeery Pi to launch hardware nodes
+		#call on Raspberry Pi to launch hardware nodes
 		roslaunch donkey_car keyboard_demo.launch
 		#call keyboard node from laptop 
 		rosrun teleop_twist_keyboard teleop_twist_keyboard.py
@@ -625,10 +626,10 @@ model.add(Activation("relu"))
 	\end{figure}
 	
 	Abschließend werden zwei Neuronen für die beiden Ausgangswerte 
-	"Marker" und "kein Marker" benötigt.
+	"Marker"\ und "kein Marker"\ benötigt.
 	Zur Aktivierung wird die Softmax-Funktion genutzt, die auch 
 	normalisierte Exponentialfunktion genannt wird.
-	Sie transformiert mehrdimensionale Vektoren in einen Wertebereich zwischen 0 und 1, wobei alle Komponenten zusammen 1 ergeben müssen, das heißt wenn "Marker" einen Wert von 0,65 hat, muss "kein Marker" einen Wert von 0,35 haben. 
+	Sie transformiert mehrdimensionale Vektoren in einen Wertebereich zwischen 0 und 1, wobei alle Komponenten zusammen 1 ergeben müssen, das heißt wenn "Marker"\ einen Wert von 0,65 hat, muss "kein Marker"\ einen Wert von 0,35 haben. 
 	Die Funktion kann durchaus für mehr als zwei Ausgangswerte genutzt werden, für unseren Anwendungsfall werden jedoch nicht mehr Ausgangswerte benötigt.
 	
 	\begin{figure}[!h]
@@ -656,7 +657,7 @@ model.add(Activation("softmax"))
 	\end{figure}
 	Beim ersten Durchlauf des Neuronalen Netzes war die Erkennungsrate des Markers 57\%. Dieses Ergebnis ist bei einer 50/50 Chance kaum besser als Raten.\\
 	
-	Die Schritte von  \glqq Learn Keras for Deep Neural Networkss\grqq \cite{moolayil2019learn} zum verbessern des Designs von Neurnalen Netzen wurden zur verbesserung der Trainignsergebnisse verwedet. 
+	Die Schritte von  \glqq Learn Keras for Deep Neural Networkss\grqq \cite{moolayil2019learn} zum Verbessern des Designs von Neurnalen Netzen wurden zur verbesserung der Trainignsergebnisse verwedet. 
 	
 	\cite{moolayil2019learn} Rät dazu mit einer kleinen Architektur anfangen 
 	das bedeutet wenige Schichten und eine geringe Anzahl an Neuronen. Es 
@@ -694,13 +695,13 @@ model.add(Activation("softmax"))
 	nächsten Trainingseinheiten auf einem performanteren Server 
 	durchgeführt. Der zusätzliche Arbeitsspeicher und die Grafikarten 
 	bringen bei einer Aktivierung der CUDA Beschleunigung einen großen 
-	Geschwindigkeitszuwachs . \\
+	Geschwindigkeitszuwachs. \\
 	
 	Ein weiteres Problem das zu Tage trat war das Overfitting. Das Modell entwickelte sich gut auf Trainingsdaten, schnitt jedoch deutlich schlechter bei Testdaten ab, mit denen es nicht trainiert hatte. Die Kurven liefen bei mehr als 200 Epochen weit auseinander.\\
 	
 	
-	Weiterhin Rät \cite{moolayil2019learn} mehr Schichten benutzen, 
-	Beispielsweise abwechselnd eine Dichte Schicht( dense layer) und eine 
+	Weiterhin rät \cite{moolayil2019learn} mehr Schichten zu benutzen, 
+	beispielsweise abwechselnd eine Dichte Schicht (dense layer) und eine 
 	Dropout Schicht.
 	
 	Dropout Schichten im Neuronalen Netz verbesserten das Overfitting 
@@ -709,7 +710,7 @@ model.add(Activation("softmax"))
 	
 	Das TensorFlow/Keras Modell, dass bei voller Auflösung oder 307200 
 	Eingangsneuronen erstellt wurde, hat eine Größe von über einem 
-	Gigabyte. Je größer das Modell ist, des do unwahrscheinlicher, dass ein 
+	Gigabyte. Je größer das Modell ist, desto unwahrscheinlicher, dass ein 
 	Raspberry Pi das Modell in absehbarer Zeit auf ein Bild anwenden kann. 
 	Somit erwies sich der Ansatz einfach die Auflösung zu erhöhen,  nicht als 
 	zielführend für den Anwendungsfall. \\
@@ -719,7 +720,7 @@ model.add(Activation("softmax"))
 	Durchläufen und kleinerer Pixelanzahl erreicht. \\
 	
 	 Wenn eine  Steigerung der Anzahl an Schichten und der Neuronen keine 
-	 weitere Steigerung der Erkennungsrate bringt, Rät 
+	 weitere Steigerung der Erkennungsrate bringt, rät der Autor in 
 	 \cite{moolayil2019learn} die Daten neu analysieren. Es wurden als 
 	 Bilder mit sehr geringem Kontrast aussortiert, extrem Dunkle Bilder 
 	 sowie Bilder auf denen der Marker sehr weit entfernt war. Sie wurden 
@@ -737,7 +738,7 @@ model.add(Activation("softmax"))
 	
 	Alle weiteren versucht das Model weiter zu verfeinern scheiterten. Die 
 	Ursache dafür ist nicht eindeutig geklärt. Eine mögliche Erklärung ist, 
-	dass der Datensatz für die Komplexität des Models zu klein war . Auch 
+	dass der Datensatz für die Komplexität des Models zu klein war. Auch 
 	möglich ist, dass die Grenzen der Optimierer ADAM und Stochastic 
 	Gradient Descent erreicht waren. Auch Programmierfehler konnten nicht 
 	ausgeschlossen werden. 
@@ -770,17 +771,15 @@ model.add(Activation("softmax"))
 	Teilweise läuft der Raspberry Pi dabei so heiß, dass er abstürzt. Ein 
 	externer Ventilator erwies sich als hilfreich.  Da Tensorflow  eine große 
 	Bibliothek ist, wäre ihre Kompilierung aufwendig.
-	//quelle muss noch in bib.bib 
-	:https://qengineering.eu/install-tensorflow-2.2.0-on-raspberry-pi-4.html
-	Sagt über den Raspberry Pi 4   : \\
+Q-engineering	\cite{qengineering}
+	Sagt über den Raspberry Pi 4: \\
 	\say{The whole TensorFlow installation procedure from start to end takes 
 	many hours (±33 for Python, ±10 for the C++ library). } \\
-	(Übersetzt der komplette TensorFlow Installationsprozess von Anfang bis 
-	ende braucht viele Stunden. Für Python rund 33 Stunden, für die C++ 
-	Bibliothek rund 10 Stunden. )
-	Es ist  anzunehmen, dass der Zeitaufwand für eine Kompilierung auf dem 
-	weniger Performanten Raspberry 3B länger dauert. Da es keine Garantie 
-	gibt, dass Bibliotheken die für  64 Bit Systeme geschrieben wurden, auch 
+	Übersetzt bedeutet das, dass der komplette Tensorflow Installationsprozess von Anfang bis Ende viele Stunden benötigt. Für Python rund 33 Stunden, für die C++ 
+	Bibliothek rund 10 Stunden.
+	Es ist anzunehmen, dass der Zeitaufwand für eine Kompilierung auf dem 
+	weniger performanten Raspberry 3B länger dauert. Da es keine Garantie 
+	gibt, dass Bibliotheken die für 64 Bit Systeme geschrieben wurden, auch 
 	auf auf 32 Bit Systemen reibungslos funktionieren, ist eine Kompilierzeit 
 	von über einem Tag nicht akzeptabel. \\
 	
@@ -794,16 +793,16 @@ nutzt ist ROS Melodic auf Python 2.7 angewiesen. Die Python Versionen sind
 inkompatibel. Tensorflow2 benötigt eine aktuelle Python Version, die von 
 ROS Melodic nicht ohne weiteres unterstützt wird. \\
 
-Tensorflow1 ist zwar mit Python2.7 kompatibel, es ist jedoch nicht 
-Threadsave. Das erschien anfangs kein Problem, da keine parallele 
-	Programmierung geplant war. Ein Prototyp-Programm mit Anwendung von 
-	neuronalem Netz lief problemlos auf Mac mit Python3.(Ohne ROS 
-	Publisher und Subscriber) Dieses Programm 
+Tensorflow1 ist zwar mit Python 2.7 kompatibel, es ist jedoch nicht 
+threadsafe. Das erschien anfangs kein Problem, da keine parallele 
+	Programmierung geplant war. Ein Prototyp-Programm mit Anwendung vom 
+	neuronalem Netz lief problemlos auf Mac mit Python 3 (ohne ROS 
+	Publisher und Subscriber). Dieses Programm 
 	sollte als Vorlage für einen ROS Knoten dienen. Auf Ubuntu in ROS traten 
-	jedoch viele kryptische Fehlermeldungen auf. \ref{Error1}, \ref{Error2}, 
-	\ref{Error3} Die Tatsache das Die Fehlermeldungen beim Durchlauf eines 
+	jedoch viele kryptische Fehlermeldungen auf. (Abb. \ref{Error1}, Abb. \ref{Error2}, Abb. \ref{Error3}) 
+	Die Tatsache, dass die Fehlermeldungen beim Durchlauf eines 
 	unveränderten Programms unterschiedlich waren verwirrte anfangs. 
-	Nicht deterministisches Verhalten deutet entweder auf Pseudozufall hin, 
+	Nicht deterministisches Verhalten deutet entweder auf Zufall hin, 
 	oder auf Probleme bei der Parallelen Ausführung. 
 	
 	\begin{figure}
@@ -852,10 +851,10 @@ Threadsave. Das erschien anfangs kein Problem, da keine parallele
 	des Betriebssystems den Bildanalyse-Algorithmus als hochgradig 
 	parallelisierbar erkannt hat. Der Algorithmus im  ROS Knoten nutzte mehr 
 	als einen Thread bei der Ausführung um die Mehrkern CPU auszunutzen. 
-	Die abschließende Uhrsache konnte zum zeit des Papers nicht geklärt 
+	Die abschließende Ursache konnte zum Zeitpunkt des Papers nicht geklärt 
 	werden.
 	Laut Victor Meunier's Blog  \cite{Keras} 
-	muss sichergestellt werden, dass jeder Thread seinen eigenen Graph und seinen eigene Session hat. Das Schlüsselwort \say{With} hilft den Kontext zu definieren. \ref{with} \\
+	muss sichergestellt werden, dass jeder Thread seinen eigenen Graphen und seinen eigene Session hat. Das Schlüsselwort \say{With} hilft den Kontext zu definieren. [\ref{with}]\\
 	
 	\begin{figure}
 		\centering
@@ -927,7 +926,7 @@ Ein verwandtes Problem ist, dass der Roboter häufig zwischen zwei Richtungen sc
 % reagiert relativ langsam
 
 	\section{Erkenntnisse }
-	Auch wenn dieses Projekt sehr lehrreich für alle Beteiligten war, kann ein studentisches Semesterprojekt nicht an die Leistungen im Rahmen von echten Forschungsarbeiten, durchgeführt von Wissenschaftlern mit Master oder Doktor Titel, heranreichen. Nicht nur das Budget sondern auch das Fachwissen, sowie die zeitlichen Gegebenheiten unterscheiden sich stark. Dieses Kapitel wird zuerst darauf auf mögliche Verbesserungen für eventuelle Nachfolgeprojekte eingehen, um dann einige Erkenntnisse zusammenzufassen. 
+	Auch wenn dieses Projekt sehr lehrreich für alle Beteiligten war, kann ein studentisches Semesterprojekt nicht an die Leistungen im Rahmen von echten Forschungsarbeiten, durchgeführt von erfahrenen Wissenschaftlern, heranreichen. Nicht nur das Budget sondern auch das Fachwissen, sowie die zeitlichen Gegebenheiten unterscheiden sich stark. Dieses Kapitel wird zuerst darauf auf mögliche Verbesserungen für eventuelle Nachfolgeprojekte eingehen, um dann einige Erkenntnisse zusammenzufassen. 
 	
 	\subsection{Empfehlungen für nachfolge Projekte}
 	
@@ -947,7 +946,7 @@ Ein verwandtes Problem ist, dass der Roboter häufig zwischen zwei Richtungen sc
 	\subsection{Ansätze zur Verbesserung der Erkennung der Marker durch die K.I}
 	
 	Es ist zu überprüfen, ob ein Ecken erkennender Featurematchingalgorithmus nicht dem verwendeten Kantenerkennungsalgorithmus überlegen ist. Ansätze der künstlichen Intelligenz, die sich darauf konzentrieren \textit{wo} die gesuchten Merkmalspunkte  im Gesichtsfeld des Roboters ist, statt sich darauf zu beschränken \textit{ob} ein Merkmalspunkt detektiert wurde, versprechen eine präzisere Navigation. \\
-	Es ist in Zukunft zu überprüfen, ob ein Training mit schwarzweiß Bildern einen ähnlichen Trainingserfolg bringt. Bei gleicher Auflösung brauchen RGB Bilder drei mal so viele Daten wie schwarzweiß Bilder, da sie drei mal so viele Farbkanäle brauchen. Das Umrechnen von Farbbildern in schwarzweiß Bilder ist dank Opencv keine rechenintensive Operation. Inwieweit zusätzliche Rechenoperationen die Serialisierungszeit , die Versandzeit und die Reserialisierung der Daten aufhebt sprengte den Rahmen dieser Arbeit. Inwiefern die Reduktion der Datenmenge das Gesamtsystem performanter macht ist noch zu überprüfen.
+	Es ist in Zukunft zu überprüfen, ob ein Training mit schwarzweiß Bildern einen ähnlichen Trainingserfolg bringt. Bei gleicher Auflösung brauchen RGB Bilder drei mal so viele Daten wie schwarzweiß Bilder, da sie drei mal so viele Farbkanäle brauchen. Das Umrechnen von Farbbildern in schwarzweiß Bilder ist dank Opencv keine rechenintensive Operation. Inwieweit zusätzliche Rechenoperationen die Serialisierungszeit, die Versandzeit und die Reserialisierung der Daten aufhebt sprengte den Rahmen dieser Arbeit. Inwiefern die Reduktion der Datenmenge das Gesamtsystem performanter macht ist noch zu überprüfen.
 	\\
 	Des Weiteren ist darauf hinzuweisen, dass es schon viele gute Algorithmen zur Navigation mit Hilfe von optischen Markern gibt, deren Evaluation jedoch den zeitlichen Rahmen dieses Projektes gesprengt hätten. Für zukünftige Projekte ist ein Vergleich der bereits existierender Lösungen empfehlenswert.
 		
