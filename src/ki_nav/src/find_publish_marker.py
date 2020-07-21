@@ -46,7 +46,7 @@ class ImageProcessor:
 		self.directionPublisher = rospy.Publisher('/Marker', String, queue_size=1)
 		#build a subscriber
 		self.sub2Img = rospy.Subscriber('/camera/image/compressed', CompressedImage, self.imgCallBack )
-
+		
 		rospy.loginfo("build publiser to custom 'Maker' topic")
 		rospy.loginfo("build a subscriber to '/camera/image/compressed' topic")
 	
@@ -82,7 +82,7 @@ class ImageProcessor:
 				if(SPAM):
 					rospy.loginfo("{}:{}x{}:{}".format(round(x_start,2), round(x_end,2), round(y_start,2), round( y_end,2)))
 		
-		certaintyLevel = 10
+		certaintyLevel = 5
 		#threadsavety in Python is a nightmare
 		with graph.as_default():
 			with thread_session.as_default():
@@ -99,7 +99,7 @@ class ImageProcessor:
 					has_marker_chance.append(marker*100)	#fill debug array
 					no_marker_percent.append(noMarker*100) #fill debug array
 					
-					
+					# do not trust  if marker > no marker 
 					if((marker > noMarker) and (certainty > certaintyLevel)):# bad bad BUG!
 						has_marker = True
 					else: 
@@ -120,8 +120,59 @@ class ImageProcessor:
 				rospy.loginfo("{:6.2f} {:6.2f} {:6.2f}".
 				format(no_marker_percent[ 2], no_marker_percent[ 5], no_marker_percent[ 8]))
 				
-		return results
+		return results,has_marker_chance , no_marker_percent
 	
+	#this algorythm just counts the numer of times  the AI thinks it may have a maarker
+	#makes robot move in direction of most false positives
+	def evaluateAverageMatch(self, resultsArray):
+		columns = []
+		
+		for idx in range(3):
+			column = [0, 0.0]  # [number of markers in column, average probability]
+			for cnter in range(3):
+				
+				if resultsArray[(idx * 3) + cnter][0] == True:
+					column[0] += 1
+					column[1] += resultsArray[(idx * 3) + cnter][1]
+					
+			if column[0] > 0:
+				# calculate average probability
+				column[1] = column[1] /3
+			#add result to array list
+			columns.append(column)
+		
+		return columns
+	
+	#improved evaluation algorythm. 
+	#goesin the direction of the strongest true prediction
+	#calculated the difference between certainties to output
+	def evaluateMaxMatch(self, noMarkerArray, markerArray):
+		columns = []
+		markerF = numpy.array(noMarkerArray)
+		markerT = numpy.array(markerArray)
+		diffArray = numpy.array( markerF- markerT)
+		maxDiff = max(diffArray)
+		
+		if(VERBOSE):
+			rospy.loginfo("this is the Array of the differences between certainties")
+			rospy.loginfo('{:6.2f} {:6.2f} {:6.2f}'.format(diffArray[0],diffArray[3],diffArray[6] ))
+			rospy.loginfo('{:6.2f} {:6.2f} {:6.2f}'.format(diffArray[1],diffArray[4],diffArray[7] ))
+			rospy.loginfo('{:6.2f} {:6.2f} {:6.2f}'.format(diffArray[2],diffArray[5],diffArray[8] ))
+		
+		
+		for idx in range(3):
+			col = [0, 0.0]  # [distance to false precicition, average true probability]
+			for cnter in range(3):
+				curentTile = diffArray[(idx * 3) + cnter]
+				if (curentTile == maxDiff):
+					col[0] =  markerT[(idx * 3) + cnter]
+					col[1] = curentTile
+					if(VERBOSE):
+						rospy.loginfo("[confidence, truth prediction]")
+						rospy.loginfo(col)
+			columns.append(col)
+		
+		return columns
 	
 	#callback method to do most of the work
 	def imgCallBack(self, newImg):
@@ -132,7 +183,8 @@ class ImageProcessor:
 		global VERBOSE 
 		global SPAM 
 		
-		#this improves readabillity for debug purposes
+		#this improves readabillity for debug purposes 
+		#set LIMIT_OUTPUT to false to get continous output
 		if(LIMIT_OUTPUT and (SPAM or VERBOSE)):
 			rospy.loginfo("your output will be limited to 3 times")
 		if(LIMIT_OUTPUT):
@@ -146,26 +198,18 @@ class ImageProcessor:
 		if(VERBOSE):
 			rospy.logwarn("Transfer Delay: {}.{} Sec".format(img_delay, im_del, "\n"))
 		
-		columns = []
 		#compressed ROS  Image needst to be translated to opencv.
 		markerImg = self.imgDecompresser.compressed_imgmsg_to_cv2(newImg)
-		myResult = self.splitSearch(markerImg)
+		myResult, noMark, markFound = self.splitSearch(markerImg)
+		
+		#columns = self.evaluateAverageMatch(myResult) #use at your own risk
+		columns= self.evaluateMaxMatch( noMark, markFound)
+		
 		if(VERBOSE):
+			rospy.loginfo("now trying to output my results array")
 			rospy.loginfo(myResult)
-			
 		
-		# sort results into columns & calculate average
-		for idx in range(3):
-			column = [0, 0.0]  # [number of markers in column, average probability]
-			for cnter in range(3):
-			
-				if myResult[(idx * 3) + cnter][0] == True:
-					column[0] += 1
-					column[1] += myResult[(idx * 3) + cnter][1]
-		
-			# calculate average probability
-			columns.append(column)
-		# publish where to go
+		# output array of results 
 		if(VERBOSE):
 			rospy.loginfo('')
 			rospy.loginfo('Oben.: {:5}:{:6.2f}  {:5}:{:6.2f}  {:5}:{:6.2f}'.format(str(myResult[0][0]), myResult[0][1] , str(myResult[3][0]), myResult[3][1], str(myResult[6][0]), myResult[6][1]))
@@ -176,12 +220,7 @@ class ImageProcessor:
 			
 		if(VERBOSE):
 			rospy.loginfo('Summe: \033[33m<<--{:1}:{:6.2f}  \033[34m^^^^{:1}:{:6.2f}  \033[1;34m-->>{:1}:{:6.2f}\033[0m'.format(columns[0][0],columns[0][1], columns[1][0],columns[1][1], columns[2][0],columns[2][1]))
-			rospy.loginfo("shape of the columns arraylist is: ")
-			rospy.loginfo(columns)
-			rospy.loginfo(max(columns))
-			#rospy.loginfo(columns[0])
 		
-		#if ((columns[0] == max(columns)) and (columns[0] == [0, 0.0])):
 		if ((columns[0] == [0, 0.0]) and (columns[1] == [0, 0.0]) and (columns[2] == [0, 0.0])):
 			if(VERBOSE):
 				rospy.loginfo("---------------------------- No marker detected anywhere.")
@@ -227,39 +266,6 @@ class ImageProcessor:
 		else:
 			rospy.logerr("--------------- confused AI, the marker is not here, nor is there no marker")
 	
-		
-	def highscoreCallback(self, newImg):
-		now = rospy.Time.now()
-		send_time = newImg.header.stamp
-		img_delay = now.secs - send_time.secs
-		im_del =  now.nsecs - send_time.nsecs
-		
-		if(VERBOSE):
-			rospy.logwarn("Transfer Delay: {}.{} Sec".format(img_delay, im_del, "\n"))
-		
-		markerImg = self.imgDecompresser.compressed_imgmsg_to_cv2(newImg)
-		myResult = self.splitSeach(markerImg)
-		
-		if(VERBOSE):
-			rospy.loginfo(myResult)
-		#the myResults array is nested, one dimentional.[ [bool, float] [bool,float]...
-		#this loop looks at 3 columns if the array where 3D
-		#idx:  0, 3, 6, | 1, 4, 7| 2, 5, 8
-		acumulator_array = numpy.zeros((3,3))
-		for col in range(3):
-			for row in range(3):
-				idx = row +(col *3)
-				#if marker detection is false, make value negative
-				if(myResult[idx][0] == False):
-					#acumulator_array[row][col] = ( -1 * (round( myResult[idx][1]),2))	#out of range
-					
-					acumulator_array[row][col] =  (-1 * idx)
-				else:
-					#acumulator_array[row][col] = (round( myResult[idx][1]), 2)	#out of range
-					
-					acumulator_array[row][col] = idx #debug
-		if(VERBOSE):
-			rospy.loginfo(acumulator_array)
 
 
 def main():
