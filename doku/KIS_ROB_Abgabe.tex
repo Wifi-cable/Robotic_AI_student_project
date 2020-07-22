@@ -111,20 +111,20 @@
 	
 	\subsection{Vergleichbare Hardwareansätze - Donkey Cars} %mary
 	%Donkey car infos
-	Die Hardware des Roboters wurde vom Donkey Car Projekt inspiriert.
+	Die Hardware des Roboters wird vom Donkey Car Projekt inspiriert.
 	Das Donkey Car Projekt beschäftigt sich damit, ein ferngesteuertes Auto mit einem Raspberry Pi zu steuern.
 	Mehr Informationen zu diesem Projekt gibt es auf ihrer Website 
 	\url{https://docs.donkeycar.com}.
 	Donkey Cars fahren größtenteils mit Hilfe von quelloffenem Python Code. \\
 	\\
 	Auf Youtube hat ein Benutzer namens Tiziano Fiorenzani gezeigt, wie ein Donkey Car mit ROS betrieben werden kann.
-	Das Video \url{https://youtu.be/iLiI\_IRedhI}  verweist auf Github für 
+	Das Video \url{https://youtu.be/iLiI\_IRedhI} verweist auf Github für 
 	Tiziano 
-	Fiorenzanis Code. Es wurde eine Abzweigung seines Github-Repositoriums 
+	Fiorenzanis Code. Es wird eine Abzweigung seines Github-Repositoriums 
 	erstellt. Auf 
 	\url{https://github.com/Wifi-cable/Robotic_AI_student_project/}
 	befindet sich der Quellcode des Projektes rosBerry. 
-	Das Projekt wurde um einen Arduino und mehrere ROS Knoten, eine 
+	Das Projekt wird um einen Arduino und mehrere ROS Knoten, eine 
 	einfache Künstliche Intelligenz sowie um Launchfiles erweitert.
 		
 	\subsection{Vergleichbare Projekte zur Künstlichen Intelligenz} 
@@ -137,8 +137,8 @@
 	Zero am Beispiel einer Ladestationserkennung\grqq  \cite{Amanda} von 
 	Amanda Decker ist ein vergleichbares Projekt.
 	Einige der Grundansätze aus dieser Arbeit wurden für dieses Projekt übernommen.
-	So wurde das Neuronale Netz nicht auf einem Raspberry Pi trainiert und 
-	ein Marker wurde  genommen der sich gut rotieren und spiegeln lässt.
+	So wird das Neuronale Netz nicht auf einem Raspberry Pi trainiert und 
+	es wird ein Marker genommen der sich gut rotieren und spiegeln lässt.
 	Somit kann jedes Bild des Datensatzes gespiegelt werden, um mit mehr 
 	Daten arbeiten zu können.
 	
@@ -161,7 +161,7 @@
 	haben. (Binärbilder enthalten nur die Farben Schwarz und Weiß. Sie 
 	entscheiden anhand eines Schwellwerts welche der beiden Farben ein 
 	Pixel bekommen wird)
-	Da Kameras in Opencv mit Hilfe von Schachbrettmustern kalibriert werden, wird für dieses Projekt ein Symbol mit ähnlich hohem Kontrast und scharfen Kanten verwendet.
+	Da Kameras in OpenCV mit Hilfe von Schachbrettmustern kalibriert werden, wird für dieses Projekt ein Symbol mit ähnlich hohem Kontrast und scharfen Kanten verwendet.
 	\\
 	
 	Dieses Symbol (Abb. \ref{Marker}) ist nicht nur in 4 Richtungen rotierbar, sondern auch zweifach spiegelbar, ohne den Marker zu verfälschen. (Rotationsinvarianz und Spiegelungsinvarianz)
@@ -176,8 +176,8 @@
 		\item Um zu verhindern, dass die KI alle Bilder mit starken Kontrasten für einen Marker hält, wird ein Ausschnitt einmal mit und einmal ohne den Marker fotografiert.
 		\item Gegen den \glqq schön-wetter KI\grqq-Effekt (eine KI die annimmt jedes gut ausgeleuchtete Bild muss ein Treffer sein) wird der Marker bei verschiedenen Beleuchtungen fotografiert.
 		Dazu gehören direktes Sonnenlicht, Schatten, künstliche Beleuchtung mit LED, Lampen und Neonröhren. 
-		\item Um zu verhindern, dass die KI alles für ihren Marker hält, was eine gewisse Größe hat und quadratisch ist, wurde der Marker aus verschiedenen Distanzen fotografiert. 
-		\item Gegen Noise-Anfälligkeit wurden verschiedene Hintergründe bei den Fotos verwendet. Teils weiße Wände, teils strukturierte Hintergründe oder eine Freifläche. 
+		\item Um zu verhindern, dass die KI alles für ihren Marker hält, was eine gewisse Größe hat und quadratisch ist, wird der Marker aus verschiedenen Distanzen fotografiert. 
+		\item Gegen Noise-Anfälligkeit werden verschiedene Hintergründe bei den Fotos verwendet. Teils weiße Wände, teils strukturierte Hintergründe oder eine Freifläche. 
 		\item Um zu verhindern, dass sich die KI auf die Bildmitte konzentrieren kann, wird der Marker aus verschieden Positionen fotografiert. 
 	\end{itemize}
 	
@@ -220,7 +220,7 @@
 	In diesem Kapitel wird die Software-Architektur des Roboters vorgestellt.
 	%Den dazugehörige Quellcode finden Sie auf https://github.com/Wifi-cable/Robotic\_AI\_student\_project.
 	%An dieser Stelle möchten wir darauf hinweisen, dass das Repository von Tiziano Fiorenzani geklont wurde.
-	%Die Dokumentation seines Projektes finden Sie unter folgende Verlinkung zu Youtube https://youtu.be/iLiI\_IredhI.
+	%Die Dokumentation seines Projektes finden Sie unter folgender Verlinkung zu Youtube https://youtu.be/iLiI\_IredhI.
 	
 	% Das Bild später bei Existenz aller Knoten aktualisieren.
 	\begin{figure}[!ht] 
@@ -233,7 +233,7 @@
 	Treu nach den Prinzipien von ROS besteht die Software aus vielen ROS Nodes, welche als Oval dargestellt werden. 
 	Jeder Node erledigt kleine Aufgaben und kann als Subscriber und/oder Publisher fungieren.
 	Die Kommunikation zwischen Subscriber und Publisher erfolgt durch ROS Messages (Nachrichten).
-	Diese werden durch verschiedene Topics (Themen) kommuniziert, die in den Abbildungen als Rechteck dargesteltt werden.
+	Diese werden durch verschiedene Topics (Themen) kommuniziert, die in den Abbildungen als Rechteck dargestellt werden.
 	Die Topics kann man als Kanäle für Nachrichten betrachten.
 	
 	Folgende Nodes befinden sich im Softwaresystem:
@@ -245,7 +245,7 @@
 		\item serial\_node.py (Publisher der Ultraschallsensordaten)
 	\end{itemize}
 	
-	Die Nodes  tauschen Nachrichten über Topics aus.
+	Die Nodes tauschen Nachrichten über Topics aus.
 	Die folgenden Topics befinden sich im Softwaresystem:
 	\begin{itemize}
 		\item /cmd\_vel (command velocity, die Beschleunigungssteuerung und 
@@ -272,20 +272,20 @@
 
 	\begin{itemize}
 		\item Auf dem Raspberry Pi befindet sich der Publisher 
-		/compress\_sender. Dieser erstellt Fotos mit hilfe von OpenCV. Im 
+		/compress\_sender. Dieser erstellt Fotos mit Hilfe von OpenCV. Im 
 		Anschluss werden die Bilder mit Hilfe der CV-Bridge in ROS Bilder 
-		umgewandelt und komprimiertet. Die so erstellte ROS Nachricht, wird 
-		Per Wlan über das Topic /camera/image/compressed versendet.
+		umgewandelt und komprimiertet. Die so erstellte ROS Nachricht wird 
+		Per WLAN über das Topic /camera/image/compressed versendet.
 		
-		\item Der Node /AI befindet sich auf dem Laptop. Dieser abonniert das 
+		\item Der Node / AI befindet sich auf dem Laptop. Dieser abonniert das 
 		komprimierte Bild und wendet darauf das Keras Trainingsmodell an. 
 		Nach der Auswertung wird eine String Nachricht über WLAN durch 
-		das  Topic /Marker an den Node /high\_level\_control,  versendet. 
-		Dieser String endhält eine Richtungsangabe wie \say{Left} oder 
-		\say{Forward}. Das senden über W-lan ist nötig da sich die  
+		das Topic / Marker an den Node /high\_level\_control versendet. 
+		Dieser String enthält eine Richtungsangabe wie \say{Left} oder 
+		\say{Forward}. Das Senden über WLAN ist nötig, da sich die  
 		/high\_level\_control auf dem Raspberry Pi befindet.
 		
-		\item Der Publisher /serial\_node wird im Quellcode auf dem Arduino initialisiert. Dieser sendet in kurzen Zeitabständen über das Topic /rngMsg\_topic die erhaltenen Ultraschallsensordaten.
+		\item Der Publisher /serial\_node wird im Quellcode auf dem Arduino initialisiert. Dieser sendet die erhaltenen Ultraschallsensordaten in kurzen Zeitabständen über das Topic /rngMsg\_topic.
 		
 		\item Der /high\_level\_controller Knoten abonniert die beiden Topics 
 		/Marker und /rangeMsg\_Topic. Er ist für die Steuerung der 
@@ -293,7 +293,7 @@
 		Ultraschallsensordaten zuständig. Der Knoten hat einen Publisher der 
 		auf dem  Topic /cmd\_vel (value) eine Geometry/Twist\_Message 
 		versendet. So werden Geschwindigkeit und Lenkung des Roboters 
-		Gesteuert. (angular.z für die Lenkung und linear.x für die 
+		gesteuert. (angular.z für die Lenkung und linear.x für die 
 		Beschleunigung)
 		
 		
@@ -303,7 +303,7 @@
 	
 	Dieses Kapitel ist eine Anleitung zum Starten der ROS Nodes. Ohne 
 	Vorkonfiguration und Launchfiles ist 
-	die Knotenaufrufreihenvolge langwierig. Manche Schritte müssen auf einem 
+	die Knotenaufrufreihenfolge langwierig. Manche Schritte müssen auf einem 
 	Laptop durchgeführt werden, andere via SSH auf dem Raspberry Pi. So 
 	muss der Laptop erfahren das ein ROScore (Master Node) bereits auf dem 
 	Raspberry Pi läuft.
@@ -341,13 +341,13 @@
 
 	\end{minted}
 	
-	Mehrere Schritte sind Möglich um diesen Prozess zu vereinfachen. Die 
-	meisten Optionen sind eine frage der persönlichen Präferenz des ROS 
-	Benutzers.  So kann ein Eintrag in die Systemweit geltende Datei 
+	Mehrere Schritte sind möglich um diesen Prozess zu vereinfachen. Die 
+	meisten Optionen sind eine Frage der persönlichen Präferenz des ROS 
+	Benutzers. So kann ein Eintrag in die systemweit geltende Datei 
 	\textit{bash.rc} die Eingabe von \textit{source devel/setup.bash} im ROS 
 	workspace ersetzen. \\
 	Eine weitere Erleichterung ist der Eintrag eines Shellscripts in die 
-	setup.bash Datei. \ref{Einzeiler} Dieser Eintrag Setzt die ROS Host IP 
+	setup.bash Datei. \ref{Einzeiler} Dieser Eintrag setzt die ROS Host IP 
 	Variable auf die aktuelle IP Adresse des Laptops.
 	\begin{figure}
 		\centering
@@ -362,13 +362,13 @@
 		\caption{Bash Einzeiler, Autor J.K }
 	\end{figure}
 	\\
-	Eine weitere Möglichkeit der Vereinfachung besteht im erstellen von 
+	Eine weitere Möglichkeit der Vereinfachung besteht im Erstellen von 
 	SSH-Keys. 
 	
 	\subsubsection{Launchfiles}
 	
-	Launchfiles die viele ROS Knoten auf einmal starten sind eine Beliebte 
-	Vereinfachung. Um die \textit{Keyboard Demo}  \ref{demo} zu starten, oder 
+	Launchfiles, die viele ROS Knoten auf einmal starten, sind eine beliebte 
+	Vereinfachung. Um die \textit{Keyboard Demo} \ref{demo} zu starten, oder 
 	den Roboter Fernzusteuern existiert ein Lauchfile im \textit{Donkey Car} 
 	Fork der Github Quelle.
 	\begin{figure}
@@ -387,8 +387,8 @@
 	\end{figure}
 	
 	Um die benötigten Knoten Für die Künstliche Intelligenz komfortabel zu 
-	starten wurden zwei Launchfiles geschrieben \ref{KI-launch}.  Das ist 
-	Notwendig da die Anwendung verteilt läuft. (siehe spätere Artikel)
+	starten wurden zwei Launchfiles geschrieben \ref{KI-launch}. Das ist 
+	notwendig da die Anwendung verteilt läuft. (siehe spätere Artikel)
 	
 	\begin{figure}
 		\centering
@@ -412,7 +412,7 @@
 	%----------------------------------------------------------------
 	
 	In diesem Kapitel wird der Hardwareaufbau des rosBerry, sowie die 
-	mechanisches Bauteile beschrieben. Zusätzlich wird auf einige 
+	mechanischen Bauteile beschrieben. Zusätzlich wird auf einige 
 	Entscheidungskriterien für die Auswahl von Bauteilen eingegangen. 
 	Hierfür werden die einzelnen verwendeten Hardwarekomponenten - deren Modell und Funktion - vorgestellt. 
 	
@@ -436,21 +436,21 @@
 	Der Kompromiss dieser Abwägung fand sich bei einem älteren 
 	Einsteigermodell namens TAMIYA RC 1:10 TT-01E. Tamiya ist ein 
 	traditionsreicher japanischer Hersteller der qualitativ hochwertige 
-	Bausätze ferngesteuerte Fahrzeuge herstellt. (Er stellt Schiffe, Flugzeuge 
+	Bausätze für ferngesteuerte Fahrzeuge herstellt. (Er stellt Schiffe, Flugzeuge 
 	und Panzer her, aber hauptsächlich Modellautos) Tamiya ist unter 
 	Modellbau-Enthusiasten dafür bekannt, alle Prinzipien japanischer 
 	Ingenieurskunst bei der Konstruktion seiner Modelle anzuwenden, statt 
 	\say{Spielzeugqualität} in China herzustellen. Das TT01-Modell hat 
 	identische Außenmaße und kann mit denselben elektronischen Komponenten 
-	betrieben werden, wie sein Nachfolgemodell das TT02. Somit ist die 
+	betrieben werden wie sein Nachfolgemodell TT02. Somit ist die 
 	Reproduzierbarkeit im Bezug auf das Chassis gegeben.
 	\\
 	Die Mechanik des \textit{TAMIYA RC 1:10 TT-01E } Modells basiert auf 
 	einem Motor und einer langen Antriebswelle, die drei Differenzialgetriebe 
 	bewegt. \ref{Getriebe} Die Modelle werden als Vierradantrieb vermarktet. 
-	Die Lenkung wird Getrennt vom Antrieb durch einen Kleinen Servo Motor 
-	geregelt\ref{Servomotor}. Er bewegt die Spurstange nach rechts/links. Das 
-	Chassis nutzt also eine Akkerman Lenkung, wie sie auch bei PKWs üblich ist.
+	Die Lenkung wird getrennt vom Antrieb durch einen kleinen Servomotor 
+	geregelt\ref{Servomotor}. Er bewegt die Spurstange nach rechts / links. Das 
+	Chassis nutzt also eine Ackermann Lenkung, wie sie auch bei PKWs üblich ist.
 	
 	\subsection{Elektronische Bauteile und ihre Funktion}
 	% SVG ?
@@ -463,7 +463,7 @@
 	\end{figure}
 	
 	Wie aus der Abbildung \ref{Hardwarekomponenten} zu erkennen, ist die meiste Hardware mit Jumper Wire verbunden.
-	Ausnahmen der Anschlüsse bilden die Verbindungen des Raspberry Pi's 
+	Ausnahmen bilden die Verbindungen des Raspberry Pi's 
 	zur Kamera (Flexkabel), zum Arduino (USB) und zum Motorshield (I2C).
 	\\
 	
@@ -501,16 +501,16 @@
 		gewünschte Position drehen.
 		Das 2. PWM Signal wird zum Fahrtenregler gesendet.
 		Dadurch wird die Geschwindigkeit geregelt.
-		\item Der Raspberry Pi 3.B+ ist das Herzstück des rosBerry.
-		Auf ihn läuft zum einem ROS und zum anderen die Software des Roboters, welche im Kapitel ROS Knoten Software Architektur vorgestellt wurde.
+		\item Der Raspberry Pi 3 B+ ist das Herzstück des rosBerry.
+		Auf ihn läuft zum einen ROS und zum anderen die Software des Roboters, welche im Kapitel ROS Knoten Software Architektur vorgestellt wird.
 		Über eine I\textsuperscript{2}C-Schnittstelle werden Daten an den 
 		Motorshield übertragen.
 		Die Daten geben an, wie das PWM Signal auszusehen hat.
-		\item Der Arduino UNO  steuert einen Ultraschallsensor an und erzeugt 
+		\item Der Arduino UNO steuert einen Ultraschallsensor an und erzeugt 
 		einen ROS-Knoten (Publisher).
 		Innerhalb des Programms wird das Signal des Sensors in Meter umgewandelt und in eine Range Message gespeichert.
 		Die Range Message namens rangeMsg wird an das Topic rangeMsg\_topic übermittelt.
-		Ein Subscriber - der auf dem Raspberry Pi läuft - subscribed das Topic und erhält regelmäßig Sensordaten über die Reichweite.
+		Ein Subscriber, der auf dem Raspberry Pi läuft, abboniert das Topic und erhält regelmäßig Sensordaten über die Reichweite.
 		
 		\begin{figure}
 			\centering
@@ -520,8 +520,8 @@
 		\end{figure}
 		\item Der Ultraschallsensor - Modell HC-SR04 - wird zum rechtzeitigen 
 		Erkennen von Hindernissen eingesetzt.
-		Dieser hat eine maximale Reichweite von vier Meter.
-		Alle 1/4 Sekunde sendet dieser ein Signal und verarbeitet dieses.
+		Dieser hat eine maximale Reichweite von vier Metern.
+		Alle ¼ Sekunde sendet dieser ein Signal und verarbeitet dieses.
 		\item Die Kamera - Modell 5 MP - ist durch ein Flexkabel an den Raspberry Pi über das CSI-Interface angeschlossen.
 		Diese versorgt die KI mit Bildern, welche einen Marker sucht und findet.
 	\end{enumerate}
@@ -536,18 +536,18 @@
 	Danach erst kann er auf den Marker zufahren.
 	\\
 	
-	Dazu muss  der Marker zuverlässig in unterschiedlichen Umgebungen 
+	Dazu muss der Marker zuverlässig in unterschiedlichen Umgebungen 
 	erkannt werden.
 	
 	\subsection{Erster Ansatz für das Neuronale Netz}	%steffen ? mary?
 
-	Der erste Entwurf unseres Neuronalen Netzes war stark angelehnt an F. Grovers Beispielnetz aus \glqq Artificial Intelligence for Robotics\grqq \cite{govers2018artificial}. 
+	Der erste Entwurf unseres Neuronalen Netzes ist stark angelehnt an F. Grovers Beispielnetz aus \glqq Artificial Intelligence for Robotics\grqq \cite{govers2018artificial}. 
 	Wie in der Vorlage wird ein sequentielles Modell mithilfe von Keras 
 	erstellt.
 	
 	Die erste Schicht stellt eine Convolution-Layer mit 20 Convolutions dar, 
 	wovon jede ein Merkmal des Eingangsbildes isolieren soll.
-	Die Größe wird auf 5x5 gesetzt, Betracht also zwei benachbarte Pixel in 
+	Die Größe wird auf 5x5 gesetzt, betrachtet also zwei benachbarte Pixel in 
 	jede Richtung.
 	Selbstverständlich muss dafür auch ein Padding hinzugefügt werden, damit das Verfahren auch am Bildrand funktioniert. 
 	
@@ -572,7 +572,7 @@ model.add(Activation("relu"))
 		\label{Schicht eins}
 	\end{figure}
 	
-	Die zweite Schicht ist ein Maxpooling-Layer, bei der  jeweils 2x2 Pixel 
+	Die zweite Schicht ist ein Maxpooling-Layer, bei der jeweils 2x2 Pixel 
 	genommen werden und danach 2x2 Pixel weiter gerückt wird, um keine 
 	Überlappungen zu haben.
 	Das Ergebnis ist ein Bild in ¼ der originalen Größe: aus 640x480px wird 320x240px, aus 128x128px 64x64px usw.
@@ -580,7 +580,7 @@ model.add(Activation("relu"))
 	Direkt darauf folgt eine weiteres Convolution Layer mit der doppelten 
 	Anzahl an Convolutions - 40 statt vorher 20 - um mehr Merkmale zu 
 	identifizieren.
-	Durch das vorher durchgeführte maxpooling werden nun andere, größere Merkmale erkannt.
+	Durch das vorher durchgeführte Maxpooling werden nun andere, größere Merkmale erkannt.
 	 Dieselbe ReLU Aktivierungsfunktion wird genutzt, aus denselben 
 	 Gründen wie in der ersten Schicht.
 	
@@ -607,9 +607,9 @@ model.add(Activation("relu"))
 	
 	Darauf folgt nun eine Schicht, die vorher noch nicht im Neuronalen Netz vorkam:
 	Zuerst werden die dreidimensionalen Bildinformationen mit der Funktion 
-	Flatten() in ein eindimensionales Array geplättet, bevor  eine 
+	Flatten() in ein eindimensionales Array geplättet, bevor eine 
 	vollverknüpfte Schicht mittels Dense(500) hinzufügt wird.
-	Erneut wird die  die ReLU Aktivierungsfunktion genutzt, aus bekannten 
+	Erneut wird die ReLU Aktivierungsfunktion genutzt, aus bekannten 
 	Gründen.
 	
 	\begin{figure}[!h]
@@ -655,21 +655,21 @@ model.add(Activation("softmax"))
 		\caption{Erster Durchlauf}
 		\label{Initiales Ergebnis}
 	\end{figure}
-	Beim ersten Durchlauf des Neuronalen Netzes war die Erkennungsrate des Markers 57\%. Dieses Ergebnis ist bei einer 50/50 Chance kaum besser als Raten.\\
+	Beim ersten Durchlauf des Neuronalen Netzes ist die Erkennungsrate des Markers 57\%. Dieses Ergebnis ist bei einer 50/50 Chance kaum besser als Raten.\\
 	
-	Die Schritte von  \glqq Learn Keras for Deep Neural Networkss\grqq \cite{moolayil2019learn} zum Verbessern des Designs von Neurnalen Netzen wurden zur verbesserung der Trainignsergebnisse verwedet. 
+	Die Schritte von \glqq Learn Keras for Deep Neural Networkss\grqq \cite{moolayil2019learn} zum Verbessern des Designs von Neurnalen Netzen werden zur verbesserung der Trainignsergebnisse verwendet. 
 	
-	\cite{moolayil2019learn} Rät dazu mit einer kleinen Architektur anfangen 
-	das bedeutet wenige Schichten und eine geringe Anzahl an Neuronen. Es 
-	liegt nahe das kleine Architekturen Ressourcen schonender sind als 
-	grosse Architekturen. Dieser ansatz erscheint sinnvoll da Steigende 
+	\cite{moolayil2019learn} rät dazu mit einer kleinen Architektur anzufangen,
+	dass bedeutet wenige Schichten und eine geringe Anzahl an Neuronen. Es 
+	liegt nahe, dass kleine Architekturen ressourcenschonender sind als 
+	grosse Architekturen. Dieser Ansatz erscheint sinnvoll, da steigende 
 	Resourcenanforderngen bei gleichbleibender Hardware zu steigender 
-	Rechenzeit pro Epoche bedeuten. \\
+	Rechenzeit pro Epoche führen. \\
 	
-	Das Netz nutzte anfangs nur eine Auflösung von 128x128 Pixel und 100 
+	Das Netz nutzt anfangs nur eine Auflösung von 128x128 Pixel und 100 
 	Epochen. Da jedes einzelne Pixel eine Eingangsneurone wird, ist 
 	anzunehmen, dass die geringe Auflösung im Buch 
-	\cite{govers2018artificial}.  gewählt wurde, um Rechenleistung zu 
+	\cite{govers2018artificial} gewählt wird, um Rechenleistung zu 
 	sparen. \\
 	
 	\begin{figure}[!h]
@@ -679,54 +679,53 @@ model.add(Activation("softmax"))
 		\label{Overfitt }
 	\end{figure}
 	
-	\cite{moolayil2019learn} Rät die Anzahl an Neuronen pro Schicht erhöhen, wenn Anfangs kein befriedigenden Ergebnisse erzieht werden.
+	\cite{moolayil2019learn} rät die Anzahl an Neuronen pro Schicht erhöhen, wenn Anfangs keine befriedigenden Ergebnisse erzielt werden.
 	Bei voller Bildauflösung von 640x480 Pixel erweist sich das Neuronale 
 	Netz auf der Hardware eines handelsüblichen Laptops als nicht mehr 
 	lauffähig. Für weitere Durchläufe wurden die nächsten Versuche auf einer 
-	Workstation mit mehr Grafkikkarten und Deutlich mehr RAM gemacht. 
-	Die Erkennungsrate stieg bei größerer Auflösung und mehr Durchläufen 
-	tatsächlich auf über 80\%. Damit vergrösserte sich jedoch das Modell (die 
+	Workstation mit mehr Grafikkarten und deutlich mehr RAM gemacht. 
+	Die Erkennungsrate steigt bei größerer Auflösung und mehr Durchläufen 
+	tatsächlich auf über 80\%. Damit vergrössert sich jedoch auch das Modell (die 
 	Gewichte der KI) auf über ein Gigabyte. Ein so großes Modell kann nicht 
-	zeitnahe auf einem Raspberry Pie angewedet werden, da es nicht mehr in 
-	den RAM passt. Auch auf Standard Laptops ist zu erwarten das ein 
-	größeres Modell echt zeit Berechnungen erschwert. \\
+	zeitnah auf einem Raspberry Pi angewedet werden, da es nicht mehr in 
+	den RAM passt. Auch auf Standard Laptops ist zu erwarten, dass ein 
+	größeres Modell Berechnungen in Echtzeit erschwert. \\
 	
-	Um mit einer höheren Auflösung trainieren zu können wurden die 
+	Um mit einer höheren Auflösung trainieren zu können werden die 
 	nächsten Trainingseinheiten auf einem performanteren Server 
 	durchgeführt. Der zusätzliche Arbeitsspeicher und die Grafikarten 
 	bringen bei einer Aktivierung der CUDA Beschleunigung einen großen 
 	Geschwindigkeitszuwachs. \\
 	
-	Ein weiteres Problem das zu Tage trat war das Overfitting. Das Modell entwickelte sich gut auf Trainingsdaten, schnitt jedoch deutlich schlechter bei Testdaten ab, mit denen es nicht trainiert hatte. Die Kurven liefen bei mehr als 200 Epochen weit auseinander.\\
+	Ein weiteres Problem, dass nun aufkommt ist das Overfitting. Das Modell entwickelte sich gut auf Trainingsdaten, schneidet jedoch deutlich schlechter bei Testdaten ab, mit denen es nicht trainiert hatte. Die Kurven laufen bei mehr als 200 Epochen weit auseinander.\\
 	
 	
 	Weiterhin rät \cite{moolayil2019learn} mehr Schichten zu benutzen, 
-	beispielsweise abwechselnd eine Dichte Schicht (dense layer) und eine 
+	beispielsweise abwechselnd eine dichte Schicht (dense layer) und eine 
 	Dropout Schicht.
 	
-	Dropout Schichten im Neuronalen Netz verbesserten das Overfitting 
-	Problem. Somit waren mehr Trainingsläufe ohne Overfitting möglich. Das 
-	neuronale Netz erreichte so werte von rund 85\%. \\
+	Dropout Schichten im Neuronalen Netz verbessern das Overfitting 
+	Problem. Somit sind mehr Trainingsläufe ohne Overfitting möglich. Das 
+	neuronale Netz erreicht so Werte von rund 85\%. \\
 	
-	Das TensorFlow/Keras Modell, dass bei voller Auflösung oder 307200 
-	Eingangsneuronen erstellt wurde, hat eine Größe von über einem 
+	Das TensorFlow / Keras Modell, dass bei voller Auflösung oder 307200 
+	Eingangsneuronen erstellt wird, hat eine Größe von über einem 
 	Gigabyte. Je größer das Modell ist, desto unwahrscheinlicher, dass ein 
 	Raspberry Pi das Modell in absehbarer Zeit auf ein Bild anwenden kann. 
-	Somit erwies sich der Ansatz einfach die Auflösung zu erhöhen,  nicht als 
+	Somit erweist sich der Ansatz, einfach die Auflösung zu erhöhen, nicht als 
 	zielführend für den Anwendungsfall. \\
 	
-	Das Modell musste also kleiner werden, ohne wesentliches Overfitting. 
-	Diese Ziehl wurde durch die Kombination von Dropoutschichten, mehr 
+	Das Modell muss also kleiner werden, ohne wesentliches Overfitting. 
+	Dieses Ziel wird durch die Kombination von Dropoutschichten, mehr 
 	Durchläufen und kleinerer Pixelanzahl erreicht. \\
 	
-	 Wenn eine  Steigerung der Anzahl an Schichten und der Neuronen keine 
+	 Wenn eine Steigerung der Anzahl an Schichten und der Neuronen keine 
 	 weitere Steigerung der Erkennungsrate bringt, rät der Autor in 
-	 \cite{moolayil2019learn} die Daten neu analysieren. Es wurden als 
-	 Bilder mit sehr geringem Kontrast aussortiert, extrem Dunkle Bilder 
-	 sowie Bilder auf denen der Marker sehr weit entfernt war. Sie wurden 
-	 durch Bessere Daten ersetzt. (neue Bilder wurden angefertigt jeweils mit 
-	 und Ohne Marker) Dieser Schritt verursachte eine Merkliche 
-	 Verbesserung des Trainingsergebnis.
+	 \cite{moolayil2019learn} die Daten neu zu analysieren. Es werden also 
+	 Bilder mit sehr geringem Kontrast aussortiert, ebenso extrem dunkle Bilder 
+	 sowie Bilder auf denen der Marker sehr weit entfernt war. Sie werden 
+	 durch bessere Daten ersetzt, indem neue Bilder je mit und ohne Marker angefertigt werden.
+	 Dieser Schritt verursacht eine merkliche Verbesserung des Trainingsergebnis.
 	\\
 		
 	\begin{figure}[!h]
@@ -736,11 +735,11 @@ model.add(Activation("softmax"))
 		\label{end Ergenisse }
 	\end{figure}
 	
-	Alle weiteren versucht das Model weiter zu verfeinern scheiterten. Die 
-	Ursache dafür ist nicht eindeutig geklärt. Eine mögliche Erklärung ist, 
-	dass der Datensatz für die Komplexität des Models zu klein war. Auch 
-	möglich ist, dass die Grenzen der Optimierer ADAM und Stochastic 
-	Gradient Descent erreicht waren. Auch Programmierfehler konnten nicht 
+	Alle weiteren Versuche, dass Modell weiter zu Verfeinern scheitern. Die 
+	Ursache dafür ist nicht eindeutig geklärt, möglich ist aber, 
+	dass der Datensatz für die Komplexität des Modells zu klein ist. Auch 
+	kann es sein, dass die Grenzen der Optimierer ADAM und Stochastic 
+	Gradient Descent erreicht sind. Auch Programmierfehler können nicht 
 	ausgeschlossen werden. 
 	
 	\begin{figure}[!h]
@@ -754,22 +753,22 @@ model.add(Activation("softmax"))
 	\subsection{Anwendung des Trainingsmodells} %steffen
 	//kommt noch
 	\subsubsection{Keras und Tensorflow auf Raspberry Pi Hardware}
-	Der initiale Plan sah vor, dass das neuronale Netz auf dem Raspberry Pi 
-	auszuwerten, damit der Roboter komplett autonom (ohne WLAN und 
+	Der initiale Plan sieht vor, dass das neuronale Netz auf dem Raspberry Pi 
+	ausgewertet wird, damit der Roboter komplett autonom (ohne WLAN und 
 	externen Computer) fahren kann. Die Prozessorleistung und der RAM 
-	eines Raspberry Pies 3B+ ist zwar deutlich geringer als, der eines 
-	Standard Laptops, aber die Nachteile eines verteilten Systems erschienen 
-	anfangs größer. Besonders der architektonische Aufwand für  verteilte 
+	eines Raspberry Pi's 3 B+ ist zwar deutlich geringer als der eines 
+	Standard Laptops, aber die Nachteile eines verteilten Systems erscheinen 
+	anfangs größer. Besonders der architektonische Aufwand für verteilte 
 	Systeme und das Einarbeiten in die Bibliothek CV Bridge zum Versenden 
-	von Bildern per ROS Topic wirkte aufwendig. \\
+	von Bildern per ROS Topic wirkt aufwendig. \\
 	Die meisten gängigen Bibliotheken und Frameworks sind unabhängig vom 
 	Zielbetriebssystem auf 64Bit Wortbreite ausgelegt, so auch Tensorflow 
 	und Keras. Das verwendete Ubuntu Image mit ROS für Raspberry Pi 
 	jedoch ist ein 32 Bit System. Das bedeutet, es gibt keine vorkompilierten 
 	Versionen von Tensorflow für das bisherige Setup. Das Kompilieren 
-	großer Tarfiles auf einem Raspberry Pi, dauert oft länger als eine Stunde. 
+	großer Tarfiles auf einem Raspberry Pi dauert oft länger als eine Stunde. 
 	Teilweise läuft der Raspberry Pi dabei so heiß, dass er abstürzt. Ein 
-	externer Ventilator erwies sich als hilfreich.  Da Tensorflow  eine große 
+	externer Ventilator erweist sich hier als hilfreich. Da Tensorflow eine große 
 	Bibliothek ist, wäre ihre Kompilierung aufwendig.
 Q-engineering	\cite{qengineering}
 	Sagt über den Raspberry Pi 4: \\
@@ -778,30 +777,30 @@ Q-engineering	\cite{qengineering}
 	Übersetzt bedeutet das, dass der komplette Tensorflow Installationsprozess von Anfang bis Ende viele Stunden benötigt. Für Python rund 33 Stunden, für die C++ 
 	Bibliothek rund 10 Stunden.
 	Es ist anzunehmen, dass der Zeitaufwand für eine Kompilierung auf dem 
-	weniger performanten Raspberry 3B länger dauert. Da es keine Garantie 
+	weniger performanten Raspberry 3 B länger dauert. Da es keine Garantie 
 	gibt, dass Bibliotheken die für 64 Bit Systeme geschrieben wurden, auch 
-	auf auf 32 Bit Systemen reibungslos funktionieren, ist eine Kompilierzeit 
+	auf 32 Bit Systemen reibungslos funktionieren, ist eine Kompilierzeit 
 	von über einem Tag nicht akzeptabel. \\
 	
-Somit wurde die Entscheidung für ein verteiltes System getroffen. Dabei 
-zeigten sich weitere erwähnenswerte Inkompatibilitäten. Für jede ROS 
-Version (Distribution) existieren vor gepackte Installationspakete für ein 
+Somit wird die Entscheidung für ein verteiltes System getroffen. Dabei 
+zeigen sich weitere erwähnenswerte Inkompatibilitäten. Für jede ROS 
+Version (Distribution) existieren vorgepackte Installationspakete für ein 
 Ubuntu Betriebssystem. Nur mit diesem System sind sie komplett 
 kompatibel. Das Betriebssystem Ubuntu 18.04 ist mit ROS Melodic 
 vorgesehen. Während das Betriebssystem Python 2.7 und Python 3.6.9. 
 nutzt ist ROS Melodic auf Python 2.7 angewiesen. Die Python Versionen sind 
 inkompatibel. Tensorflow2 benötigt eine aktuelle Python Version, die von 
-ROS Melodic nicht ohne weiteres unterstützt wird. \\
+ROS Melodic nicht ohne Weiteres unterstützt wird. \\
 
 Tensorflow1 ist zwar mit Python 2.7 kompatibel, es ist jedoch nicht 
-threadsafe. Das erschien anfangs kein Problem, da keine parallele 
-	Programmierung geplant war. Ein Prototyp-Programm mit Anwendung vom 
-	neuronalem Netz lief problemlos auf Mac mit Python 3 (ohne ROS 
+threadsafe. Das scheint anfangs kein Problem zu sein, da keine parallele 
+	Programmierung geplant ist. Ein Prototyp-Programm mit Anwendung vom 
+	neuronalem Netz läuft problemlos auf Mac mit Python 3 (ohne ROS 
 	Publisher und Subscriber). Dieses Programm 
-	sollte als Vorlage für einen ROS Knoten dienen. Auf Ubuntu in ROS traten 
+	soll als Vorlage für einen ROS Knoten dienen. Auf Ubuntu in ROS treten 
 	jedoch viele kryptische Fehlermeldungen auf. (Abb. \ref{Error1}, Abb. \ref{Error2}, Abb. \ref{Error3}) 
 	Die Tatsache, dass die Fehlermeldungen beim Durchlauf eines 
-	unveränderten Programms unterschiedlich waren verwirrte anfangs. 
+	unveränderten Programms unterschiedlich sind, verwirrte anfangs. 
 	Nicht deterministisches Verhalten deutet entweder auf Zufall hin, 
 	oder auf Probleme bei der Parallelen Ausführung. 
 	
@@ -847,13 +846,13 @@ threadsafe. Das erschien anfangs kein Problem, da keine parallele
 		\caption{Tensorflow Graphenelement unbekannt}
 	\end{figure}
 	
-	Es stellte sich heraus das entweder ROS, Python, Tensorflow oder die Kernel 
+	Es hat sich herausgestellt, dass entweder ROS, Python, Tensorflow oder die Kernel 
 	des Betriebssystems den Bildanalyse-Algorithmus als hochgradig 
-	parallelisierbar erkannt hat. Der Algorithmus im  ROS Knoten nutzte mehr 
+	parallelisierbar erkannt hat. Der Algorithmus im ROS Knoten nutzt mehr 
 	als einen Thread bei der Ausführung um die Mehrkern CPU auszunutzen. 
-	Die abschließende Ursache konnte zum Zeitpunkt des Papers nicht geklärt 
+	Die abschließende Ursache kann zum Zeitpunkt des Papers nicht geklärt 
 	werden.
-	Laut Victor Meunier's Blog  \cite{Keras} 
+	Laut Victor Meunier's Blog \cite{Keras} 
 	muss sichergestellt werden, dass jeder Thread seinen eigenen Graphen und seinen eigene Session hat. Das Schlüsselwort \say{With} hilft den Kontext zu definieren. [\ref{with}]\\
 	
 	\begin{figure}
@@ -865,7 +864,7 @@ threadsafe. Das erschien anfangs kein Problem, da keine parallele
 		with thread_session.as_default():
 		\end{minted}
 		\label{with}
-		\caption{Verwendung von Initialisiertem Graph}
+		\caption{Verwendung von initialisiertem Graph}
 	\end{figure}
 		
 	Erst innerhalb dieses Blockes kann sicher auf das vortrainierte Modell zugegriffen werden, um damit eine Vorhersage zu machen.
@@ -875,37 +874,37 @@ threadsafe. Das erschien anfangs kein Problem, da keine parallele
 	%echt? wann? ~marie
 	%rechtzeitig!
 % Bild schnipseln 
-Nachdem durch diverse Modifikationen am Modell  zufriedenstellende 
-Erkennungsraten erreicht wurden, steht im nächsten Schritt die Anwendung 
+Nachdem durch diverse Modifikationen am Modell zufriedenstellende 
+Erkennungsraten erreicht werden, steht im nächsten Schritt die Anwendung 
 des Trainingsmodells an.
 Wie andere Teile des Roboters wird diese als ROS Node realisiert, die am Ende ihrer Berechnungen entweder eine Richtung ("left", "forward", "right") oder den Fehlerstatus "notfound"\ als ROS Nachricht veröffentlicht.
 
 Um die Fahrtrichtung herauszufinden, wird das Bild erst in neun gleich 
-gro{\ss}e Teile aufgeteilt. Das Trainingsmodell  wird auf alle Teile 
+gro{\ss}e Teile aufgeteilt. Das Trainingsmodell wird auf alle Teile 
 angewendet.
-Wird der Marker am häufigsten in den linken drei Teilen erkannt soll der 
+Wird der Marker am Häufigsten in den linken drei Teilen erkannt soll der 
 Roboter nach links fahren, wird er in den rechten Teilen am häufigsten 
 erkannt soll er nach rechts fahren, ebenso wird mit der Mitte verfahren.
-Falls der Marker in keinem der drei Teile überhaupt erkannt wird, wird ein Fehlerstatus veröffentlicht der bedeutet, dass der Marker aktuell nicht gefunden werden kann.
+Falls der Marker in keinem der drei Teile erkannt wird, wird ein Fehlerstatus veröffentlicht der bedeutet, dass der Marker aktuell nicht gefunden werden kann.
 
 Der erste Ansatz ein Bild zu unterteilen ist es, dieses in neun nicht-überlappende Teile zu teilen, wobei aus einem 640x480px Eingangsbild neun 213x160px Bilder werden. 
 Dabei entstehen möglicherweise zu kleine Bildteile oder nur teilweise im 
 Bild vorhandene Marker, sodass zusätzlich eine alternative Zerteilmethode 
 getestet wurde. 
-Hier wurde das Bild mit in sich überlappende Teile geteilt, die jeweils 25\% des Gesamtbildes ausmachen - bei einer Auflösung von 640x480px entstehen so neun 320x240px Bilder.
+Hier wird das Bild mit in sich überlappende Teile geteilt, die jeweils 25\% des Gesamtbildes ausmachen - bei einer Auflösung von 640x480px entstehen so neun 320x240px Bilder.
 Nachteil hiervon ist, dass der Marker durch die Überlappungen möglicherweise in mehreren Teilbildern mit ähnlich hoher Wahrscheinlichkeit erkannt wird.
 
 % Braucht das ein Erklärbild? Ich hab das Gefühl das braucht irgendeine Grafik.
 
 Um zu ermitteln, welches der beiden Vorgeghensweisen besser funktioniert, 
-haben wurden Beide mit dem aktuell besten Trainingsmodell auf das 
+werden Beide mit dem aktuell besten Trainingsmodell auf das 
 gesamte Trainingsset angewendet und die Ergebnisse verglichen.
-Voraussetzung dafür war natürlich, dass das Trainingsset nun neben den Labeln "Marker" und "Kein Marker" auch noch Informationen über die Position der Marker erhält.
-Dabei stellte sich heraus, dass die erste Variante - neun Teilbilder zu je 213x160px - zuverlässiger arbeitet, sodass diese den Weg in die KI Navigation fand.
+Voraussetzung dafür ist natürlich, dass das Trainingsset nun neben den Labeln "Marker" und "Kein Marker" auch noch Informationen über die Position der Marker erhält.
+Dabei stellt sich heraus, dass die erste Variante - neun Teilbilder zu je 213x160px - zuverlässiger arbeitet, sodass diese den Weg in die KI Navigation findet.
 
 % Richtung errechnen
 
-Zur Berechnung der Richtung wurde von den je drei linken, mittigen und rechten Teilbildern gespeichert, ob und mit welcher Wahrscheinlichkeit der Marker pro Richtung durchschnittlich erkannt wurde.
+Zur Berechnung der Richtung wird von den je drei linken, mittigen und rechten Teilbildern gespeichert, ob und mit welcher Wahrscheinlichkeit der Marker pro Richtung durchschnittlich erkannt wird.
 Die Richtung, die die höchste Anzahl erkannter Marker hat, wird ausgegeben, bei gleicher Anzahl erkannter Marker entscheidet die höhere Wahrscheinlichkeit.
 Wird also in allen Teilbildern kein Marker erkannt, wird dennoch eine Richtung ausgegeben, da das Modell immer wenigstens eine kleine Wahrscheinlichkeit für einen Marker pro Bild errechnet.
 
@@ -916,9 +915,9 @@ Wird also in allen Teilbildern kein Marker erkannt, wird dennoch eine Richtung a
 %Wie wirkt sich das programmierte Verhalten nun in realen Tests aus?
 //Sektion ist noch in Arbeit, Bester Ansatz noch nicht endgültig geklärt
 
-Die Tatsache, dass auch kleine Wahrscheinlichkeiten als Richtung interpretiert werden, stellte sich schnell als problematisch heraus.
+Die Tatsache, dass auch kleine Wahrscheinlichkeiten als Richtung interpretiert werden, stellt sich schnell als problematisch heraus.
 Theoretisch ist das erwünschtes Verhalten - der Roboter kann damit meistens in irgendeine Richtung fahren, die ihm am ehesten richtig erscheint.
-In der Praxis stellte sich aber heraus, dass der Roboter damit zu häufig zu falschen Objekten fährt, die er als marker-ähnlich einschätzt. Dieses Fehlverhalten wurde durch eine Untergrenze korrigiert. Die KI muss sich wenigstens 20\% sicher sein, den Marker gefunden zu haben bevor sie den Roboter in diese Richtung steuert, andernfalls wird der Fehlerstatus propagiert.
+In der Praxis sieht man aber schnell, dass der Roboter damit zu häufig zu falschen Objekten fährt, die er als marker-ähnlich einschätzt. Dieses Fehlverhalten wird durch eine Untergrenze korrigiert. Die KI muss sich wenigstens 20\% sicher sein den Marker gefunden zu haben, bevor sie den Roboter in diese Richtung steuert, andernfalls wird der Fehlerstatus propagiert.
 
 Ein verwandtes Problem ist, dass der Roboter häufig zwischen zwei Richtungen schwankt, wenn sich der Marker nah an der Grenze zweier Richtungen befindet.
 % Lösung? Oder ist das einfach nur nervig?
@@ -926,14 +925,14 @@ Ein verwandtes Problem ist, dass der Roboter häufig zwischen zwei Richtungen sc
 % reagiert relativ langsam
 
 	\section{Erkenntnisse }
-	Auch wenn dieses Projekt sehr lehrreich für alle Beteiligten war, kann ein studentisches Semesterprojekt nicht an die Leistungen im Rahmen von echten Forschungsarbeiten, durchgeführt von erfahrenen Wissenschaftlern, heranreichen. Nicht nur das Budget sondern auch das Fachwissen, sowie die zeitlichen Gegebenheiten unterscheiden sich stark. Dieses Kapitel wird zuerst darauf auf mögliche Verbesserungen für eventuelle Nachfolgeprojekte eingehen, um dann einige Erkenntnisse zusammenzufassen. 
+	Auch wenn dieses Projekt sehr lehrreich für alle Beteiligten ist, kann ein studentisches Semesterprojekt nicht an die Leistungen im Rahmen von echten Forschungsarbeiten, durchgeführt von erfahrenen Wissenschaftlern, heranreichen. Nicht nur das Budget sondern auch das Fachwissen sowie die zeitlichen Gegebenheiten unterscheiden sich stark. Dieses Kapitel wird zuerst darauf auf mögliche Verbesserungen für eventuelle Nachfolgeprojekte eingehen, um dann einige Erkenntnisse zusammenzufassen. 
 	
 	\subsection{Empfehlungen für nachfolge Projekte}
 	
-	 Auf Basis der Erfahrungen mit diesem Projekt sind endstehen einige 
+	 Auf Basis der Erfahrungen mit diesem Projekt entstehen einige 
 	 Empfehlungen. Zunächst die Verbesserungsvorschläge für die Roboter 
-	 Hardware und Software, danach Ansätze  und Empfehlungen für die KI.\\
-	Da dieses Projekt immer wieder Probleme mit der Inkompatibilität der veralteten Python Version und aktuellen Bibliotheken hatte, wird ein Hardware und Software Stack empfohlen, der durchgehend das aktuelle Python 3 verwendet. Auch die Leistungsgrenzen des Raspberry Pi waren schnell erreicht. \\
+	 Hardware und Software, danach Ansätze und Empfehlungen für die KI.\\
+	Da dieses Projekt immer wieder Probleme mit der Inkompatibilität der veralteten Python Version und aktuellen Bibliotheken hat, wird ein Hardware und Software Stack empfohlen, der durchgehend das aktuelle Python 3 verwendet. Auch die Leistungsgrenzen des Raspberry Pi waren schnell erreicht. \\
 	
 	Empfehlungen:
 	\begin{itemize}
@@ -943,12 +942,12 @@ Ein verwandtes Problem ist, dass der Roboter häufig zwischen zwei Richtungen sc
 		\item  ROS Neotic* auf allen Rechnern
 	\end{itemize}
 	*oder aktueller wenn verfügbar
-	\subsection{Ansätze zur Verbesserung der Erkennung der Marker durch die K.I}
+	\subsection{Ansätze zur Verbesserung der Erkennung der Marker durch die KI}
 	
-	Es ist zu überprüfen, ob ein Ecken erkennender Featurematchingalgorithmus nicht dem verwendeten Kantenerkennungsalgorithmus überlegen ist. Ansätze der künstlichen Intelligenz, die sich darauf konzentrieren \textit{wo} die gesuchten Merkmalspunkte  im Gesichtsfeld des Roboters ist, statt sich darauf zu beschränken \textit{ob} ein Merkmalspunkt detektiert wurde, versprechen eine präzisere Navigation. \\
-	Es ist in Zukunft zu überprüfen, ob ein Training mit schwarzweiß Bildern einen ähnlichen Trainingserfolg bringt. Bei gleicher Auflösung brauchen RGB Bilder drei mal so viele Daten wie schwarzweiß Bilder, da sie drei mal so viele Farbkanäle brauchen. Das Umrechnen von Farbbildern in schwarzweiß Bilder ist dank Opencv keine rechenintensive Operation. Inwieweit zusätzliche Rechenoperationen die Serialisierungszeit, die Versandzeit und die Reserialisierung der Daten aufhebt sprengte den Rahmen dieser Arbeit. Inwiefern die Reduktion der Datenmenge das Gesamtsystem performanter macht ist noch zu überprüfen.
+	Es ist zu überprüfen, ob ein Ecken erkennender Featurematchingalgorithmus nicht dem verwendeten Kantenerkennungsalgorithmus überlegen ist. Ansätze der künstlichen Intelligenz, die sich darauf konzentrieren \textit{wo} die gesuchten Merkmalspunkte im Gesichtsfeld des Roboters sind, statt sich darauf zu beschränken \textit{ob} ein Merkmalspunkt detektiert wurde, versprechen eine präzisere Navigation. \\
+	Es ist in Zukunft zu überprüfen, ob ein Training mit schwarzweiß Bildern einen ähnlichen Trainingserfolg bringt. Bei gleicher Auflösung brauchen RGB Bilder drei mal so viele Daten wie schwarzweiß Bilder, da sie drei mal so viele Farbkanäle brauchen. Das Umrechnen von Farbbildern in schwarzweiß Bilder ist dank OpenCV keine rechenintensive Operation. Inwieweit zusätzliche Rechenoperationen die Serialisierungszeit, die Versandzeit und die Reserialisierung der Daten aufhebt sprengt den Rahmen dieser Arbeit. Inwiefern die Reduktion der Datenmenge das Gesamtsystem performanter macht ist noch zu überprüfen.
 	\\
-	Des Weiteren ist darauf hinzuweisen, dass es schon viele gute Algorithmen zur Navigation mit Hilfe von optischen Markern gibt, deren Evaluation jedoch den zeitlichen Rahmen dieses Projektes gesprengt hätten. Für zukünftige Projekte ist ein Vergleich der bereits existierender Lösungen empfehlenswert.
+	Des Weiteren ist darauf hinzuweisen, dass es schon viele gute Algorithmen zur Navigation mit Hilfe von optischen Markern gibt, deren Evaluation jedoch den zeitlichen Rahmen dieses Projektes sprengen. Für zukünftige Projekte ist ein Vergleich bereits existierender Lösungen empfehlenswert.
 		
 	\subsection{Fazit}
 	//kommt noch
