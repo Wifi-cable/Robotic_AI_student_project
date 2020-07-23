@@ -27,7 +27,7 @@ with thread_graph.as_default():
 
 VERBOSE = True #set to True for a lot of debugging output
 SPAM = False	#how to you call an extra verbosity level?
-LIMIT_OUTPUT = True #outputs verbose content 3 times. does not scroll 
+LIMIT_OUTPUT = False  #outputs verbose content 3 times. does not scroll 
 
 Left = "left"
 Right = "right"
