@@ -407,7 +407,7 @@ rosrun teleop_twist_keyboard teleop_twist_keyboard.py
 	starten wurden zwei Launchfiles geschrieben \ref{KI-launch}. Das ist 
 	notwendig da die Anwendung verteilt läuft. (siehe spätere Artikel)
 	
-	\begin{figure}
+	\begin{figure}[h]
 		\centering
 \begin{minted}[frame=lines,breaklines=true,
 fontsize=\footnotesize,
@@ -437,7 +437,7 @@ roslaunch ki_nav start_AI.launch
 	Zuerst werden die Verbindungen der Hardwarekomponenten untereinander abgebildet, wie in Abbildung \ref{Hardwarekomponenten} zu sehen.
 	\subsection{Mechanische Bauteile}
 	
-	\begin{figure}
+	\begin{figure}[h]
 		\centering
 		\includegraphics[width=9cm]{img/servo.pdf}
 		\caption{Auszug aus Hersteller Datenblatt, wie die Lenkstange am 
@@ -691,7 +691,7 @@ schlechter ab als mit den Daten auf denen Sie trainiert wurde.
 
 	\subsection{Schritte zur Verbesserung der Erkennungsrate} %mary
 Da diese Ergebniss wenig befriedigend ist wird ein leicht veränderter Ansatz 
-benötigt. //
+benötigt. \\
 	Die Schritte von \glqq Learn Keras for Deep Neural Networkss\grqq \cite{moolayil2019learn} zum Verbessern des Designs von Neurnalen Netzen werden zur verbesserung der Trainignsergebnisse verwendet. 
 	
 	\cite{moolayil2019learn} rät dazu mit einer kleinen Architektur anzufangen,
@@ -755,10 +755,10 @@ benötigt. //
 	Das Modell muss also kleiner werden, ohne wesentliches Overfitting. 
 	Dieses Ziel wird durch die Kombination von Dropoutschichten, mehr 
 	Durchläufen und kleinerer Pixelanzahl erreicht. \\
-		\begin{figure}[!h]
+		\begin{figure}[!t]
 		\centering
 		\includegraphics[width=9cm]{img/213x160:800@32:0_accuracy.png}
-		\caption{End Ergebnis, nach Nachbesserung des Datensatzes, Dropout 
+		\caption{Endergebnis, nach Nachbesserung des Datensatzes, Dropout 
 		Schichten und leicht erhöhter Auflösung von 213 x 160 Pixel}
 		\label{end Ergenisse }
 	\end{figure}
@@ -909,8 +909,9 @@ with graph.as_default():
 with thread_session.as_default():
 		\end{minted}
 		\label{with}
-		\caption{Verwendung von initialisiertem Graph verhindert Multi 
-		theading Probleme bei Aufruf des Keras Modells}
+		\caption{Verwendung von initialisiertem Graph mit Hilfe des 
+		Schlüsselworts with verhindert Multitheading Probleme bei Aufruf des 
+		Keras Modells}
 	\end{figure}
 		
 	Erst innerhalb dieses Blockes kann sicher auf das vortrainierte Modell zugegriffen werden, um damit eine Vorhersage zu machen.
@@ -979,13 +980,19 @@ bilden. Beispiel:
 \frac{51 + 0 +52 }{3} > \frac{0 + 86 + 0}{3}
 \]
 In diesem Rechenbeispiel fährt der Roboter in die Richtung der falschen 
-Positiven, Nicht jedoch in die Richtung des größten Konfidenzwerts.
-
-In der Realität ist anfangs zu beobachten das der Roboter sehr zeitverzögert 
-reagiert. Die anfängliche Verzögerung von 3 Sekunden, wächst im laufenden 
-Betrieb auf über 10 Sekunden an. 
+Positiven, Nicht jedoch in die Richtung des größten Konfidenzwerts.\\
+%neu testen?
 
 %mag stuhlbeine
+Zwei dinge Fallen auf im Praxistest des Autonomen Fahrens mit KI. Zum 
+einen fällt auf wie zeit verzögert der Roboter Reagiert. Die anfängliche 
+Verzögerung von 3 Sekunden, wächst im laufenden 
+Betrieb auf über 10 Sekunden an. \\
+%hilft die taktung? 
+Eine Weitere Auffälligkeit im Verhalten des Roboters ist seine \say{Vorliebe} 
+für Stuhlbeine, Türrahmen und Kanten aller Art. 
+
+
 
 	\section{Erkenntnisse }
 	Auch wenn dieses Projekt sehr lehrreich für alle Beteiligten ist, kann ein studentisches Semesterprojekt nicht an die Leistungen im Rahmen von echten Forschungsarbeiten, durchgeführt von erfahrenen Wissenschaftlern, heranreichen. Nicht nur das Budget sondern auch das Fachwissen sowie die zeitlichen Gegebenheiten unterscheiden sich stark. Dieses Kapitel wird zuerst darauf auf mögliche Verbesserungen für eventuelle Nachfolgeprojekte eingehen, um dann einige Erkenntnisse zusammenzufassen. 
@@ -1015,60 +1022,35 @@ Betrieb auf über 10 Sekunden an.
 	\subsection{Fazit}
 
 Mit dem Robot Operating System ist es möglich günstige, schnelle Roboter 
-aus Standart Teilen zu bauen. Die vielfältigen Opensource Hardware 
-Produkte die für Maker Hergestellt werden sind zuverlässig genug für den 
+aus Standard Teilen zu bauen. Die vielfältigen Opensource Hardware 
+Produkte die für Marker Hergestellt werden sind zuverlässig genug für den 
 Anwendungsfall. Modellbau Hardware jedoch ist wesentlich Fehleranfälliger. 
-Dieses Projekt hat bei sachgemässer Nutzung 1 Servo und Zwei Ubeck 
-Spannungswandler zerstört.
+Dieses Projekt hat bei sachgemäßer Nutzung 1 Servomotor und Zwei Ubeck 
+Spannungswandler zerstört.\\
 
-Bei KIs sind gute Grundannamen unerlässlich. Die Annahme das, dass 
+Bei KIs sind gute Grundannahmen unerlässlich. Die Annahme das, dass 
 Neuronale Netz auf ein bestimmtes Bild mit  Starken Kontraste trainiert ist 
 stimmt nicht. Statt dessen reagieren die Gewichte auf Linien, was bei der 
 Anwendung von ausschließlich Sobel filtern nicht überraschen sollte.
+\\
+Jeh Größer und Realistischer der Datensatz des do höher die Chance 
+Ergebnisse zu bekommen die auch in Realität funktionieren.   \\
 
 Das Konfidenzniveau des Neuronalen Netzes hat eine höhere aussagekräftig 
 als die aufsummierten Unsicherheiten in der Bilderkennung.
-	\begin{comment}	%  how-to formeln 
-	\begin{equation}
-	a+b=\gamma\label{eq}
-	\end{equation}
-	\end{comment}
-	\begin{comment}
-	\paragraph{Positioning Figures and Tables} 
-	Use the abbreviation 
-	``Fig.~\ref{fig}'', even at the beginning of a sentence.
+
 	
-	\begin{table}[htbp]
-	\caption{Table Type Styles}
-	\begin{center}
-	\begin{tabular}{|c|c|c|c|}
-	\hline
-	\textbf{Table}&\multicolumn{3}{|c|}{\textbf{Table Column Head}} \\
-	\cline{2-4} 
-	\textbf{Head} & \textbf{\textit{Table column subhead}}& \textbf{\textit{Subhead}}& \textbf{\textit{Subhead}} \\
-	\hline
-	copy& More table copy$^{\mathrm{a}}$& &  \\
-	\hline
-	\multicolumn{4}{l}{$^{\mathrm{a}}$Sample of a Table footnote.}
-	\end{tabular}
-	\label{tab1}
-	\end{center}
-	\end{table}
-	
-	\begin{figure}[htbp]
-	\centerline{\includegraphics{img/car_body.jpg}}
-	\caption{Example of a figure caption.}
-	\label{fig}
-	\end{figure}
-	\end{comment}
-	
-	
-	%\section*{Acknowledgment}
-	% wollen wir unseren profs danken, weil mehr GPU und RAM? 
-	
-	% wissenschaftliche zitate gehen so \cite{b1}. 
-	
-	% Dummy Cites zum Testen
+\section*{Danksagungen}
+
+Besondere Dank gilt den betreuenden Professoren, Prof. Dr Ihme und Prof. 
+Dr Fischer.\\
+Sowie Prof. Dr Wolf für das Bereitstellen seiner Workstation die das KI 
+Training erst effektiv möglich macht hat.\\
+Des weiten Gebührt
+ J. Konrad Dank für die Beratung zu Elektrischer 
+Komponenten wie Spannungswandlern und Akkus, sowie der Beratung in 
+Linux Administrationsfragestellungen.
+
 	\begin{comment}
 	\cite{Amanda}
 	\cite{Keras}
