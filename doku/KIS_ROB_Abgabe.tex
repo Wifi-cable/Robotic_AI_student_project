@@ -149,7 +149,9 @@
 	\begin{figure} [!h]
 		\centering
 		\includegraphics[width=9cm]{img/data1455211246.png}
-		\caption{Der Optische Marker den die KI - der rosBerry - suchen wird }
+		\caption{Der Optische Marker den die auf den das Neuronale Netz 
+		Trainiert wird. Der Roboter rosBerry wird versuchen den Marker zu 
+		finden um ihn anzufahren}
 		\label{Marker}
 	\end{figure}
 	
@@ -364,7 +366,9 @@ export ROS_IP=$(ip -br -4 address show dev wlp3s0 | awk '{print $3}' |
 awk -F '/' '{print $1}')
 \end{minted}
 		\label{Einzeiler}
-		\caption{ROS-IP - Verbindung via SSH - mittels Bash Einzeiler setzen (Autor J.K.)}
+		\caption{Arbeitserleichterung damit zwei ROS Rechner mit einander 
+		kommunizieren können: ROS-IP - Verbindung via SSH - mittels Bash 
+		Einzeiler setzen  in der setup.bash (Autor J.K.)}
 	\end{figure}
 	\\
 	Eine weitere Möglichkeit der Vereinfachung besteht im Erstellen von 
@@ -388,7 +392,8 @@ roslaunch donkey_car keyboard_demo.launch
 rosrun teleop_twist_keyboard teleop_twist_keyboard.py
 \end{minted}
 \label{demo}
-\caption{Steuerung der Tastatur per Launchfile auf dem Raspberry Pi und dem Laptop}
+\caption{Launchfile aufrufe um den Roboter per Tastatur vom Laptop aus 
+fernzusteuern. }
 	\end{figure}
 	
 	Um die benötigten Knoten Für die Künstliche Intelligenz komfortabel zu 
@@ -408,7 +413,8 @@ export ROS_MASTER_URI=http://ubiquityrobot.local:11311
 roslaunch ki_nav start_AI.launch
 		\end{minted}
 		\label{KI-launch}
-		\caption{Künstliche Intelligenz starten per Launchfile }
+		\caption{Künstliche Intelligenz, oder Autonomes verhalten, auf Laptop 
+		und Raspberry Pi starten per Launchfile }
 	\end{figure}
 	%----------------------------------------------------------------
 	
@@ -427,7 +433,9 @@ roslaunch ki_nav start_AI.launch
 	\begin{figure}
 		\centering
 		\includegraphics[width=9cm]{img/servo.pdf}
-		\caption{Auszug aus Hersteller Datenblatt:Lenkservo }
+		\caption{Auszug aus Hersteller Datenblatt:Lenkservo. Zeigt einen der 
+		Zwei Motoren des Roboters. Dieser Servo ist alleine für die Lenkung 
+		zuständig. }
 		\label{Servomotor}
 	\end{figure}
 	Für das Robotik Projekt \textit{rosBerry} wurde ein solides, aber günstiges Chassis gesucht bei dem die Möglichkeit besteht Ersatzteile zu bestellen. Viele qualitativ hochwertige Modellbau Chassis liegen in einem Preisrahmen über 400€, für diese ist die Ersatzteilbeschaffung gut möglich. Günstige, meist asiatische Modellbau Chassis Hersteller liefern ihre Modelle und Bausätze nur für einen kurzen Zeitraum. Es ist oft nicht möglich zu einem späteren Zeitpunkt das Modell nachzukaufen oder Ersatzteile zu bekommen. Somit ist ein Roboter der darauf aufbaut, wie das Donkey Car, nicht reproduzierbar. 
@@ -435,7 +443,10 @@ roslaunch ki_nav start_AI.launch
 	\begin{figure} %[t]
 		\centering
 		\includegraphics[width=9cm]{img/geer.png}
-		\caption{Auszug aus Hersteller Datenblatt: Differnzialgetriebe }
+		\caption{Auszug aus Hersteller Datenblatt: Differnzialgetriebe. Auch 
+		wenn der Roboter Differnzialgetriebe hat, ist die Lenkung eine 
+		Akkermann Lenkung. Der Roboter hat keine Differenzial Lenkung da 
+		ein Motor ausschließlich für den Vorschub zuständig ist. }
 		\label{Getriebe}
 	\end{figure}
 	Der Kompromiss dieser Abwägung fand sich bei einem älteren 
@@ -657,7 +668,11 @@ model.add(Activation("softmax"))
 	\begin{figure}[!h]
 		\centering
 		\includegraphics[width=9cm]{img/160x120:100@32_accuracy.png}
-		\caption{Erster Durchlauf}
+		\caption{Erster Durchlauf des Neuronalen Netzes mit dem Beispiel 
+		Code des Buches, Ausgangszustand vor Verbesserungsmaßnahmen. Die 
+		Blauen Trainingsdaten steigen langsam gegen 
+		70\%. Die Orange Kurve der Valiedierungsdaten jedoch läuft schon 
+		nach rund 50 Epochen deutlich Flacher. }
 		\label{Initiales Ergebnis}
 	\end{figure}
 	Beim ersten Durchlauf des Neuronalen Netzes ist die Erkennungsrate des Markers 57\%. Dieses Ergebnis ist bei einer 50/50 Chance kaum besser als Raten.\\
@@ -677,12 +692,7 @@ model.add(Activation("softmax"))
 	\cite{govers2018artificial} gewählt wird, um Rechenleistung zu 
 	sparen. \\
 	
-	\begin{figure}[!h]
-		\centering
-		\includegraphics[width=9cm]{img/213x160:400@32_accuracy.png}
-		\caption{overfitting}
-		\label{Overfitt }
-	\end{figure}
+
 	
 	\cite{moolayil2019learn} rät die Anzahl an Neuronen pro Schicht erhöhen, wenn Anfangs keine befriedigenden Ergebnisse erzielt werden.
 	Bei voller Bildauflösung von 640x480 Pixel erweist sich das Neuronale 
@@ -704,7 +714,14 @@ model.add(Activation("softmax"))
 	
 	Ein weiteres Problem, dass nun aufkommt ist das Overfitting. Das Modell entwickelte sich gut auf Trainingsdaten, schneidet jedoch deutlich schlechter bei Testdaten ab, mit denen es nicht trainiert hatte. Die Kurven laufen bei mehr als 200 Epochen weit auseinander.\\
 	
-	
+	\begin{figure}[!h]
+	\centering
+	\includegraphics[width=9cm]{img/213x160:400@32_accuracy.png}
+	\caption{Deutlich späteres Overfitting, bei Höherer Bildauflösung, zu dem 
+	Preis von deutlich höhere Rechenzeit pro Epoche. Erste Dropout Schicht 
+	wurde eingeführt. }
+	\label{Overfitt }
+\end{figure}
 	Weiterhin rät \cite{moolayil2019learn} mehr Schichten zu benutzen, 
 	beispielsweise abwechselnd eine dichte Schicht (dense layer) und eine 
 	Dropout Schicht.
@@ -723,7 +740,13 @@ model.add(Activation("softmax"))
 	Das Modell muss also kleiner werden, ohne wesentliches Overfitting. 
 	Dieses Ziel wird durch die Kombination von Dropoutschichten, mehr 
 	Durchläufen und kleinerer Pixelanzahl erreicht. \\
-	
+		\begin{figure}[!h]
+		\centering
+		\includegraphics[width=9cm]{img/213x160:800@32:0_accuracy.png}
+		\caption{End Ergebnis, nach Nachbesserung des Datensatzes, Dropout 
+		Schichten und leicht erhöhter Auflösung von 213 x 160 Pixel}
+		\label{end Ergenisse }
+	\end{figure}
 	 Wenn eine Steigerung der Anzahl an Schichten und der Neuronen keine 
 	 weitere Steigerung der Erkennungsrate bringt, rät der Autor in 
 	 \cite{moolayil2019learn} die Daten neu zu analysieren. Es werden also 
@@ -733,13 +756,7 @@ model.add(Activation("softmax"))
 	 Dieser Schritt verursacht eine merkliche Verbesserung des Trainingsergebnis.
 	\\
 		
-	\begin{figure}[!h]
-		\centering
-		\includegraphics[width=9cm]{img/213x160:800@32:0_accuracy.png}
-		\caption{End ergebnis}
-		\label{end Ergenisse }
-	\end{figure}
-	
+
 	Alle weiteren Versuche, dass Modell weiter zu Verfeinern scheitern. Die 
 	Ursache dafür ist nicht eindeutig geklärt, möglich ist aber, 
 	dass der Datensatz für die Komplexität des Modells zu klein ist. Auch 
@@ -750,13 +767,17 @@ model.add(Activation("softmax"))
 	\begin{figure}[!h]
 		\centering
 		\includegraphics[width=9cm]{img/480x360:400@32_accuracy.png}
-		\caption{Kein sichtbarer Trainingserfolg}
+		\caption{Kein sichtbarer Trainingserfolg, Grenzen des Optimierers 
+		erreicht}
 		\label{erfolgloos }
 	\end{figure}
 	
 	
 	\subsection{Anwendung des Trainingsmodells} %steffen
-	//kommt noch
+	Zu diesem Kapitel gehört der Versuch ein Keras Modell auf einem 
+	Raspberry Pi auszuführen, die Technischen Herausforderungen, im 
+	Zusammenhang mit ROS  die verwendeten Algorithmen sowie ihr Effekt. 
+	
 	\subsubsection{Keras und Tensorflow auf Raspberry Pi Hardware}
 	Der initiale Plan sieht vor, dass das neuronale Netz auf dem Raspberry Pi 
 	ausgewertet wird, damit der Roboter komplett autonom (ohne WLAN und 
@@ -819,7 +840,9 @@ Not found: Container localhost does not exist.
 [[{{node conv2d_2/Conv2D/ReadVariableOp}}]]
 \end{minted}
 		\label{Error1}
-		\caption{Localhost existiert nicht}
+		\caption{Fehlermeldung: Localhost existiert nicht, bei regulärem 
+		Aufruf 
+		des Keras Modells}
 	\end{figure}
 	
 	\begin{figure}
@@ -833,7 +856,8 @@ feed_devices or fetch_devices
 was not found in the Graph
 		\end{minted}
 		\label{Error2}
-		\caption{Unverständliche Fehlermeldung}
+		\caption{Unverständliche Fehlermeldung, bei regulärem Aufruf 
+			des Keras Modells}
 	\end{figure}
 		
 	\begin{figure}
@@ -848,7 +872,8 @@ shape=(?, 2), dtype=float32)
 is not an element of this graph.
 \end{minted}
 		\label{Error3}
-		\caption{Tensorflow Graphenelement unbekannt}
+		\caption{Tensorflow Graphenelement unbekannt, eine weitere 
+		Fehlermeldung bei nicht Threadsavem Aufruf von Keras Modell}
 	\end{figure}
 	
 	Es hat sich herausgestellt, dass entweder ROS, Python, Tensorflow oder die Kernel 
@@ -869,7 +894,8 @@ with graph.as_default():
 with thread_session.as_default():
 		\end{minted}
 		\label{with}
-		\caption{Verwendung von initialisiertem Graph}
+		\caption{Verwendung von initialisiertem Graph verhindert Multi 
+		theading Probleme bei Aufruf des Keras Modells}
 	\end{figure}
 		
 	Erst innerhalb dieses Blockes kann sicher auf das vortrainierte Modell zugegriffen werden, um damit eine Vorhersage zu machen.
@@ -944,7 +970,7 @@ In der Realität ist anfangs zu beobachten das der Roboter sehr zeitverzögert
 reagiert. Die anfängliche Verzögerung von 3 Sekunden, wächst im laufenden 
 Betrieb auf über 10 Sekunden an. 
 
-%mag stulbeine
+%mag stuhlbeine
 
 	\section{Erkenntnisse }
 	Auch wenn dieses Projekt sehr lehrreich für alle Beteiligten ist, kann ein studentisches Semesterprojekt nicht an die Leistungen im Rahmen von echten Forschungsarbeiten, durchgeführt von erfahrenen Wissenschaftlern, heranreichen. Nicht nur das Budget sondern auch das Fachwissen sowie die zeitlichen Gegebenheiten unterscheiden sich stark. Dieses Kapitel wird zuerst darauf auf mögliche Verbesserungen für eventuelle Nachfolgeprojekte eingehen, um dann einige Erkenntnisse zusammenzufassen. 
