@@ -276,12 +276,12 @@
 		/compress\_sender. Dieser erstellt Fotos mit Hilfe von OpenCV. Im 
 		Anschluss werden die Bilder mit Hilfe der CV-Bridge in ROS Bilder 
 		umgewandelt und komprimiertet. Die so erstellte ROS Nachricht wird 
-		Per WLAN über das Topic /camera/image/compressed versendet.
+		per WLAN über das Topic /camera/image/compressed versendet.
 		
-		\item Der Node / AI befindet sich auf dem Laptop. Dieser abonniert das 
+		\item Der Node /AI befindet sich auf dem Laptop. Dieser abonniert das 
 		komprimierte Bild und wendet darauf das Keras Trainingsmodell an. 
 		Nach der Auswertung wird eine String Nachricht über WLAN durch 
-		das Topic / Marker an den Node /high\_level\_control versendet. 
+		das Topic /Marker an den Node /high\_level\_control versendet. 
 		Dieser String enthält eine Richtungsangabe wie \say{Left} oder 
 		\say{Forward}. Das Senden über WLAN ist nötig, da sich die  
 		/high\_level\_control auf dem Raspberry Pi befindet.
@@ -484,7 +484,7 @@ roslaunch ki_nav start_AI.launch
 		\label{Hardwarekomponenten}
 	\end{figure}
 	
-	Wie aus der Abbildung \ref{Hardwarekomponenten} zu erkennen, ist die meiste Hardware mit Jumper Wire verbunden.
+	Wie in Abbildung \ref{Hardwarekomponenten} zu erkennen, ist die meiste Hardware mit Jumper Wire verbunden.
 	Ausnahmen bilden die Verbindungen des Raspberry Pi's 
 	zur Kamera (Flexkabel), zum Arduino (USB) und zum Motorshield (I2C).
 	\\
@@ -524,7 +524,7 @@ roslaunch ki_nav start_AI.launch
 		Das 2. PWM Signal wird zum Fahrtenregler gesendet.
 		Dadurch wird die Geschwindigkeit geregelt.
 		\item Der Raspberry Pi 3 B+ ist das Herzstück des rosBerry.
-		Auf ihn läuft zum einen ROS und zum anderen die Software des Roboters, welche im Kapitel ROS Knoten Software Architektur vorgestellt wird.
+		Auf ihn läuft zum einen ROS und zum anderen die Software des Roboters, welche im Kapitel \nameref{sec:Architektur} vorgestellt wird.
 		Über eine I\textsuperscript{2}C-Schnittstelle werden Daten an den 
 		Motorshield übertragen.
 		Die Daten geben an, wie das PWM Signal auszusehen hat.
@@ -532,7 +532,7 @@ roslaunch ki_nav start_AI.launch
 		einen ROS-Knoten (Publisher).
 		Innerhalb des Programms wird das Signal des Sensors in Meter umgewandelt und in eine Range Message gespeichert.
 		Die Range Message namens rangeMsg wird an das Topic rangeMsg\_topic übermittelt.
-		Ein Subscriber, der auf dem Raspberry Pi läuft, abboniert das Topic und erhält regelmäßig Sensordaten über die Reichweite.
+		Ein Subscriber, der auf dem Raspberry Pi läuft, abonniert das Topic und erhält regelmäßig Sensordaten über die Reichweite.
 		
 		\begin{figure}
 			\centering
