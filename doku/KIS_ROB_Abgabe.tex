@@ -913,16 +913,33 @@ Wird also in allen Teilbildern kein Marker erkannt, wird dennoch eine Richtung a
 \subsection {Auswertung des Verhalten des Roboters}	% mary? %steffen? %heike?
 %macht er irgendwas sinnvolles? ist er klüger als eine eintagsfliege?
 %Wie wirkt sich das programmierte Verhalten nun in realen Tests aus?
-//Sektion ist noch in Arbeit, Bester Ansatz noch nicht endgültig geklärt
 
-Die Tatsache, dass auch kleine Wahrscheinlichkeiten als Richtung interpretiert werden, stellt sich schnell als problematisch heraus.
-Theoretisch ist das erwünschtes Verhalten - der Roboter kann damit meistens in irgendeine Richtung fahren, die ihm am ehesten richtig erscheint.
-In der Praxis sieht man aber schnell, dass der Roboter damit zu häufig zu falschen Objekten fährt, die er als marker-ähnlich einschätzt. Dieses Fehlverhalten wird durch eine Untergrenze korrigiert. Die KI muss sich wenigstens 20\% sicher sein den Marker gefunden zu haben, bevor sie den Roboter in diese Richtung steuert, andernfalls wird der Fehlerstatus propagiert.
+Die Tatsache, dass auch kleine, positive Wahrscheinlichkeiten als Richtung 
+interpretiert werden, stellt sich schnell als problematisch heraus.
+Theoretisch ist das erwünschtes Verhalten - der Roboter kann damit 
+meistens in irgendeine Richtung fahren, die ihm am ehesten richtig 
+erscheint.\\
+In der Praxis zeigt sich jedoch schnell, dass der Roboter damit häufig in die 
+entgegengesetzte Richtung des Markers fährt. \\
 
-Ein verwandtes Problem ist, dass der Roboter häufig zwischen zwei Richtungen schwankt, wenn sich der Marker nah an der Grenze zweier Richtungen befindet.
-% Lösung? Oder ist das einfach nur nervig?
-%ich arbeite mit Hochdruck drann ~ mary
-% reagiert relativ langsam
+Bei genauem hinsehen mit besserem Logging  zeigt sich dass, das Neuronale 
+Netz oft nicht sehr sicher ist ob es einen Marker erkannt hat. Die Ausgaben 
+zeigen  oft Konfidenzbereich  zwischen jeweils 45\% und 55\% . Der Abstand 
+der Koinzidenzen ist so gering das er bei einer Maximalwert Auswahl zu 
+vielen Falschen Positiven führt. Dieser Effekt verschlimmert sich mit dem 
+initialen Ansatz einen Durchschnitt  der Positiven Konfidenzbereich zu 
+bilden. Beispiel:
+\[
+\frac{51 + 0 +52 }{3} > \frac{0 + 86 + 0}{3}
+\]
+In diesem Rechenbeispiel fährt der Roboter in die Richtung der falschen 
+Positiven, Nicht jedoch in die Richtung des größten Konfidenzwerts.
+
+In der Realität ist anfangs zu beobachten das der Roboter sehr zeitverzögert 
+reagiert. Die anfängliche Verzögerung von 3 Sekunden, wächst im laufenden 
+Betrieb auf über 10 Sekunden an. 
+
+%mag stulbeine
 
 	\section{Erkenntnisse }
 	Auch wenn dieses Projekt sehr lehrreich für alle Beteiligten ist, kann ein studentisches Semesterprojekt nicht an die Leistungen im Rahmen von echten Forschungsarbeiten, durchgeführt von erfahrenen Wissenschaftlern, heranreichen. Nicht nur das Budget sondern auch das Fachwissen sowie die zeitlichen Gegebenheiten unterscheiden sich stark. Dieses Kapitel wird zuerst darauf auf mögliche Verbesserungen für eventuelle Nachfolgeprojekte eingehen, um dann einige Erkenntnisse zusammenzufassen. 
@@ -950,7 +967,21 @@ Ein verwandtes Problem ist, dass der Roboter häufig zwischen zwei Richtungen sc
 	Des Weiteren ist darauf hinzuweisen, dass es schon viele gute Algorithmen zur Navigation mit Hilfe von optischen Markern gibt, deren Evaluation jedoch den zeitlichen Rahmen dieses Projektes sprengen. Für zukünftige Projekte ist ein Vergleich bereits existierender Lösungen empfehlenswert.
 		
 	\subsection{Fazit}
-	//kommt noch
+
+Mit dem Robot Operating System ist es möglich günstige, schnelle Roboter 
+aus Standart Teilen zu bauen. Die vielfältigen Opensource Hardware 
+Produkte die für Maker Hergestellt werden sind zuverlässig genug für den 
+Anwendungsfall. Modellbau Hardware jedoch ist wesentlich Fehleranfälliger. 
+Dieses Projekt hat bei sachgemässer Nutzung 1 Servo und Zwei Ubeck 
+Spannungswandler zerstört.
+
+Bei KIs sind gute Grundannamen unerlässlich. Die Annahme das, dass 
+Neuronale Netz auf ein bestimmtes Bild mit  Starken Kontraste trainiert ist 
+stimmt nicht. Statt dessen reagieren die Gewichte auf Linien, was bei der 
+Anwendung von ausschließlich Sobel filtern nicht überraschen sollte.
+
+Das Konfidenzniveau des Neuronalen Netzes hat eine höhere aussagekräftig 
+als die aufsummierten Unsicherheiten in der Bilderkennung.
 	\begin{comment}	%  how-to formeln 
 	\begin{equation}
 	a+b=\gamma\label{eq}
