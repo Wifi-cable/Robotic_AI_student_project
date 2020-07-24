@@ -345,7 +345,12 @@
 	
 	\end{minted}
 	\label{StartNodes}
-	\caption{Start der Nodes ohne Verwendung einer veränderten bash.rc-File}
+	\caption{Start der Nodes ohne Verwendung einer veränderten 
+	bash.rc-File. Zuerst wird eine Verbindung zum Raspberry Pi via SSH 
+	hergestellt. In jeweils unterschiedlichen Konsolen werden die beiden 
+	Nodes i2cpwm\_board - eine Node zum Ansprechen des I2C-Protokolls und 
+	deren Verbindung mit ROS - und low\_level\_control - die hardwarenahe 
+	Steuerung - gestartet.}
 \end{figure}
 	
 	Mehrere Schritte sind möglich um diesen Prozess zu vereinfachen. Die 
@@ -393,7 +398,9 @@ rosrun teleop_twist_keyboard teleop_twist_keyboard.py
 \end{minted}
 \label{demo}
 \caption{Launchfile aufrufe um den Roboter per Tastatur vom Laptop aus 
-fernzusteuern. }
+ Raspberry Pi keyboard\_demo\_launch und auf dem Laptop 
+ teleop\_twist\_keyboard gestartet werden.}
+
 	\end{figure}
 	
 	Um die benötigten Knoten Für die Künstliche Intelligenz komfortabel zu 
@@ -433,9 +440,9 @@ roslaunch ki_nav start_AI.launch
 	\begin{figure}
 		\centering
 		\includegraphics[width=9cm]{img/servo.pdf}
-		\caption{Auszug aus Hersteller Datenblatt:Lenkservo. Zeigt einen der 
-		Zwei Motoren des Roboters. Dieser Servo ist alleine für die Lenkung 
-		zuständig. }
+		\caption{Auszug aus Hersteller Datenblatt, wie die Lenkstange am 
+		Servomotor  befestigt ist. Dieser Servo einer von zwei Motoren, er  ist 
+		Jedoch alleine für die Lenkung zuständig. }
 		\label{Servomotor}
 	\end{figure}
 	Für das Robotik Projekt \textit{rosBerry} wurde ein solides, aber günstiges Chassis gesucht bei dem die Möglichkeit besteht Ersatzteile zu bestellen. Viele qualitativ hochwertige Modellbau Chassis liegen in einem Preisrahmen über 400€, für diese ist die Ersatzteilbeschaffung gut möglich. Günstige, meist asiatische Modellbau Chassis Hersteller liefern ihre Modelle und Bausätze nur für einen kurzen Zeitraum. Es ist oft nicht möglich zu einem späteren Zeitpunkt das Modell nachzukaufen oder Ersatzteile zu bekommen. Somit ist ein Roboter der darauf aufbaut, wie das Donkey Car, nicht reproduzierbar. 
@@ -488,7 +495,7 @@ roslaunch ki_nav start_AI.launch
 	\begin{figure}[!ht]
 		\centering
 		\includegraphics[width=9cm]{img/RosBerryGesamt_yellow.png}
-		\caption{Übersicht der Position der Hardware im rosBerry}
+		\caption{Übersicht der Position der Hardware - DC-Antriebsmotor, Fahrtenregler, UBEC, Servo, Akku, Motorshield, Raspberry Pi und Arduino - im rosBerry}
 		\label{rosBerryGesamt}
 	\end{figure}
 	
@@ -662,21 +669,29 @@ model.add(Activation("softmax"))
 	%wiso war das scheisse 
 	%weil wir einfach das Beispiel aus dem Buch kopiert haben…
 
-	//kommt noch
-	\subsection{Schritte zur Verbesserung der Erkennungsrate} %mary
-
-	\begin{figure}[!h]
-		\centering
-		\includegraphics[width=9cm]{img/160x120:100@32_accuracy.png}
-		\caption{Erster Durchlauf des Neuronalen Netzes mit dem Beispiel 
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=9cm]{img/160x120:100@32_accuracy.png}
+	\caption{Zweiter Durchlauf des Neuronalen Netzes mit dem Beispiel 
 		Code des Buches, Ausgangszustand vor Verbesserungsmaßnahmen. Die 
 		Blauen Trainingsdaten steigen langsam gegen 
 		70\%. Die Orange Kurve der Valiedierungsdaten jedoch läuft schon 
 		nach rund 50 Epochen deutlich Flacher. }
-		\label{Initiales Ergebnis}
-	\end{figure}
-	Beim ersten Durchlauf des Neuronalen Netzes ist die Erkennungsrate des Markers 57\%. Dieses Ergebnis ist bei einer 50/50 Chance kaum besser als Raten.\\
-	
+	\label{Initiales Ergebnis}
+\end{figure}
+Beim ersten Durchlauf des Neuronalen Netzes ist die Erkennungsrate des 
+Markers 57\%. Dieses Ergebnis ist bei einer 50/50 Chance kaum besser als 
+Raten. Beim zweiten versuch mit mehr Durchläufen (Epochen) ist das 
+Ergebnis nur Unwesentlich besser. Das Overfitting , oder das 
+auseinanderlaufen der Trainings und Validierung kurve ist schnell sichtbar. 
+Ein Auseinanderlaufen bedeutet, dass die KI ihr Modell zu sehr auf ihre 
+Trainingsdaten angepasst hat. Sie kommt schneidet mit anderen Testdaten 
+schlechter ab als mit den Daten auf denen Sie trainiert wurde. 
+
+
+	\subsection{Schritte zur Verbesserung der Erkennungsrate} %mary
+Da diese Ergebniss wenig befriedigend ist wird ein leicht veränderter Ansatz 
+benötigt. //
 	Die Schritte von \glqq Learn Keras for Deep Neural Networkss\grqq \cite{moolayil2019learn} zum Verbessern des Designs von Neurnalen Netzen werden zur verbesserung der Trainignsergebnisse verwendet. 
 	
 	\cite{moolayil2019learn} rät dazu mit einer kleinen Architektur anzufangen,
