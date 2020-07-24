@@ -149,7 +149,7 @@
 	\begin{figure} [!h]
 		\centering
 		\includegraphics[width=9cm]{img/data1455211246.png}
-		\caption{Der Optische Marker den die KI suchen wird }
+		\caption{Der Optische Marker den die KI - der rosBerry - suchen wird }
 		\label{Marker}
 	\end{figure}
 	
@@ -191,7 +191,7 @@
 		\centering
 		\def\svgwidth{9cm}
 		\input{img/Gesamtsystem.pdf_tex}
-		\caption{Gesamtüberblick des Systems}
+		\caption{Überblick der Komponenten des rosBerry-Softwaresystems}
 		\label{Gesamtzusammenhang}
 	\end{figure}
 	Die Abbildung \ref{Gesamtzusammenhang} zeigt das System, welches auf 
@@ -226,7 +226,7 @@
 	\begin{figure}[!ht] 
 		\centering
 		\includegraphics[width=9cm]{img/rosgraph.png}
-		\caption{Übersicht der ROS Elemente}
+		\caption{Erste Übersicht der ROS Nodes und Topics innerhalb des rosBerry-Softwaresystems mit Fokus auf die Steuerung des Roboters}
 		\label{rosgraph}
 	\end{figure}
 	
@@ -266,7 +266,7 @@
 		\centering
 		\def\svgwidth{\linewidth}
 		\input{img/AI-Only.pdf_tex}
-		\caption{Übersicht über die AI}
+		\caption{Zweite Übersicht der ROS Nodes und Topics innerhalb des rosBerry-Softwaresystems mit Fokus auf die AI}
 		\label{AI-Only}
 	\end{figure}
 
@@ -308,38 +308,43 @@
 	muss der Laptop erfahren das ein ROScore (Master Node) bereits auf dem 
 	Raspberry Pi läuft.
 	
-\begin{minted}[frame=lines, breaklines=true 
-fontsize=\footnotesize,]{Bash}
-# Network ubiquityrobot03B
-# connect via SSH
-ssh ubuntu@10.42.0.1
-# enter password
-
-# 1. Console - on Raspberry Pi
-# Login via SSH
-cd catkin_ws/Robotic_AI_student_project/
-# If bash.rc wasn't changed to source workspace
-source devel/setup.bash
-rosrun i2cpwm_board i2cpwm_board
-
-# 2. Console - on Raspberry Pi
-# Login via SSH
-cd catkin_ws/Robotic_AI_student_project/
-source devel/setup.bash
-rosrun donkey_car low_level_control.py
+\begin{figure}
+	\centering
+	\begin{minted}[frame=lines, breaklines=true 
+	fontsize=\footnotesize,]{Bash}
+	# Network ubiquityrobot03B
+	# connect via SSH
+	ssh ubuntu@10.42.0.1
+	# enter password
 	
-# 3. Console - on Laptop 
-export ROS_MASTER_URI=http://ubiquityrobot.local:11311
-export ROS_IP=$(hostname -I)
-cd catkin_ws/Robotic_AI_student_project/
-source devel/setup.bash
-rosrun teleop_twist_keyboard teleop_twist_keyboard.py
-
-# 5. Console - on Laptop
-export ROS_MASTER_URI=http://ubiquityrobot.local:11311
-export ROS_IP=$(hostname -I)
-
+	# 1. Console - on Raspberry Pi
+	# Login via SSH
+	cd catkin_ws/Robotic_AI_student_project/
+	# If bash.rc wasn't changed to source workspace
+	source devel/setup.bash
+	rosrun i2cpwm_board i2cpwm_board
+	
+	# 2. Console - on Raspberry Pi
+	# Login via SSH
+	cd catkin_ws/Robotic_AI_student_project/
+	source devel/setup.bash
+	rosrun donkey_car low_level_control.py
+	
+	# 3. Console - on Laptop 
+	export ROS_MASTER_URI=http://ubiquityrobot.local:11311
+	export ROS_IP=$(hostname -I)
+	cd catkin_ws/Robotic_AI_student_project/
+	source devel/setup.bash
+	rosrun teleop_twist_keyboard teleop_twist_keyboard.py
+	
+	# 5. Console - on Laptop
+	export ROS_MASTER_URI=http://ubiquityrobot.local:11311
+	export ROS_IP=$(hostname -I)
+	
 	\end{minted}
+	\label{StartNodes}
+	\caption{Start der Nodes ohne Verwendung einer veränderten bash.rc-File}
+\end{figure}
 	
 	Mehrere Schritte sind möglich um diesen Prozess zu vereinfachen. Die 
 	meisten Optionen sind eine Frage der persönlichen Präferenz des ROS 
@@ -359,7 +364,7 @@ export ROS_IP=$(ip -br -4 address show dev wlp3s0 | awk '{print $3}' |
 awk -F '/' '{print $1}')
 \end{minted}
 		\label{Einzeiler}
-		\caption{Bash Einzeiler, der die ROS IP setzt Autor J.K }
+		\caption{ROS-IP - Verbindung via SSH - mittels Bash Einzeiler setzen (Autor J.K.)}
 	\end{figure}
 	\\
 	Eine weitere Möglichkeit der Vereinfachung besteht im Erstellen von 
@@ -383,7 +388,7 @@ roslaunch donkey_car keyboard_demo.launch
 rosrun teleop_twist_keyboard teleop_twist_keyboard.py
 \end{minted}
 \label{demo}
-\caption{Tastatur Steuerung per Launchfile }
+\caption{Steuerung der Tastatur per Launchfile auf dem Raspberry Pi und dem Laptop}
 	\end{figure}
 	
 	Um die benötigten Knoten Für die Künstliche Intelligenz komfortabel zu 
@@ -419,7 +424,7 @@ roslaunch ki_nav start_AI.launch
 	Zuerst werden die Verbindungen der Hardwarekomponenten untereinander abgebildet, wie in Abbildung \ref{Hardwarekomponenten} zu sehen.
 	\subsection{Mechanische Bauteile}
 	
-	\begin{figure} [!h]
+	\begin{figure}
 		\centering
 		\includegraphics[width=9cm]{img/servo.pdf}
 		\caption{Auszug aus Hersteller Datenblatt:Lenkservo }
@@ -458,7 +463,7 @@ roslaunch ki_nav start_AI.launch
 		\centering
 		\def\svgwidth{9cm}
 		\input{img/Hardwarekomponenten.pdf_tex}
-		\caption{Verbindungen der Hardwarekomponenten im rosBerry}
+		\caption{Verwendete Hardwarekomponenten und deren Verbindungen untereinander im rosBerry}
 		\label{Hardwarekomponenten}
 	\end{figure}
 	
@@ -472,7 +477,7 @@ roslaunch ki_nav start_AI.launch
 	\begin{figure}[!ht]
 		\centering
 		\includegraphics[width=9cm]{img/RosBerryGesamt_yellow.png}
-		\caption{Gerüst rosBerry}
+		\caption{Übersicht der Position der Hardware im rosBerry}
 		\label{rosBerryGesamt}
 	\end{figure}
 	
@@ -515,7 +520,7 @@ roslaunch ki_nav start_AI.launch
 		\begin{figure}
 			\centering
 			\includegraphics[width=5.5cm]{img/RosBerryWeitere_yellow.png}
-			\caption{Weitere Hardwareelemente}
+			\caption{Position der Kamera und des Ultraschallsensors im rosBerry}
 			\label{rosBerryWeitere}
 		\end{figure}
 		\item Der Ultraschallsensor - Modell HC-SR04 - wird zum rechtzeitigen 
