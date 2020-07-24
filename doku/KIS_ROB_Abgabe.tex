@@ -343,7 +343,9 @@
 	
 	\end{minted}
 	\label{StartNodes}
-	\caption{Start der Nodes ohne Verwendung einer veränderten bash.rc-File}
+	\caption{Start der Nodes ohne Verwendung einer veränderten bash.rc-File. Zuerst wird eine Verbindung zum Raspberry Pi via SSH hergestellt. In jeweils unterschiedlichen Konsolen werden die beiden Nodes i2cpwm\_board - eine Node zum Ansprechen des I2C-Protokolls und deren Verbindung mit ROS - und low\_level\_control - die hardwarenahe Steuerung - gestartet. 
+		
+		Start der Nodes ohne Verwendung einer veränderten bash.rc-File}
 \end{figure}
 	
 	Mehrere Schritte sind möglich um diesen Prozess zu vereinfachen. Die 
@@ -388,7 +390,7 @@ roslaunch donkey_car keyboard_demo.launch
 rosrun teleop_twist_keyboard teleop_twist_keyboard.py
 \end{minted}
 \label{demo}
-\caption{Steuerung der Tastatur per Launchfile auf dem Raspberry Pi und dem Laptop}
+\caption{Zur Steuerung des rosBerry mittels Tastatur muss auf dem Raspberry Pi keyboard\_demo\_launch und auf dem Laptop teleop\_twist\_keyboard gestartet werden.}
 	\end{figure}
 	
 	Um die benötigten Knoten Für die Künstliche Intelligenz komfortabel zu 
@@ -477,7 +479,7 @@ roslaunch ki_nav start_AI.launch
 	\begin{figure}[!ht]
 		\centering
 		\includegraphics[width=9cm]{img/RosBerryGesamt_yellow.png}
-		\caption{Übersicht der Position der Hardware im rosBerry}
+		\caption{Übersicht der Position der Hardware - DC-Antriebsmotor, Fahrtenregler, UBEC, Servo, Akku, Motorshield, Raspberry Pi und Arduino - im rosBerry}
 		\label{rosBerryGesamt}
 	\end{figure}
 	
