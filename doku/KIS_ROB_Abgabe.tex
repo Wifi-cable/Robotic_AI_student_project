@@ -312,36 +312,36 @@
 	
 \begin{figure}
 	\centering
-	\begin{minted}[frame=lines, breaklines=true 
-	fontsize=\footnotesize,]{Bash}
-	# Network ubiquityrobot03B
-	# connect via SSH
-	ssh ubuntu@10.42.0.1
-	# enter password
+\begin{minted}[frame=lines, breaklines=true 
+fontsize=\footnotesize,]{Bash}
+# Network ubiquityrobot03B
+# connect via SSH
+ssh ubuntu@10.42.0.1
+# enter password
 	
-	# 1. Console - on Raspberry Pi
-	# Login via SSH
-	cd catkin_ws/Robotic_AI_student_project/
-	# If bash.rc wasn't changed to source workspace
-	source devel/setup.bash
-	rosrun i2cpwm_board i2cpwm_board
+# 1. Console - on Raspberry Pi
+# Login via SSH
+cd catkin_ws/Robotic_AI_student_project/
+# If bash.rc wasn't changed to source workspace
+source devel/setup.bash
+rosrun i2cpwm_board i2cpwm_board
 	
-	# 2. Console - on Raspberry Pi
-	# Login via SSH
-	cd catkin_ws/Robotic_AI_student_project/
-	source devel/setup.bash
-	rosrun donkey_car low_level_control.py
+# 2. Console - on Raspberry Pi
+# Login via SSH
+cd catkin_ws/Robotic_AI_student_project/
+source devel/setup.bash
+rosrun donkey_car low_level_control.py
 	
-	# 3. Console - on Laptop 
-	export ROS_MASTER_URI=http://ubiquityrobot.local:11311
-	export ROS_IP=$(hostname -I)
-	cd catkin_ws/Robotic_AI_student_project/
-	source devel/setup.bash
-	rosrun teleop_twist_keyboard teleop_twist_keyboard.py
+# 3. Console - on Laptop 
+export ROS_MASTER_URI=http://ubiquityrobot.local:11311
+export ROS_IP=$(hostname -I)
+cd catkin_ws/Robotic_AI_student_project/
+source devel/setup.bash
+rosrun teleop_twist_keyboard teleop_twist_keyboard.py
 	
-	# 5. Console - on Laptop
-	export ROS_MASTER_URI=http://ubiquityrobot.local:11311
-	export ROS_IP=$(hostname -I)
+# 5. Console - on Laptop
+export ROS_MASTER_URI=http://ubiquityrobot.local:11311
+export ROS_IP=$(hostname -I)
 	
 	\end{minted}
 	\label{StartNodes}
