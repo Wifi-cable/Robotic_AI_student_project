@@ -308,36 +308,36 @@
 	muss der Laptop erfahren das ein ROScore (Master Node) bereits auf dem 
 	Raspberry Pi läuft.
 	
-	\begin{minted}[frame=lines, breaklines=true 
-	fontsize=\footnotesize,]{Bash}
-	# Network ubiquityrobot03B
-	# connect via SSH
-	ssh ubuntu@10.42.0.1
-	# enter password
+\begin{minted}[frame=lines, breaklines=true 
+fontsize=\footnotesize,]{Bash}
+# Network ubiquityrobot03B
+# connect via SSH
+ssh ubuntu@10.42.0.1
+# enter password
+
+# 1. Console - on Raspberry Pi
+# Login via SSH
+cd catkin_ws/Robotic_AI_student_project/
+# If bash.rc wasn't changed to source workspace
+source devel/setup.bash
+rosrun i2cpwm_board i2cpwm_board
+
+# 2. Console - on Raspberry Pi
+# Login via SSH
+cd catkin_ws/Robotic_AI_student_project/
+source devel/setup.bash
+rosrun donkey_car low_level_control.py
 	
-	# 1. Console - on Raspberry Pi
-	# Login via SSH
-	cd catkin_ws/Robotic_AI_student_project/
-	# If bash.rc wasn't changed to source workspace
-	source devel/setup.bash
-	rosrun i2cpwm_board i2cpwm_board
-	
-	# 2. Console - on Raspberry Pi
-	# Login via SSH
-	cd catkin_ws/Robotic_AI_student_project/
-	source devel/setup.bash
-	rosrun donkey_car low_level_control.py
-	
-	# 3. Console - on Laptop 
-	export ROS_MASTER_URI=http://ubiquityrobot.local:11311
-	export ROS_IP=$(hostname -I)
-	cd catkin_ws/Robotic_AI_student_project/
-	source devel/setup.bash
-	rosrun teleop_twist_keyboard teleop_twist_keyboard.py
-	
-	# 5. Console - on Laptop
-	export ROS_MASTER_URI=http://ubiquityrobot.local:11311
-	export ROS_IP=$(hostname -I)
+# 3. Console - on Laptop 
+export ROS_MASTER_URI=http://ubiquityrobot.local:11311
+export ROS_IP=$(hostname -I)
+cd catkin_ws/Robotic_AI_student_project/
+source devel/setup.bash
+rosrun teleop_twist_keyboard teleop_twist_keyboard.py
+
+# 5. Console - on Laptop
+export ROS_MASTER_URI=http://ubiquityrobot.local:11311
+export ROS_IP=$(hostname -I)
 
 	\end{minted}
 	
@@ -351,15 +351,15 @@
 	Variable auf die aktuelle IP Adresse des Laptops.
 	\begin{figure}
 		\centering
-		\begin{minted}[frame=lines,breaklines=true,
-		fontsize=\footnotesize,
-		framesep=2mm
-		]{Bash}
-		export ROS_IP=$(ip -br -4 address show dev wlp3s0 | awk '{print $3}' | 
-		awk -F '/' '{print $1}')
-		\end{minted}
+\begin{minted}[frame=lines,breaklines=true,
+fontsize=\footnotesize,
+framesep=2mm
+]{Bash}
+export ROS_IP=$(ip -br -4 address show dev wlp3s0 | awk '{print $3}' | 
+awk -F '/' '{print $1}')
+\end{minted}
 		\label{Einzeiler}
-		\caption{Bash Einzeiler, Autor J.K }
+		\caption{Bash Einzeiler, der die ROS IP setzt Autor J.K }
 	\end{figure}
 	\\
 	Eine weitere Möglichkeit der Vereinfachung besteht im Erstellen von 
@@ -373,17 +373,17 @@
 	Fork der Github Quelle.
 	\begin{figure}
 		\centering
-		\begin{minted}[frame=lines,breaklines=true,
-		fontsize=\footnotesize,
-		framesep=2mm
-		]{Bash}
-		#call on Raspberry Pi to launch hardware nodes
-		roslaunch donkey_car keyboard_demo.launch
-		#call keyboard node from laptop 
-		rosrun teleop_twist_keyboard teleop_twist_keyboard.py
-		\end{minted}
-		\label{demo}
-		\caption{Tastatur Steuerung per Launchfile }
+\begin{minted}[frame=lines,breaklines=true,
+fontsize=\footnotesize,
+framesep=2mm
+]{Bash}
+#call on Raspberry Pi to launch hardware nodes
+roslaunch donkey_car keyboard_demo.launch
+#call keyboard node from laptop 
+rosrun teleop_twist_keyboard teleop_twist_keyboard.py
+\end{minted}
+\label{demo}
+\caption{Tastatur Steuerung per Launchfile }
 	\end{figure}
 	
 	Um die benötigten Knoten Für die Künstliche Intelligenz komfortabel zu 
@@ -392,15 +392,15 @@
 	
 	\begin{figure}
 		\centering
-		\begin{minted}[frame=lines,breaklines=true,
-		fontsize=\footnotesize,
-		framesep=2mm
-		]{Bash}
-		#call from Raspberry Pi
-		roslaunch donkey_car hardware.launch
-		#call from Laptop
-		export ROS_MASTER_URI=http://ubiquityrobot.local:11311
-		roslaunch ki_nav start_AI.launch
+\begin{minted}[frame=lines,breaklines=true,
+fontsize=\footnotesize,
+framesep=2mm
+]{Bash}
+#call from Raspberry Pi
+roslaunch donkey_car hardware.launch
+#call from Laptop
+export ROS_MASTER_URI=http://ubiquityrobot.local:11311
+roslaunch ki_nav start_AI.launch
 		\end{minted}
 		\label{KI-launch}
 		\caption{Künstliche Intelligenz starten per Launchfile }
@@ -807,12 +807,12 @@ threadsafe. Das scheint anfangs kein Problem zu sein, da keine parallele
 	\begin{figure}
 		\centering
 		\begin{minted}[frame=lines,
-		fontsize=\footnotesize,
-		framesep=2mm]{Bash}
-		Not found: Container localhost does not exist. 
-		(Could not find resource: localhost/conv2d_2/kernel)
-		[[{{node conv2d_2/Conv2D/ReadVariableOp}}]]
-		\end{minted}
+fontsize=\footnotesize,
+framesep=2mm]{Bash}
+Not found: Container localhost does not exist. 
+(Could not find resource: localhost/conv2d_2/kernel)
+[[{{node conv2d_2/Conv2D/ReadVariableOp}}]]
+\end{minted}
 		\label{Error1}
 		\caption{Localhost existiert nicht}
 	\end{figure}
@@ -820,12 +820,12 @@ threadsafe. Das scheint anfangs kein Problem zu sein, da keine parallele
 	\begin{figure}
 		\centering
 		\begin{minted}[frame=lines,
-		fontsize=\footnotesize,
-		framesep=2mm]{Bash}
-		InvalidArgumentError: Tensor 
-		dropout__input:0, specified in either 
-		feed_devices or fetch_devices
-		was not found in the Graph
+fontsize=\footnotesize,
+framesep=2mm]{Bash}
+InvalidArgumentError: Tensor 
+dropout__input:0, specified in either 
+feed_devices or fetch_devices
+was not found in the Graph
 		\end{minted}
 		\label{Error2}
 		\caption{Unverständliche Fehlermeldung}
@@ -834,14 +834,14 @@ threadsafe. Das scheint anfangs kein Problem zu sein, da keine parallele
 	\begin{figure}
 		\centering
 		\begin{minted}[frame=lines,
-		fontsize=\footnotesize,
-		framesep=2mm]{Bash}
-		
-		ValueError: Tensor Tensor
-		("activation_5/Softmax:0",
-		shape=(?, 2), dtype=float32) 
-		is not an element of this graph.
-		\end{minted}
+fontsize=\footnotesize,
+framesep=2mm]{Bash}
+
+ValueError: Tensor Tensor
+("activation_5/Softmax:0",
+shape=(?, 2), dtype=float32) 
+is not an element of this graph.
+\end{minted}
 		\label{Error3}
 		\caption{Tensorflow Graphenelement unbekannt}
 	\end{figure}
@@ -858,10 +858,10 @@ threadsafe. Das scheint anfangs kein Problem zu sein, da keine parallele
 	\begin{figure}
 		\centering
 		\begin{minted}[frame=lines,
-		fontsize=\footnotesize,
-		framesep=2mm]{python}
-		with graph.as_default():
-		with thread_session.as_default():
+fontsize=\footnotesize,
+framesep=2mm]{python}
+with graph.as_default():
+with thread_session.as_default():
 		\end{minted}
 		\label{with}
 		\caption{Verwendung von initialisiertem Graph}
