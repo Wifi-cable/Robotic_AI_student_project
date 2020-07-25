@@ -219,7 +219,24 @@
 	
 	%heike
 	%grobstruktur,  nodes topics und all das was es schon als text gibt
-	In diesem Kapitel wird die Software-Architektur des Roboters vorgestellt.
+	In diesem Kapitel wird die SoftwAN verbindet.
+	\\
+	Die andere Komponente - der Roboter - besteht aus einem Raspberry Pi 
+	und einem Arduino.
+	Der Pi ist mit Roscore ausgestattet, auf dem Arduino läuft ein Node für 
+	den Ultraschallsensor.
+	% ? Besser als das hier: ?
+	% Innerhalb der anderen Komponente Roboter - unser rosBerry - befindet 
+	%sich die beiden Hardware-Elemente Raspberry Pi und ein Arduino. 
+	%Roscore läuft auf dem Raspberry Pi und ein Node - für den 
+	%Ultraschallsensor - auf dem Arduino.
+	
+	Der Arduino wird durch ein USB Kabel mit dem Raspberry Pi verbunden.
+	Dadurch wird eine Kommunikation ermöglicht, in welcher der Arduino 
+	den Raspberry Pi in Zeitabständen mit Sensordaten versorgt.
+	\\
+	An dieser Stelle ist anzumerken, dass weitere verwendete Hardware im 
+	Kapitel Hardwareaufbaare-Architektur des Roboters vorgestellt.
 	%Den dazugehörige Quellcode finden Sie auf https://github.com/Wifi-cable/Robotic\_AI\_student\_project.
 	%An dieser Stelle möchten wir darauf hinweisen, dass das Repository von Tiziano Fiorenzani geklont wurde.
 	%Die Dokumentation seines Projektes finden Sie unter folgender Verlinkung zu Youtube https://youtu.be/iLiI\_IredhI.
@@ -307,7 +324,24 @@
 	Vorkonfiguration und Launchfiles ist 
 	die Knotenaufrufreihenfolge langwierig. Manche Schritte müssen auf einem 
 	Laptop durchgeführt werden, andere via SSH auf dem Raspberry Pi. So 
-	muss der Laptop erfahren das ein ROScore (Master Node) bereits auf dem 
+	muss der Laptop erfahren das eiAN verbindet.
+	\\
+	Die andere Komponente - der Roboter - besteht aus einem Raspberry Pi 
+	und einem Arduino.
+	Der Pi ist mit Roscore ausgestattet, auf dem Arduino läuft ein Node für 
+	den Ultraschallsensor.
+	% ? Besser als das hier: ?
+	% Innerhalb der anderen Komponente Roboter - unser rosBerry - befindet 
+	%sich die beiden Hardware-Elemente Raspberry Pi und ein Arduino. 
+	%Roscore läuft auf dem Raspberry Pi und ein Node - für den 
+	%Ultraschallsensor - auf dem Arduino.
+	
+	Der Arduino wird durch ein USB Kabel mit dem Raspberry Pi verbunden.
+	Dadurch wird eine Kommunikation ermöglicht, in welcher der Arduino 
+	den Raspberry Pi in Zeitabständen mit Sensordaten versorgt.
+	\\
+	An dieser Stelle ist anzumerken, dass weitere verwendete Hardware im 
+	Kapitel Hardwareaufban ROScore (Master Node) bereits auf dem 
 	Raspberry Pi läuft.
 	
 \begin{figure}
@@ -445,7 +479,32 @@ roslaunch ki_nav start_AI.launch
 		Jedoch alleine für die Lenkung zuständig. }
 		\label{Servomotor}
 	\end{figure}
-	Für das Robotik Projekt \textit{rosBerry} wurde ein solides, aber günstiges Chassis gesucht bei dem die Möglichkeit besteht Ersatzteile zu bestellen. Viele qualitativ hochwertige Modellbau Chassis liegen in einem Preisrahmen über 400€, für diese ist die Ersatzteilbeschaffung gut möglich. Günstige, meist asiatische Modellbau Chassis Hersteller liefern ihre Modelle und Bausätze nur für einen kurzen Zeitraum. Es ist oft nicht möglich zu einem späteren Zeitpunkt das Modell nachzukaufen oder Ersatzteile zu bekommen. Somit ist ein Roboter der darauf aufbaut, wie das Donkey Car, nicht reproduzierbar. 
+	Für das Robotik Projekt \textit{rosBerry} wurde ein solides, aber 
+	günstiges Chassis gesucht bei deAN verbindet.
+	\\
+	Die andere Komponente - der Roboter - besteht aus einem Raspberry Pi 
+	und einem Arduino.
+	Der Pi ist mit Roscore ausgestattet, auf dem Arduino läuft ein Node für 
+	den Ultraschallsensor.
+	% ? Besser als das hier: ?
+	% Innerhalb der anderen Komponente Roboter - unser rosBerry - befindet 
+	%sich die beiden Hardware-Elemente Raspberry Pi und ein Arduino. 
+	%Roscore läuft auf dem Raspberry Pi und ein Node - für den 
+	%Ultraschallsensor - auf dem Arduino.
+	
+	Der Arduino wird durch ein USB Kabel mit dem Raspberry Pi verbunden.
+	Dadurch wird eine Kommunikation ermöglicht, in welcher der Arduino 
+	den Raspberry Pi in Zeitabständen mit Sensordaten versorgt.
+	\\
+	An dieser Stelle ist anzumerken, dass weitere verwendete Hardware im 
+	Kapitel Hardwareaufbam die Möglichkeit besteht Ersatzteile zu bestellen. 
+	Viele qualitativ hochwertige Modellbau Chassis liegen in einem 
+	Preisrahmen über 400€, für diese ist die Ersatzteilbeschaffung gut 
+	möglich. Günstige, meist asiatische Modellbau Chassis Hersteller liefern 
+	ihre Modelle und Bausätze nur für einen kurzen Zeitraum. Es ist oft nicht 
+	möglich zu einem späteren Zeitpunkt das Modell nachzukaufen oder 
+	Ersatzteile zu bekommen. Somit ist ein Roboter der darauf aufbaut, wie 
+	das Donkey Car, nicht reproduzierbar. 
 	\\
 	\begin{figure} %[t]
 		\centering
