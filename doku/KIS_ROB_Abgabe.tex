@@ -971,7 +971,7 @@ with thread_session.as_default():
 	\end{figure}
 		
 	Erst innerhalb dieses Blockes kann sicher auf das vortrainierte Modell zugegriffen werden, um damit eine Vorhersage zu machen.
-	\subsubsection{Algorithmus zur Bildanalyse }
+	\subsubsection{Erster Algorithmus zur Bildanalyse }
 	\noindent \\
 	%mach ich! ~steffen 
 	%echt? wann? ~marie
@@ -1043,11 +1043,23 @@ Positiven, Nicht jedoch in die Richtung des größten Konfidenzwerts.\\
 Zwei dinge Fallen auf im Praxistest des Autonomen Fahrens mit KI. Zum 
 einen fällt auf wie zeit verzögert der Roboter Reagiert. Die anfängliche 
 Verzögerung von 3 Sekunden, wächst im laufenden 
-Betrieb auf über 10 Sekunden an. \\
-%hilft die taktung? 
-Eine Weitere Auffälligkeit im Verhalten des Roboters ist seine \say{Vorliebe} 
-für Stuhlbeine, Türrahmen und Kanten aller Art. 
+Betrieb auf über 10 Sekunden an. Dies verursacht eine ausgiebige 
+Fehlersuche. \\
 
+Die Verzögerung wird durch zwei dinge reduziert. Zum einen 
+jeden OpenCV Methodenaufruf  darauf kontrollieren ob Blockierend sind, 
+zum anderen durch eine niedrige Bildübertragungsrate. Paradoxer weise 
+reagiert der Roboter schneller auf veränderte Bildinhalte bei einer 
+Übertragungsrate von einem Bild pro Sekunde. Mit dieser Niedrigen Rate 
+kommt der Bildanalysealgorithmus, der Raspberry Pi sowie die W-LAN 
+Verbindung mit. \\
+%hilft die taktung? 
+Eine Auffälligkeit im Verhalten des Roboters ist seine \say{Vorliebe} 
+für Stuhlbeine, Türrahmen und Kanten aller Art. Diese werten teilweise mit 
+dem Optischen Marker verwechselt. Meistens Reagiert die KI auf das worauf 
+sie Trainiert wurde. Neonlicht oder Sonnenschein machen dabei keinen 
+Unterschied. Eine annähernd perfekte Zuverlässigkeit wird jedoch nicht 
+erreicht. 
 
 
 	\section{Erkenntnisse }
@@ -1089,11 +1101,16 @@ Neuronale Netz auf ein bestimmtes Bild mit  Starken Kontraste trainiert ist
 stimmt nicht. Statt dessen reagieren die Gewichte auf Linien, was bei der 
 Anwendung von ausschließlich Sobel filtern nicht überraschen sollte.
 \\
-Jeh Größer und Realistischer der Datensatz des do höher die Chance 
+Je Größer und Realistischer der Datensatz des do höher die Chance 
 Ergebnisse zu bekommen die auch in Realität funktionieren.   \\
 
+Inkompatibilitäten von Betriebssystemen und Software Versionen sollten am 
+Anfang von Projekten bedacht werden. \\
+
 Das Konfidenzniveau des Neuronalen Netzes hat eine höhere aussagekräftig 
-als die aufsummierten Unsicherheiten in der Bilderkennung.
+als die aufsummierten Unsicherheiten in der Bilderkennung.\\
+
+Praxistaugliche KI Anwendungen sind Schwer zu bauen.
 
 	
 \section*{Danksagungen}
