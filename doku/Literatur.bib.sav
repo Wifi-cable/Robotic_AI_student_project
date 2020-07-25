@@ -5,6 +5,7 @@
   publisher = {Springer},
   title     = {Learn Keras for Deep Neural Networks},
   year      = {2019},
+  groups    = {wissenschaftliche Quellen},
 }
 
 @Thesis{Amanda,
@@ -13,6 +14,7 @@
   title  = {Bildklassifikation auf einem Raspberry Pi Zero am Beispiel einer Ladestationserkennung},
   type   = {Bachelor-Thesis},
   year   = {2019},
+  groups = {nicht-wissenschaftliche Quellen},
 }
 
 @Online{Tamiya,
@@ -22,6 +24,7 @@
   url       = {https://www.tamiya.com/english/rc/manuals.htm},
   urldate   = {2020-07-18},
   year      = {2003},
+  groups    = {nicht-wissenschaftliche Quellen},
 }
 
 @Book{govers2018artificial,
@@ -29,6 +32,7 @@
   publisher = {Packt Publishing Limited},
   title     = {Artificial intelligence for robotics: Build intelligent robots that perform human tasks using AI techniques},
   year      = {2018},
+  groups    = {wissenschaftliche Quellen},
 }
 
 @Online{Keras,
@@ -38,6 +42,7 @@
   url       = {https://blog.victormeunier.com/posts/keras_multithread/},
   urldate   = {2020-07-18},
   year      = {2019-02-10},
+  groups    = {nicht-wissenschaftliche Quellen},
 }
 
 @Online{qengineering,
@@ -47,6 +52,7 @@
   url       = {https://qengineering.eu/install-tensorflow-2.2.0-on-raspberry-pi-4.html},
   urldate   = {2020-07-21},
   year      = {2020-05-19},
+  groups    = {nicht-wissenschaftliche Quellen},
 }
 
 @Online{fiorenzaniVideo,
@@ -56,6 +62,7 @@
   url       = {https://www.youtube.com/watch?v=iLiI_IRedhI&t=7s},
   urldate   = {2020-07-25},
   year      = {2019-01-03},
+  groups    = {nicht-wissenschaftliche Quellen},
 }
 
 @Online{fiorenzaniGitHub,
@@ -65,6 +72,7 @@
   url       = {https://github.com/tizianofiorenzani/ros_tutorials},
   urldate   = {2020-07-25},
   year      = {2018},
+  groups    = {nicht-wissenschaftliche Quellen},
 }
 
 @Online{barsalouGitHub,
@@ -74,6 +82,7 @@
   url       = {https://github.com/Wifi-cable/Robotic_AI_student_project},
   urldate   = {2020-07-25},
   year      = {2020},
+  groups    = {nicht-wissenschaftliche Quellen},
 }
 
 @Comment{jabref-meta: databaseType:bibtex;}
@@ -81,7 +90,7 @@
 @Comment{jabref-meta: grouping:
 0 AllEntriesGroup:;
 1 StaticGroup:wissenschaftliche Quellen\;0\;0\;0x8a8a8aff\;\;\;;
-1 StaticGroup:nicht-wissenschaftliche Quellen\;0\;1\;0x8a8a8aff\;\;\;;
+1 StaticGroup:nicht-wissenschaftliche Quellen\;0\;0\;0x8a8a8aff\;\;\;;
 }
 
 @Comment{jabref-entrytype: online: req[author;publisher;title;url;urldate] opt[;year]}
