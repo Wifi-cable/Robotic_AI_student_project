@@ -118,12 +118,10 @@
 	Donkey Cars fahren größtenteils mit Hilfe von quelloffenem Python Code. \\
 	\\
 	Auf Youtube hat ein Benutzer namens Tiziano Fiorenzani gezeigt, wie ein Donkey Car mit ROS betrieben werden kann.
-	Das Video \url{https://youtu.be/iLiI\_IRedhI} verweist auf Github für 
+	Das Video \cite{fiorenzaniVideo} verweist auf Github für 
 	Tiziano 
-	Fiorenzanis Code. Es wird eine Abzweigung seines Github-Repositoriums 
-	erstellt. Auf 
-	\url{https://github.com/Wifi-cable/Robotic_AI_student_project/}
-	befindet sich der Quellcode des Projektes rosBerry. 
+	Fiorenzanis Code \cite{fiorenzaniGitHub}. Es wird eine Abzweigung seines Github-Repositoriums 
+	erstellt. Auf Marie Barsalou's Github \cite{barsalouGitHub} 	befindet sich der Quellcode des Projektes rosBerry. 
 	Das Projekt wird um einen Arduino und mehrere ROS Knoten, eine 
 	einfache Künstliche Intelligenz sowie um Launchfiles erweitert.
 		
@@ -160,13 +158,13 @@
 	zu unterscheiden, der auch im Marker vorkam.
 	Es schien auch schwierig zu sein ein Binärbild vom Marker zu erzeugen, 
 	da die beiden Farben des Markers einen geringen Kontrast zueinander 
-	haben. (Binärbilder enthalten nur die Farben Schwarz und Weiß. Sie 
+	haben (Binärbilder enthalten nur die Farben Schwarz und Weiß. Sie 
 	entscheiden anhand eines Schwellwerts welche der beiden Farben ein 
-	Pixel bekommen wird)
+	Pixel bekommen wird).
 	Da Kameras in OpenCV mit Hilfe von Schachbrettmustern kalibriert werden, wird für dieses Projekt ein Symbol mit ähnlich hohem Kontrast und scharfen Kanten verwendet.
 	\\
 	
-	Dieses Symbol (Abb. \ref{Marker}) ist nicht nur in 4 Richtungen rotierbar, sondern auch zweifach spiegelbar, ohne den Marker zu verfälschen. (Rotationsinvarianz und Spiegelungsinvarianz)
+	Dieses Symbol (Abb. \ref{Marker}) ist nicht nur in 4 Richtungen rotierbar, sondern auch zweifach spiegelbar, ohne den Marker zu verfälschen (Rotationsinvarianz und Spiegelungsinvarianz).
 	Es verfügt auch über einen maximalen Kontrast und klare, gerade Kanten.
 	\\
 	\noindent
@@ -358,7 +356,7 @@ export ROS_IP=$(hostname -I)
 	\textit{bash.rc} die Eingabe von \textit{source devel/setup.bash} im ROS 
 	workspace ersetzen. \\
 	Eine weitere Erleichterung ist der Eintrag eines Shellscripts in die 
-	setup.bash Datei. \ref{Einzeiler} Dieser Eintrag setzt die ROS Host IP 
+	setup.bash Datei. Dieser Eintrag \ref{Einzeiler} setzt die ROS Host IP 
 	Variable auf die aktuelle IP Adresse des Laptops.
 	\begin{figure}
 		\centering
@@ -402,9 +400,9 @@ rosrun teleop_twist_keyboard teleop_twist_keyboard.py
 
 	\end{figure}
 	
-	Um die benötigten Knoten Für die Künstliche Intelligenz komfortabel zu 
+	Um die benötigten Knoten für die Künstliche Intelligenz komfortabel zu 
 	starten wurden zwei Launchfiles geschrieben \ref{KI-launch}. Das ist 
-	notwendig da die Anwendung verteilt läuft. (siehe spätere Artikel)
+	notwendig da die Anwendung verteilt läuft.
 	
 	\begin{figure}[h]
 		\centering
@@ -456,10 +454,10 @@ roslaunch ki_nav start_AI.launch
 		\label{Getriebe}
 	\end{figure}
 	Der Kompromiss dieser Abwägung fand sich bei einem älteren 
-	Einsteigermodell namens TAMIYA RC 1:10 TT-01E. Tamiya ist ein 
+	Einsteigermodell namens TAMIYA RC 1:10 TT-01E. Tamiya \cite{Tamiya} ist ein 
 	traditionsreicher japanischer Hersteller der qualitativ hochwertige 
 	Bausätze für ferngesteuerte Fahrzeuge herstellt. (Er stellt Schiffe, Flugzeuge 
-	und Panzer her, aber hauptsächlich Modellautos) Tamiya ist unter 
+	und Panzer her, aber hauptsächlich Modellautos) Tamiya \cite{Tamiya} ist unter 
 	Modellbau-Enthusiasten dafür bekannt, alle Prinzipien japanischer 
 	Ingenieurskunst bei der Konstruktion seiner Modelle anzuwenden, statt 
 	\say{Spielzeugqualität} in China herzustellen. Das TT01-Modell hat 
@@ -469,9 +467,9 @@ roslaunch ki_nav start_AI.launch
 	\\
 	Die Mechanik des \textit{TAMIYA RC 1:10 TT-01E } Modells basiert auf 
 	einem Motor und einer langen Antriebswelle, die drei Differenzialgetriebe 
-	bewegt. \ref{Getriebe} Die Modelle werden als Vierradantrieb vermarktet. 
+	bewegt \ref{Getriebe}. Die Modelle werden als Vierradantrieb vermarktet. 
 	Die Lenkung wird getrennt vom Antrieb durch einen kleinen Servomotor 
-	geregelt\ref{Servomotor}. Er bewegt die Spurstange nach rechts / links. Das 
+	geregelt \ref{Servomotor}. Er bewegt die Spurstange nach rechts / links. Das 
 	Chassis nutzt also eine Ackermann Lenkung, wie sie auch bei PKWs üblich ist.
 	
 	\subsection{Elektronische Bauteile und ihre Funktion}\label{sec:Bauteile}
@@ -693,7 +691,7 @@ Da diese Ergebniss wenig befriedigend ist wird ein leicht veränderter Ansatz
 benötigt. \\
 	Die Schritte von \glqq Learn Keras for Deep Neural Networkss\grqq \cite{moolayil2019learn} zum Verbessern des Designs von Neurnalen Netzen werden zur verbesserung der Trainignsergebnisse verwendet. 
 	
-	\cite{moolayil2019learn} rät dazu mit einer kleinen Architektur anzufangen,
+	Jojo Moolayil \cite{moolayil2019learn} rät dazu mit einer kleinen Architektur anzufangen,
 	dass bedeutet wenige Schichten und eine geringe Anzahl an Neuronen. Es 
 	liegt nahe, dass kleine Architekturen ressourcenschonender sind als 
 	grosse Architekturen. Dieser Ansatz erscheint sinnvoll, da steigende 
@@ -708,7 +706,7 @@ benötigt. \\
 	
 
 	
-	\cite{moolayil2019learn} rät die Anzahl an Neuronen pro Schicht erhöhen, wenn Anfangs keine befriedigenden Ergebnisse erzielt werden.
+	Jojo Moolayil \cite{moolayil2019learn} rät die Anzahl an Neuronen pro Schicht erhöhen, wenn Anfangs keine befriedigenden Ergebnisse erzielt werden.
 	Bei voller Bildauflösung von 640x480 Pixel erweist sich das Neuronale 
 	Netz auf der Hardware eines handelsüblichen Laptops als nicht mehr 
 	lauffähig. Für weitere Durchläufe wurden die nächsten Versuche auf einer 
@@ -736,7 +734,7 @@ benötigt. \\
 	wurde eingeführt. }
 	\label{Overfitt }
 \end{figure}
-	Weiterhin rät \cite{moolayil2019learn} mehr Schichten zu benutzen, 
+	Weiterhin rät Jojo Moolayil \cite{moolayil2019learn} mehr Schichten zu benutzen, 
 	beispielsweise abwechselnd eine dichte Schicht (dense layer) und eine 
 	Dropout Schicht.
 	
@@ -1044,7 +1042,7 @@ als die aufsummierten Unsicherheiten in der Bilderkennung.
 Besondere Dank gilt den betreuenden Professoren, Prof. Dr Ihme und Prof. 
 Dr Fischer.\\
 Sowie Prof. Dr Wolf für das Bereitstellen seiner Workstation die das KI 
-Training erst effektiv möglich macht hat.\\
+Training erst effektiv möglich gemacht hat.\\
 Des weiten Gebührt
  J. Konrad Dank für die Beratung zu Elektrischer 
 Komponenten wie Spannungswandlern und Akkus, sowie der Beratung in 
