@@ -5,7 +5,6 @@
   publisher = {Springer},
   title     = {Learn Keras for Deep Neural Networks},
   year      = {2019},
-  groups    = {wissenschaftliche Quellen},
 }
 
 @Thesis{Amanda,
@@ -14,12 +13,10 @@
   title  = {Bildklassifikation auf einem Raspberry Pi Zero am Beispiel einer Ladestationserkennung},
   type   = {Bachelor-Thesis},
   year   = {2019},
-  groups = {nicht-wissenschaftliche Quellen},
 }
 
 @Online{Tamiya,
   author    = {TAMIYA},
-  groups    = {nicht-wissenschaftliche Quellen},
   publisher = {TAMIYA},
   title     = {RC Manual Download},
   url       = {https://www.tamiya.com/english/rc/manuals.htm},
@@ -32,17 +29,51 @@
   publisher = {Packt Publishing Limited},
   title     = {Artificial intelligence for robotics: Build intelligent robots that perform human tasks using AI techniques},
   year      = {2018},
-  groups    = {wissenschaftliche Quellen},
 }
 
 @Online{Keras,
   author    = {Radek Kozieł},
-  groups    = {nicht-wissenschaftliche Quellen},
   publisher = {Hugo},
   title     = {How to do multithreading with Keras},
   url       = {https://blog.victormeunier.com/posts/keras_multithread/},
   urldate   = {2020-07-18},
   year      = {2019-02-10},
+}
+
+@Online{qengineering,
+  author    = {Rients Politiek},
+  publisher = {Q-engineering},
+  title     = {Install TensorFlow 2.2.0 on Raspberry Pi 4},
+  url       = {https://qengineering.eu/install-tensorflow-2.2.0-on-raspberry-pi-4.html},
+  urldate   = {2020-07-21},
+  year      = {2020-05-19},
+}
+
+@Online{fiorenzaniVideo,
+  author    = {Tiziano Fiorenzani},
+  publisher = {Tiziano Fiorenzani},
+  title     = {ROS and Raspberry Pi for Beginners | Tutorial #0 - Topics Packages RosMaster},
+  url       = {https://www.youtube.com/watch?v=iLiI_IRedhI&t=7s},
+  urldate   = {2020-07-25},
+  year      = {2019-01-03},
+}
+
+@Online{fiorenzaniGitHub,
+  author    = {Tiziano Fiorenzani},
+  publisher = {Tiziano Fiorenzani},
+  title     = {ros_tutorials},
+  url       = {https://github.com/tizianofiorenzani/ros_tutorials},
+  urldate   = {2020-07-25},
+  year      = {2018},
+}
+
+@Online{barsalouGitHub,
+  author    = {Marie Barsalou},
+  publisher = {Marie Barsalou},
+  title     = {Robotic_AI_student_project},
+  url       = {https://github.com/Wifi-cable/Robotic_AI_student_project},
+  urldate   = {2020-07-25},
+  year      = {2020},
 }
 
 @Comment{jabref-meta: databaseType:bibtex;}
