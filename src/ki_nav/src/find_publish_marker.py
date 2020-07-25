@@ -54,6 +54,7 @@ class ImageProcessor:
 	#@param : Image from the robot camera in cv2 png fomat
 	#@return : an array with likelyhoods to have found the marker for each tile
 	def splitSearch(self, markerImg):
+		rightNow = rospy.Time.now()
 		IMG_HEIGHT, IMG_WIDTH, colors = markerImg.shape
 		tiles = []
 		results = []
@@ -66,8 +67,8 @@ class ImageProcessor:
 		
 		if(VERBOSE):
 			now = str(rospy.Time.now)
-			cv2.imshow("stream ",markerImg)
-			cv2.waitKey(3)
+			cv2.imshow("on Laptop ",markerImg)
+			cv2.waitKey(1)
 		
 		if(SPAM):
 			rospy.loginfo("IMG: {}x{}".format(round(IMG_WIDTH,2), round(IMG_HEIGHT,2)))
@@ -79,16 +80,27 @@ class ImageProcessor:
 				
 				tiles.append(cv2.resize( markerImg[x_start:x_end, y_start:y_end], (step_width, step_height)))	
 				
-				if(SPAM):
-					rospy.loginfo("{}:{}x{}:{}".format(round(x_start,2), round(x_end,2), round(y_start,2), round( y_end,2)))
+		'''		
+		if(VERBOSE):
+			rospy.loginfo(len(tiles))
+			for x in range(9):
+				cv2.imshow(str(x),tiles[x] )
+				cv2.waitKey(0)
+				#cv2.destroyAllWindows()
+		'''
+			
+		if(SPAM):
+			rospy.loginfo("{}:{}x{}:{}".format(round(x_start,2), round(x_end,2), round(y_start,2), round( y_end,2)))
 		
 		certaintyLevel = 5
 		#threadsavety in Python is a nightmare
 		with graph.as_default():
 			with thread_session.as_default():
-			
+				
 				for tile in tiles:
 					tile = numpy.expand_dims(img_to_array( tile.astype("float") / 255.0), axis=0)
+					#cv2.imshow('',tile)
+					#cv2.waitKey(0)
 					(noMarker, marker) = model.predict(tile)[0]
 					probability = round((max(noMarker, marker) * 100),2)
 					certainty = ((marker - noMarker)* 100)
@@ -119,7 +131,8 @@ class ImageProcessor:
 				format(no_marker_percent[1 ], no_marker_percent[4 ], no_marker_percent[ 7]))
 				rospy.loginfo("{:6.2f} {:6.2f} {:6.2f}".
 				format(no_marker_percent[ 2], no_marker_percent[ 5], no_marker_percent[ 8]))
-				
+				rightDuration = rospy.Time.now() - rightNow
+				rospy.logwarn("AI took {} Sec ({} nSec) to process the image".format(rightDuration.to_sec(), rightDuration.to_nsec()))
 		return results,has_marker_chance , no_marker_percent
 	
 	#this algorythm just counts the numer of times  the AI thinks it may have a maarker
@@ -196,6 +209,7 @@ class ImageProcessor:
 			self.counter = self.counter + 1
 			
 		if(VERBOSE):
+			rospy.logwarn('\033[1;1H');
 			rospy.logwarn("Transfer Delay: {}.{} Sec".format(img_delay, im_del, "\n"))
 		
 		#compressed ROS  Image needst to be translated to opencv.
