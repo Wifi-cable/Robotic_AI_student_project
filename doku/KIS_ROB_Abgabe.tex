@@ -203,7 +203,7 @@
 	Die Steuerung kann erst erfolgen, wenn auf dem Raspberry Pi ein Accesspoint geöffnet wurde, mit dem sich der Laptop - der Nutzer letztendlich - via WLAN verbindet.
 	\\
 	Die andere Komponente - der Roboter - besteht aus einem Raspberry Pi und einem Arduino.
-	Der Pi ist mit Roscore ausgestattet, auf dem Arduino läuft ein Node für den Ultraschallsensor.
+	Auf dem Raspberry Pi läuft Roscore und auf dem Arduino läuft ein Node für den Ultraschallsensor.
 	% ? Besser als das hier: ?
 	% Innerhalb der anderen Komponente Roboter - unser rosBerry - befindet sich die beiden Hardware-Elemente Raspberry Pi und ein Arduino. Roscore läuft auf dem Raspberry Pi und ein Node - für den Ultraschallsensor - auf dem Arduino.
 	
@@ -323,27 +323,12 @@
 	Laptop durchgeführt werden, andere via SSH auf dem Raspberry Pi. So 
 	muss der Laptop erfahren, dass ein ROScore (Master Node) auf dem Raspberry Pi läuft.
 	
-	So muss der Laptop
-	erfahren das ein ROScore (Master Node) bereits auf dem
-	Raspberry Pi läuft.
 	\\
-	Die andere Komponente - der Roboter - besteht aus einem Raspberry Pi 
-	und einem Arduino.
-	Der Pi ist mit Roscore ausgestattet, auf dem Arduino läuft ein Node für 
-	den Ultraschallsensor.
 	% ? Besser als das hier: ?
 	% Innerhalb der anderen Komponente Roboter - unser rosBerry - befindet 
 	%sich die beiden Hardware-Elemente Raspberry Pi und ein Arduino. 
 	%Roscore läuft auf dem Raspberry Pi und ein Node - für den 
 	%Ultraschallsensor - auf dem Arduino.
-	
-	Der Arduino wird durch ein USB Kabel mit dem Raspberry Pi verbunden.
-	Dadurch wird eine Kommunikation ermöglicht, in welcher der Arduino 
-	den Raspberry Pi in Zeitabständen mit Sensordaten versorgt.
-	\\
-	An dieser Stelle ist anzumerken, dass weitere verwendete Hardware im 
-	Kapitel Hardwareaufban ROScore (Master Node) bereits auf dem 
-	Raspberry Pi läuft.
 	
 \begin{figure}
 	\centering
