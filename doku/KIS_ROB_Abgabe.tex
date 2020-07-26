@@ -218,7 +218,7 @@
 	
 	%heike
 	%grobstruktur,  nodes topics und all das was es schon als text gibt
-	In diesem Kapitel wird die SoftwAN verbindet.
+	In diesem Kapitel wird die Software Architektur erklärt.
 	\\
 	Die andere Komponente - der Roboter - besteht aus einem Raspberry Pi 
 	und einem Arduino.
@@ -321,9 +321,8 @@
 	Vorkonfiguration und Launchfiles ist 
 	die Knotenaufrufreihenfolge langwierig. Manche Schritte müssen auf einem 
 	Laptop durchgeführt werden, andere via SSH auf dem Raspberry Pi. So 
-	muss der Laptop erfahren, dass ein ROScore (Master Node) auf dem Raspberry Pi läuft.
-	
-	\\
+	muss der Laptop erfahren, dass ein ROScore (Master Node) auf dem 
+	Raspberry Pi läuft.	\\
 	% ? Besser als das hier: ?
 	% Innerhalb der anderen Komponente Roboter - unser rosBerry - befindet 
 	%sich die beiden Hardware-Elemente Raspberry Pi und ein Arduino. 
@@ -403,8 +402,9 @@ awk -F '/' '{print $1}')
 	
 	Launchfiles, die viele ROS Knoten auf einmal starten, sind eine beliebte 
 	Vereinfachung. Um die \textit{Keyboard Demo} \ref{demo} zu starten, oder 
-	den Roboter Fernzusteuern existiert ein Launchfile im \textit{Donkey Car} 
-	Fork der Github Quelle.
+	den Roboter per Tastatur Fernzusteuern, existiert ein Launchfile im 
+	\textit{Donkey Car} 
+	Abzweigung der Github Quelle.
 	\begin{figure}
 		\centering
 \begin{minted}[frame=lines,breaklines=true,
@@ -466,24 +466,8 @@ roslaunch ki_nav start_AI.launch
 		\label{Servomotor}
 	\end{figure}
 	Für das Robotik Projekt \textit{rosBerry} wurde ein solides, aber 
-	günstiges Chassis gesucht bei deAN verbindet.
-	\\
-	Die andere Komponente - der Roboter - besteht aus einem Raspberry Pi 
-	und einem Arduino.
-	Auf dem Pi befindet sich Roscore und auf dem Arduino läuft ein Node für 
-	den Ultraschallsensor.
-	% ? Besser als das hier: ?
-	% Innerhalb der anderen Komponente Roboter - unser rosBerry - befindet 
-	%sich die beiden Hardware-Elemente Raspberry Pi und ein Arduino. 
-	%Roscore läuft auf dem Raspberry Pi und ein Node - für den 
-	%Ultraschallsensor - auf dem Arduino.
-	
-	Der Arduino wird durch ein USB Kabel mit dem Raspberry Pi verbunden.
-	Dadurch wird eine Kommunikation ermöglicht, in welcher der Arduino 
-	den Raspberry Pi in Zeitabständen mit Sensordaten versorgt.
-	\\
-	An dieser Stelle ist anzumerken, dass weitere verwendete Hardware im 
-	Kapitel Hardwareaufbam die Möglichkeit besteht Ersatzteile zu bestellen. 
+	günstiges Chassis gesucht. 
+	Eines bei dem die Möglichkeit besteht Ersatzteile zu bestellen. 
 	Viele qualitativ hochwertige Modellbau Chassis liegen in einem 
 	Preisrahmen über 400€, für diese ist die Ersatzteilbeschaffung gut 
 	möglich. Günstige, meist asiatische Modellbau Chassis Hersteller liefern 
@@ -553,7 +537,8 @@ roslaunch ki_nav start_AI.launch
 		Ohne ihn wird der Roboter nicht in Bewegung kommen.
 		\item Neben dem DC Antriebsmotor befindet sich ein Fahrtenregler, Modell BORSTI 1/10 BRUSHED-ESC 45A.
 		Dieser erhält vom Motorshield ein PWM-Signal, welches er verstärkt.
-		Das verstärkte PWM-Signal wird anschließend in Geschwindigkeit umgesetzt und an den DC-Antriebsmotor weitergeleitet.
+		Das verstärkte PWM-Signal wird zur Geschwindigkeit vom 
+		DC-Antriebsmotor.
 		\item Der UBEC - Modell HWBEC Hobbywing 3A \SI{5}{V} \SI{6}{V} max \SI{5}{A} - wird eingebaut, um den Raspberry Pi mit \SI{5}{V} zu versorgen.
 		Ohne den UBEC würde der Raspberry Pi aufgrund der höheren elektrischen Spannung beschädigt werden.
 		\item Der Servo - Modell Amewi AMX Racing 4806HB - bekommt vom Motorshield ein PWM Signal übermittelt.
@@ -764,11 +749,8 @@ benötigt. \\
 	lauffähig. Für weitere Durchläufe wurden die nächsten Versuche auf einer 
 	Workstation mit mehr Grafikkarten und deutlich mehr RAM gemacht. 
 	Die Erkennungsrate steigt bei größerer Auflösung und mehr Durchläufen 
-	tatsächlich auf über 80\%. Damit vergrössert sich jedoch auch das Modell (die 
-	Gewichte der KI) auf über ein Gigabyte. Ein so großes Modell kann nicht 
-	zeitnah auf einem Raspberry Pi angewedet werden, da es nicht mehr in 
-	den RAM passt. Auch auf Standard Laptops ist zu erwarten, dass ein 
-	größeres Modell Berechnungen in Echtzeit erschwert. \\
+	tatsächlich auf über 80\%. Damit vergrössert sich jedoch auch das Modell 
+	(die Gewichte der KI) auf über ein Gigabyte.  \\
 	
 	Um mit einer höheren Auflösung trainieren zu können werden die 
 	nächsten Trainingseinheiten auf einem performanteren Server 
@@ -843,9 +825,10 @@ benötigt. \\
 	Zusammenhang mit ROS  die verwendeten Algorithmen sowie ihr Effekt. 
 	
 	\subsubsection{Keras und Tensorflow auf Raspberry Pi Hardware}
-	Der initiale Plan sieht vor, dass das neuronale Netz auf dem Raspberry Pi 
-	ausgewertet wird, damit der Roboter komplett autonom (ohne WLAN und 
-	externen Computer) fahren kann. Die Prozessorleistung und der RAM 
+	Der initiale Plan sieht vor, dass das Model des neuronale Netzes auf dem 
+	Raspberry Pi 
+	angewendet wird. So kann der Roboter komplett autonom ,ohne WLAN 
+	und externen Computer fahren. Die Prozessorleistung und der RAM 
 	eines Raspberry Pi's 3 B+ ist zwar deutlich geringer als der eines 
 	Standard Laptops, aber die Nachteile eines verteilten Systems erscheinen 
 	anfangs größer. Besonders der architektonische Aufwand für verteilte 
@@ -1086,12 +1069,14 @@ Mit dem Robot Operating System ist es möglich günstige, schnelle Roboter
 aus Standard Teilen zu bauen. Die vielfältigen Opensource Hardware 
 Produkte die für Marker Hergestellt werden sind zuverlässig genug für den 
 Anwendungsfall. Modellbau Hardware jedoch ist wesentlich Fehleranfälliger. 
-Dieses Projekt hat bei sachgemäßer Nutzung 1 Servomotor und Zwei Ubeck 
-Spannungswandler zerstört.\\
+Dieses Projekt hat Einen Servomotor zerstört, einen Akku beschädigt und 
+zwei Ubeck Spannungsteiler verschmort von denen einer in Flammen 
+aufgegangen ist.Das alles bei Sachgemäßer Nutzung wie im  Dateiblatt 
+beschrieben.\\
 
 Bei KIs sind gute Grundannahmen unerlässlich. Die Annahme das, dass 
 Neuronale Netz auf ein bestimmtes Bild mit  Starken Kontraste trainiert ist 
-stimmt nicht. Statt dessen reagieren die Gewichte auf Linien, was bei der 
+stimmt nicht. Statt dessen reagieren die KI auf Linien, was bei der 
 Anwendung von ausschließlich Sobel filtern nicht überraschen sollte.
 \\
 Je Größer und Realistischer der Datensatz des do höher die Chance 
