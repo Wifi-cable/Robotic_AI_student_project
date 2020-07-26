@@ -342,7 +342,7 @@ ssh ubuntu@10.42.0.1
 # 1. Console - on Raspberry Pi
 # Login via SSH
 cd catkin_ws/Robotic_AI_student_project/
-# If bash.rc wasn't changed to source workspace
+# If .bashrc wasn't changed to source workspace
 source devel/setup.bash
 rosrun i2cpwm_board i2cpwm_board
 	
@@ -366,7 +366,7 @@ export ROS_IP=$(hostname -I)
 	\end{minted}
 	\label{StartNodes}
 	\caption{Start der Nodes für die Steuerung des Roboters ohne Verwendung einer veränderten 
-	bash.rc-File. Zuerst wird eine Verbindung zum Raspberry Pi via SSH 
+	.bashrc-File. Zuerst wird eine Verbindung zum Raspberry Pi via SSH 
 	hergestellt. In jeweils unterschiedlichen Konsolen werden die beiden 
 	Nodes i2cpwm\_board - eine Node zum Ansprechen des I2C-Protokolls und 
 	deren Verbindung mit ROS - und low\_level\_control - die hardwarenahe 
@@ -376,7 +376,7 @@ export ROS_IP=$(hostname -I)
 	Mehrere Schritte sind möglich um diesen Prozess zu vereinfachen. Die 
 	meisten Optionen sind eine Frage der persönlichen Präferenz des ROS 
 	Benutzers. So kann ein Eintrag in die systemweit geltende Datei 
-	\textit{bash.rc} die Eingabe von \textit{source devel/setup.bash} im ROS 
+	\textit{.bashrc} die Eingabe von \textit{source devel/setup.bash} im ROS 
 	workspace ersetzen. \\
 	Eine weitere Erleichterung ist der Eintrag eines Shellscripts in die 
 	setup.bash Datei. Dieser Eintrag \ref{Einzeiler} setzt die ROS Host IP 
