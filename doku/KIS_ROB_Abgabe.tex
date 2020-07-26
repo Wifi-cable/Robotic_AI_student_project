@@ -288,7 +288,7 @@
 
 	\begin{itemize}
 		\item Auf dem Raspberry Pi befindet sich der Publisher 
-		/compress\_sender. Dieser erstellt Fotos mit Hilfe von OpenCV. Im 
+		/image\_transport\_node. Dieser erstellt Fotos mit Hilfe von OpenCV. Im 
 		Anschluss werden die Bilder mit Hilfe der CV-Bridge in ROS Bilder 
 		umgewandelt und komprimiertet. Die so erstellte ROS Nachricht wird 
 		per WLAN über das Topic /camera/image/compressed versendet.
@@ -307,7 +307,7 @@
 		/Marker und /rangeMsg\_Topic. Er ist für die Steuerung der 
 		Geschwindigkeit und der Richtung anhand der KI Daten und der 
 		Ultraschallsensordaten zuständig. Der Knoten hat einen Publisher der 
-		auf dem  Topic /cmd\_vel (value) eine Geometry/Twist\_Message 
+		auf dem  Topic /cmd\_vel (velocity) eine Geometry/Twist\_Message 
 		versendet. So werden Geschwindigkeit und Lenkung des Roboters 
 		gesteuert. (angular.z für die Lenkung und linear.x für die 
 		Beschleunigung)
@@ -376,7 +376,7 @@ export ROS_IP=$(hostname -I)
 	
 	\end{minted}
 	\label{StartNodes}
-	\caption{Start der Nodes ohne Verwendung einer veränderten 
+	\caption{Start der Nodes für die Steuerung des Roboters ohne Verwendung einer veränderten 
 	bash.rc-File. Zuerst wird eine Verbindung zum Raspberry Pi via SSH 
 	hergestellt. In jeweils unterschiedlichen Konsolen werden die beiden 
 	Nodes i2cpwm\_board - eine Node zum Ansprechen des I2C-Protokolls und 
@@ -428,7 +428,7 @@ roslaunch donkey_car keyboard_demo.launch
 rosrun teleop_twist_keyboard teleop_twist_keyboard.py
 \end{minted}
 \label{demo}
-\caption{Launchfileaufrufe um den Roboter per Tastatur vom Laptop auf 
+\caption{Abkürzender Start zu Abbildung \ref{StartNodes}. Launchfileaufrufe um den Roboter per Tastatur vom Laptop auf 
  Raspberry Pi keyboard\_demo\_launch und auf dem Laptop 
  teleop\_twist\_keyboard gestartet werden.}
 
