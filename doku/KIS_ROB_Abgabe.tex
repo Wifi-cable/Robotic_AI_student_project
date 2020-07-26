@@ -609,11 +609,32 @@ roslaunch ki_nav start_AI.launch
 	
 	\subsection{Erster Ansatz für das Neuronale Netz}	%steffen ? mary?
 
+	\begin{figure}
+		\centering
+		\includegraphics[width=9cm]{erstes_modell.png}
+		\caption{Das komplette erste Modell, so wie es von keras während des Trainings automatisiert ausgegeben werden kann. Hierbei ist zu beachten, dass beispielsweise ein Dense-Layer und die zugehörige Aktivierungsfunktion als separate Schichten dargestellt werden, im Kontext der Arbeit werden sie dennoch wie eine zusammenhängende Schicht behandelt.}
+		\label{erstes Modell: keras-visualisierung}
+	\end{figure}
+
 	Der erste Entwurf unseres Neuronalen Netzes ist stark angelehnt an F. Grovers Beispielnetz aus \glqq Artificial Intelligence for Robotics\grqq \cite{govers2018artificial}. 
 	Wie in der Vorlage wird ein sequentielles Modell mithilfe von Keras 
 	erstellt.
-	
-	Die erste Schicht stellt eine Convolution-Layer mit 20 Convolutions dar, 
+
+	\begin{figure}[!h]
+		\centering
+		\begin{minted}[frame=lines]{Python}
+model = Sequential()
+inputShape = (height, width, depth)
+
+model.add(Conv2D(20, (5, 5), padding="same", input_shape=inputShape))
+model.add(Activation("relu"))
+		\end{minted}
+		\caption{Initialisierung des sequentiellen Modells mit erster Convolution-Layer.}
+		\label{erstes Modell: Schicht eins}
+	\end{figure}
+
+
+	Die erste Schicht (siehe Abb. \ref{erstes Modell: Schicht eins}) eine Convolution-Layer mit 20 Convolutions dar, 
 	wovon jede ein Merkmal des Eingangsbildes isolieren soll.
 	Die Größe wird auf 5x5 gesetzt, betrachtet also zwei benachbarte Pixel in 
 	jede Richtung.
@@ -627,20 +648,44 @@ roslaunch ki_nav start_AI.launch
 	annehmen soll.
 	Ein Wert unter Null wäre hier unbrauchbar.
 
+	\begin{figure}[!h]
+		\centering
+		\begin{minted}[frame=lines]{Python}
+model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
+model.add(Conv2D(40, (5, 5), padding="same"))
+model.add(Activation("relu"))
+		\end{minted}
+		\caption{Die zweite und dritte Schicht des Modells, Maxpooling und nächste Convolution-Layer.}
+		\label{erstes Modell: Schicht zwei und drei}
+	\end{figure}
+
 	
-	Die zweite Schicht ist ein Maxpooling-Layer, bei der jeweils 2x2 Pixel 
-	genommen werden und danach 2x2 Pixel weiter gerückt wird, um keine 
+	Die zweite Schicht (siehe Abb. \ref{erstes Modell: Schicht zwei und drei}) ein Maxpooling-Layer, bei der jeweils 2x2 Pixel 
+	genommen werden und danach 2x2 Pixel weiter gerückt wird, um keine a
 	Überlappungen zu haben.
 	Das Ergebnis ist ein Bild in ¼ der originalen Größe: aus 640x480px wird 320x240px, aus 128x128px 64x64px usw.
 	
-	Direkt darauf folgt eine weiteres Convolution Layer mit der doppelten 
+	Direkt darauf folgt ein weiteres Convolution Layer mit der doppelten 
 	Anzahl an Convolutions - 40 statt vorher 20 - um mehr Merkmale zu 
 	identifizieren.
 	Durch das vorher durchgeführte Maxpooling werden nun andere, größere Merkmale erkannt.
 	 Dieselbe ReLU Aktivierungsfunktion wird genutzt, aus denselben 
 	 Gründen wie in der ersten Schicht.
-	
-	Schicht vier besteht erneut aus einem Maxpooling-Layer, ebenfalls um nochmals größere Merkmale zu erkennen.
+
+	\begin{figure}[!h]
+		\centering
+		\begin{minted}[frame=lines]{Python}
+model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
+
+model.add(Flatten())
+model.add(Dense(500))
+model.add(Activation("relu"))
+		\end{minted}
+		\caption{Die vierte und fünfte Schicht des Modells, nochmals Maxpooling und eine vollverknüpfte Schicht.}
+		\label{erstes Modell: Schicht vier und fünf}
+	\end{figure}
+
+	Schicht vier (siehe Abb. \ref{erstes Modell: Schicht vier und fünf}) erneut aus einem Maxpooling-Layer, ebenfalls um nochmals größere Merkmale zu erkennen.
 	Aus einem 640x480px großen Bild wird nun 160x120px, aus 128x128px sogar nur noch 32x32px.
 	
 	Darauf folgt nun eine Schicht, die vorher noch nicht im Neuronalen Netz vorkam:
@@ -650,38 +695,25 @@ roslaunch ki_nav start_AI.launch
 	Erneut wird die ReLU Aktivierungsfunktion genutzt, aus bekannten 
 	Gründen.
 
+	\begin{figure}[!h]
+		\centering
+		\begin{minted}[frame=lines]{Python}
+
+model.add(Dense(2))
+model.add(Activation("softmax"))
+		\end{minted}
+		\caption{Die letzte Ausgabeschicht des ersten Modells, vollverknüpft zu den zwei Ausgangsneuronen, die mit der Softmax-Funktion aktiviert werden.}
+		\label{erstes Modell: Schicht sechs}
+	\end{figure}
+
 	Abschließend werden zwei Neuronen für die beiden Ausgangswerte 
-	"Marker"\ und "kein Marker"\ benötigt.
+	"Marker"\ und "kein Marker"\ benötigt. (siehe Abb. \ref{erstes Modell: Schicht sechs})
 	Zur Aktivierung wird die Softmax-Funktion genutzt, die auch 
 	normalisierte Exponentialfunktion genannt wird.
 	Sie transformiert mehrdimensionale Vektoren in einen Wertebereich zwischen 0 und 1, wobei alle Komponenten zusammen 1 ergeben müssen, das heißt wenn "Marker"\ einen Wert von 0,65 hat, muss "kein Marker"\ einen Wert von 0,35 haben. 
 	Die Funktion kann durchaus für mehr als zwei Ausgangswerte genutzt werden, für unseren Anwendungsfall werden jedoch nicht mehr Ausgangswerte benötigt.
 	
-	\begin{figure}[!h]
-		\centering
-		\begin{minted}[frame=lines]{Python}
-model = Sequential()
-inputShape = (height, width, depth)
 
-model.add(Conv2D(20, (5, 5), padding="same", input_shape=inputShape))
-model.add(Activation("relu"))
-
-model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
-model.add(Conv2D(40, (5, 5), padding="same"))
-model.add(Activation("relu"))
-
-model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
-
-model.add(Flatten())
-model.add(Dense(500))
-model.add(Activation("relu"))
-
-model.add(Dense(2))
-model.add(Activation("softmax"))
-		\end{minted}
-		\caption{Das sequentielle Modell, das als erster Ansatz verwendet wurde. Es besteht aus sechs Schichten und gibt zwei Werte "Marker"\ und "kein Marker"\ aus.}
-		\label{erstes Trainingsmodell}
-	\end{figure}
 
 	\subsubsection{Erste Auswertung der Ergebnisse}	%steffen? 
 	%wiso war das scheisse 
