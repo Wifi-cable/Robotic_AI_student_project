@@ -637,19 +637,7 @@ roslaunch ki_nav start_AI.launch
 	Farbpixel dargestellt werden und deshalb einen Wert zwischen 0 und 1 
 	annehmen soll.
 	Ein Wert unter Null wäre hier unbrauchbar.
-	
-	\begin{figure}[!h]
-		\centering
-		\begin{minted}[frame=lines]{Python}
-model = Sequential()
-inputShape = (height, width, depth)
 
-model.add(Conv2D(20, (5, 5), padding="same", input_shape=inputShape))
-model.add(Activation("relu"))
-		\end{minted}
-		\caption{Modell: erste Schicht}
-		\label{Schicht eins}
-	\end{figure}
 	
 	Die zweite Schicht ist ein Maxpooling-Layer, bei der jeweils 2x2 Pixel 
 	genommen werden und danach 2x2 Pixel weiter gerückt wird, um keine 
@@ -663,24 +651,6 @@ model.add(Activation("relu"))
 	 Dieselbe ReLU Aktivierungsfunktion wird genutzt, aus denselben 
 	 Gründen wie in der ersten Schicht.
 	
-	\begin{figure}[!h]
-		\centering
-		\begin{minted}[frame=lines]{Python}
-model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
-model.add(Conv2D(40, (5, 5), padding="same"))
-model.add(Activation("relu"))
-		\end{minted}
-		\caption{Modell: zweite und dritte Schicht}
-		\label{Schicht zwei und drei}
-	\end{figure}
-	
-	%\begin{lstlisting}[label={list:model_1_2},caption=Modell: zweite und dritte Schicht]
-	%	model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
-	
-	%	model.add(Conv2D(40, (5, 5), padding="same"))
-	%	model.add(Activation("relu"))
-	%\end{lstlisting}
-	
 	Schicht vier besteht erneut aus einem Maxpooling-Layer, ebenfalls um nochmals größere Merkmale zu erkennen.
 	Aus einem 640x480px großen Bild wird nun 160x120px, aus 128x128px sogar nur noch 32x32px.
 	
@@ -690,20 +660,7 @@ model.add(Activation("relu"))
 	vollverknüpfte Schicht mittels Dense(500) hinzufügt wird.
 	Erneut wird die ReLU Aktivierungsfunktion genutzt, aus bekannten 
 	Gründen.
-	
-	\begin{figure}[!h]
-		\centering
-		\begin{minted}[frame=lines]{Python}
-model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
 
-model.add(Flatten())
-model.add(Dense(500))
-model.add(Activation("relu"))
-		\end{minted}
-		\caption{Modell: vierte und fünfte Schicht}
-		\label{Schicht vier und fünf}
-	\end{figure}
-	
 	Abschließend werden zwei Neuronen für die beiden Ausgangswerte 
 	"Marker"\ und "kein Marker"\ benötigt.
 	Zur Aktivierung wird die Softmax-Funktion genutzt, die auch 
@@ -714,11 +671,27 @@ model.add(Activation("relu"))
 	\begin{figure}[!h]
 		\centering
 		\begin{minted}[frame=lines]{Python}
+model = Sequential()
+inputShape = (height, width, depth)
+
+model.add(Conv2D(20, (5, 5), padding="same", input_shape=inputShape))
+model.add(Activation("relu"))
+
+model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
+model.add(Conv2D(40, (5, 5), padding="same"))
+model.add(Activation("relu"))
+
+model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
+
+model.add(Flatten())
+model.add(Dense(500))
+model.add(Activation("relu"))
+
 model.add(Dense(2))
 model.add(Activation("softmax"))
 		\end{minted}
-		\caption{Modell: finale sechste Schicht}
-		\label{Schicht sechs}
+		\caption{Das sequentielle Modell, das als erster Ansatz verwendet wurde. Es besteht aus sechs Schichten und gibt zwei Werte "Marker"\ und "kein Marker"\ aus.}
+		\label{erstes Trainingsmodell}
 	\end{figure}
 
 	\subsubsection{Erste Auswertung der Ergebnisse}	%steffen? 
@@ -728,27 +701,26 @@ model.add(Activation("softmax"))
 \begin{figure}[!h]
 	\centering
 	\includegraphics[width=9cm]{img/160x120:100@32_accuracy.png}
-	\caption{Zweiter Durchlauf des Neuronalen Netzes mit dem Beispiel 
-		Code des Buches, Ausgangszustand vor Verbesserungsmaßnahmen. Die 
-		Blauen Trainingsdaten steigen langsam gegen 
-		70\%. Die Orange Kurve der Valiedierungsdaten jedoch läuft schon 
-		nach rund 50 Epochen deutlich Flacher. }
+	\caption{Zweiter Durchlauf des Neuronalen Netzes mit dem Beispielcode
+		des Buches, Ausgangszustand vor Verbesserungsmaßnahmen. Die 
+		blauen Trainingsdaten steigen langsam gegen 
+		70\%. Die Orange Kurve der Validierungsdaten jedoch verläuft schon 
+		nach rund 50 Epochen deutlich flacher. }
 	\label{Initiales Ergebnis}
 \end{figure}
 Beim ersten Durchlauf des Neuronalen Netzes ist die Erkennungsrate des 
 Markers 57\%. Dieses Ergebnis ist bei einer 50/50 Chance kaum besser als 
-Raten. Beim zweiten versuch mit mehr Durchläufen (Epochen) ist das 
-Ergebnis nur Unwesentlich besser. Das Overfitting , oder das 
-auseinanderlaufen der Trainings und Validierung kurve ist schnell sichtbar. 
-Ein Auseinanderlaufen bedeutet, dass die KI ihr Modell zu sehr auf ihre 
-Trainingsdaten angepasst hat. Sie kommt schneidet mit anderen Testdaten 
-schlechter ab als mit den Daten auf denen Sie trainiert wurde. 
-
+Raten. 
+Um das Ergebnis ohne größeren Aufwand zu verbessern wird beispielsweise die Anzahl der Epochen erhöht - von anfangs 100 auf testweise bis zu 2500 - ohne jedoch bedeutende Fortschritte zu erzielen.
+Auch kleinere Änderungen an den bestehenden Schichten des Modells zeigen keine all zu großen Auswirkungen auf das Ergebnis.
+In jedem Fall ist das Overfitting deutlich und schnell sichtbar (siehe Abb. \ref{Initiales Ergebnis}), also ein rasches Auseinanderlaufen der Trainings- und Validierungskurve.
+Das bedeutet, dass die KI ihr Modell zu sehr auf bestimmte Eigenschaften der Trainingsdaten angepasst hat.
+Sie kann also ihre Trainingsdaten gut erkennen, die korrekte Erkennung von neuen Testdaten fällt ihr aber schwer.
 
 	\subsection{Schritte zur Verbesserung der Erkennungsrate} %mary
 Da diese Ergebniss wenig befriedigend ist wird ein leicht veränderter Ansatz 
 benötigt. \\
-	Die Schritte von \glqq Learn Keras for Deep Neural Networkss\grqq \cite{moolayil2019learn} zum Verbessern des Designs von Neurnalen Netzen werden zur verbesserung der Trainignsergebnisse verwendet. 
+	Die Schritte von \glqq Learn Keras for Deep Neural Networkss\grqq \cite{moolayil2019learn} zum Verbessern des Designs von Neurnalen Netzen werden zur Verbesserung der Trainignsergebnisse verwendet. 
 	
 	Jojo Moolayil \cite{moolayil2019learn} rät dazu mit einer kleinen Architektur anzufangen,
 	dass bedeutet wenige Schichten und eine geringe Anzahl an Neuronen. Es 
