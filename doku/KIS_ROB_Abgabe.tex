@@ -1001,39 +1001,39 @@ erscheint.\\
 In der Praxis zeigt sich jedoch schnell, dass der Roboter damit häufig in die 
 entgegengesetzte Richtung des Markers fährt. \\
 
-Bei genauem hinsehen mit besserem Logging  zeigt sich dass, das Neuronale 
+Bei genauem Hinsehen mit besserem Logging  zeigt sich, dass das Neuronale 
 Netz oft nicht sehr sicher ist ob es einen Marker erkannt hat. Die Ausgaben 
-zeigen  oft Konfidenzbereich  zwischen jeweils 45\% und 55\% . Der Abstand 
-der Koinzidenzen ist so gering das er bei einer Maximalwert Auswahl zu 
-vielen Falschen Positiven führt. Dieser Effekt verschlimmert sich mit dem 
-initialen Ansatz einen Durchschnitt  der Positiven Konfidenzbereich zu 
+zeigen oft einen Konfidenzbereich  zwischen jeweils 45\% und 55\% . Der Abstand 
+der Koinzidenzen ist so gering, dass er bei einer Maximalwert-Auswahl zu 
+vielen falschen Positiven führt. Dieser Effekt verschlimmert sich mit dem 
+initialen Ansatz einen Durchschnitt der positiven Konfidenzbereiche zu 
 bilden. Beispiel:
 \[
 \frac{51 + 0 +52 }{3} > \frac{0 + 86 + 0}{3}
 \]
 In diesem Rechenbeispiel fährt der Roboter in die Richtung der falschen 
-Positiven, Nicht jedoch in die Richtung des größten Konfidenzwerts.\\
+Positiven, nicht jedoch in die Richtung des größten Konfidenzwerts.\\
 %neu testen?
 
 %mag stuhlbeine
-Zwei dinge Fallen auf im Praxistest des Autonomen Fahrens mit KI. Zum 
-einen fällt auf wie zeit verzögert der Roboter Reagiert. Die anfängliche 
-Verzögerung von 3 Sekunden, wächst im laufenden 
+Zwei Dinge fallen im Praxistest des Autonomen Fahrens mit KI auf. Zum 
+einen fällt auf, wie zeitverzögert der Roboter reagiert. Die anfängliche 
+Verzögerung von 3 Sekunden wächst im laufenden 
 Betrieb auf über 10 Sekunden an. Dies verursacht eine ausgiebige 
 Fehlersuche. \\
 
-Die Verzögerung wird durch zwei dinge reduziert. Zum einen 
-jeden OpenCV Methodenaufruf  darauf kontrollieren ob Blockierend sind, 
-zum anderen durch eine niedrige Bildübertragungsrate. Paradoxer weise 
+Die Verzögerung wird durch zwei Dinge reduziert. Zum einen 
+jeden OpenCV Methodenaufruf darauf zu kontrollieren ob  er blockierend ist, 
+zum anderen durch eine niedrige Bildübertragungsrate. Paradoxerweise 
 reagiert der Roboter schneller auf veränderte Bildinhalte bei einer 
-Übertragungsrate von einem Bild pro Sekunde. Mit dieser Niedrigen Rate 
+Übertragungsrate von einem Bild pro Sekunde. Mit dieser niedrigen Rate 
 kommt der Bildanalysealgorithmus, der Raspberry Pi sowie die W-LAN 
 Verbindung mit. \\
 %hilft die taktung? 
 Eine Auffälligkeit im Verhalten des Roboters ist seine \say{Vorliebe} 
-für Stuhlbeine, Türrahmen und Kanten aller Art. Diese werten teilweise mit 
-dem Optischen Marker verwechselt. Meistens Reagiert die KI auf das worauf 
-sie Trainiert wurde. Neonlicht oder Sonnenschein machen dabei keinen 
+für Stuhlbeine, Türrahmen und Kanten aller Art. Diese werden teilweise mit 
+dem optischen Marker verwechselt. Meistens reagiert die KI auf das, worauf 
+sie trainiert wurde, Neonlicht oder Sonnenschein machen dabei keinen 
 Unterschied. Eine annähernd perfekte Zuverlässigkeit wird jedoch nicht 
 erreicht. 
 
@@ -1046,7 +1046,7 @@ erreicht.
 	 Auf Basis der Erfahrungen mit diesem Projekt entstehen einige 
 	 Empfehlungen. Zunächst die Verbesserungsvorschläge für die Roboter 
 	 Hardware und Software, danach Ansätze und Empfehlungen für die KI.\\
-	Da dieses Projekt immer wieder Probleme mit der Inkompatibilität der veralteten Python Version und aktuellen Bibliotheken hat, wird ein Hardware und Software Stack empfohlen, der durchgehend das aktuelle Python 3 verwendet. Auch die Leistungsgrenzen des Raspberry Pi waren schnell erreicht. \\
+	Da dieses Projekt immer wieder Probleme mit Inkompatibilität von veralteter Python Version und aktuellen Bibliotheken hat, wird ein Hardware und Software Stack empfohlen, der durchgehend das aktuelle Python 3 verwendet. Auch die Leistungsgrenzen des Raspberry Pi waren schnell erreicht. \\
 	
 	Empfehlungen:
 	\begin{itemize}
@@ -1059,46 +1059,48 @@ erreicht.
 	\subsection{Ansätze zur Verbesserung der Erkennung der Marker durch die KI}
 	
 	Es ist zu überprüfen, ob ein Ecken erkennender Featurematchingalgorithmus nicht dem verwendeten Kantenerkennungsalgorithmus überlegen ist. Ansätze der künstlichen Intelligenz, die sich darauf konzentrieren \textit{wo} die gesuchten Merkmalspunkte im Gesichtsfeld des Roboters sind, statt sich darauf zu beschränken \textit{ob} ein Merkmalspunkt detektiert wurde, versprechen eine präzisere Navigation. \\
-	Es ist in Zukunft zu überprüfen, ob ein Training mit schwarzweiß Bildern einen ähnlichen Trainingserfolg bringt. Bei gleicher Auflösung brauchen RGB Bilder drei mal so viele Daten wie schwarzweiß Bilder, da sie drei mal so viele Farbkanäle brauchen. Das Umrechnen von Farbbildern in schwarzweiß Bilder ist dank OpenCV keine rechenintensive Operation. Inwieweit zusätzliche Rechenoperationen die Serialisierungszeit, die Versandzeit und die Reserialisierung der Daten aufhebt sprengt den Rahmen dieser Arbeit. Inwiefern die Reduktion der Datenmenge das Gesamtsystem performanter macht ist noch zu überprüfen.
+	Es ist in Zukunft zu überprüfen, ob ein Training mit schwarzweiß Bildern einen ähnlichen Trainingserfolg bringt. Bei gleicher Auflösung brauchen RGB Bilder drei mal so viele Daten wie schwarzweiß Bilder, da sie drei mal so viele Farbkanäle brauchen. Das Umrechnen von Farbbildern in schwarzweiß Bilder ist dank OpenCV keine rechenintensive Operation. Inwieweit zusätzliche Rechenoperationen die Serialisierungszeit, die Versandzeit und die Reserialisierung der Daten aufhebt, sprengt den Rahmen dieser Arbeit. Inwiefern die Reduktion der Datenmenge das Gesamtsystem performanter macht ist noch zu überprüfen.
 	\\
 	Des Weiteren ist darauf hinzuweisen, dass es schon viele gute Algorithmen zur Navigation mit Hilfe von optischen Markern gibt, deren Evaluation jedoch den zeitlichen Rahmen dieses Projektes sprengen. Für zukünftige Projekte ist ein Vergleich bereits existierender Lösungen empfehlenswert.
 		
 	\subsection{Fazit}
 
 Mit dem Robot Operating System ist es möglich günstige, schnelle Roboter 
+<<<<<<< HEAD
 aus Standard Teilen zu bauen. Die vielfältigen Opensource Hardware 
-Produkte die für Marker Hergestellt werden sind zuverlässig genug für den 
+Produkte, die für Marker Hergestellt werden sind zuverlässig genug für den 
 Anwendungsfall. Modellbau Hardware jedoch ist wesentlich Fehleranfälliger. 
 Dieses Projekt hat Einen Servomotor zerstört, einen Akku beschädigt und 
 zwei Ubeck Spannungsteiler verschmort von denen einer in Flammen 
-aufgegangen ist.Das alles bei Sachgemäßer Nutzung wie im  Dateiblatt 
+aufgegangen ist. Das alles bei Sachgemäßer Nutzung, wie im  Dateiblatt 
 beschrieben.\\
 
-Bei KIs sind gute Grundannahmen unerlässlich. Die Annahme das, dass 
-Neuronale Netz auf ein bestimmtes Bild mit  Starken Kontraste trainiert ist 
-stimmt nicht. Statt dessen reagieren die KI auf Linien, was bei der 
-Anwendung von ausschließlich Sobel filtern nicht überraschen sollte.
-\\
-Je Größer und Realistischer der Datensatz des do höher die Chance 
-Ergebnisse zu bekommen die auch in Realität funktionieren.   \\
+Bei KIs sind gute Grundannahmen unerlässlich. Die Annahme, dass das
+Neuronale Netz auf ein bestimmtes Bild mit starken Kontrasten trainiert ist, 
+stimmt nicht. Stattdessen reagieren die Gewichte auf Linien, was bei der 
+Anwendung von ausschließlich Sobel-Filtern nicht überraschen sollte.
 
-Inkompatibilitäten von Betriebssystemen und Software Versionen sollten am 
+\\
+Je größer und realistischer der Datensatz, desto höher die Chance 
+Ergebnisse zu bekommen, die auch in Realität funktionieren.   \\
+
+Inkompatibilitäten von Betriebssystemen und Software Versionen sollten bereits am 
 Anfang von Projekten bedacht werden. \\
 
-Das Konfidenzniveau des Neuronalen Netzes hat eine höhere aussagekräftig 
+Das Konfidenzniveau des Neuronalen Netzes hat eine höhere Aussagekraft
 als die aufsummierten Unsicherheiten in der Bilderkennung.\\
 
-Praxistaugliche KI Anwendungen sind Schwer zu bauen.
+Praxistaugliche KI Anwendungen sind schwer zu bauen.
 
 	
 \section*{Danksagungen}
 
-Besondere Dank gilt den betreuenden Professoren, Prof. Dr Ihme und Prof. 
-Dr Fischer.\\
-Sowie Prof. Dr Wolf für das Bereitstellen seiner Workstation die das KI 
+Besonderer Dank gilt den betreuenden Professoren, Prof. Dr. Ihme und Prof. 
+Dr. Fischer.\\
+Zudem Prof. Dr. Wolf für das Bereitstellen seiner Workstation die das KI 
 Training erst effektiv möglich gemacht hat.\\
-Des weiten Gebührt
- J. Konrad Dank für die Beratung zu Elektrischer 
+Des weiten gebührt
+ J. Konrad Dank für die Beratung zu elektrischen
 Komponenten wie Spannungswandlern und Akkus, sowie der Beratung in 
 Linux Administrationsfragestellungen.
 
