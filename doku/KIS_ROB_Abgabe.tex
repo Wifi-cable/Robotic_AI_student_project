@@ -257,9 +257,9 @@
 	Folgende Nodes befinden sich im Softwaresystem:
 	\begin{itemize}
 		\item /rosout (Master)
-		\item /teleop\_twist\_keyboard (Fernsteuerung)
+		\item /teleop\_twist\_keyboard (Fernsteuerung, Demo Node)
 		\item /donkey\_llc (Hardwarenahe Steuerung)
-		\item /ic2pwm\_board\_node (Bibliothek und Node zum Ansprechen des I2C-Protokolls und deren Verbindung mit ROS)
+		\item /i2cpwm\_board\_node (Bibliothek und Node zum Ansprechen des I2C-Protokolls und deren Verbindung mit ROS)
 	\end{itemize}
 	
 	Die Nodes tauschen Nachrichten über Topics aus.
@@ -370,7 +370,7 @@ cd catkin_ws/Robotic_AI_student_project/
 source devel/setup.bash
 rosrun teleop_twist_keyboard teleop_twist_keyboard.py
 	
-# 5. Console - on Laptop
+# 4. Console - on Laptop
 export ROS_MASTER_URI=http://ubiquityrobot.local:11311
 export ROS_IP=$(hostname -I)
 	
@@ -402,7 +402,7 @@ export ROS_IP=$(ip -br -4 address show dev wlp3s0 | awk '{print $3}' |
 awk -F '/' '{print $1}')
 \end{minted}
 		\label{Einzeiler}
-		\caption{Arbeitserleichterung damit zwei ROS Rechner mit einander 
+		\caption{Arbeitserleichterung damit zwei ROS Rechner miteinander 
 		kommunizieren können: ROS-IP - Verbindung via SSH - mittels Bash 
 		Einzeiler setzen  in der setup.bash (Autor J.K.)}
 	\end{figure}
@@ -414,7 +414,7 @@ awk -F '/' '{print $1}')
 	
 	Launchfiles, die viele ROS Knoten auf einmal starten, sind eine beliebte 
 	Vereinfachung. Um die \textit{Keyboard Demo} \ref{demo} zu starten, oder 
-	den Roboter Fernzusteuern existiert ein Lauchfile im \textit{Donkey Car} 
+	den Roboter Fernzusteuern existiert ein Launchfile im \textit{Donkey Car} 
 	Fork der Github Quelle.
 	\begin{figure}
 		\centering
@@ -428,7 +428,7 @@ roslaunch donkey_car keyboard_demo.launch
 rosrun teleop_twist_keyboard teleop_twist_keyboard.py
 \end{minted}
 \label{demo}
-\caption{Launchfile aufrufe um den Roboter per Tastatur vom Laptop aus 
+\caption{Launchfileaufrufe um den Roboter per Tastatur vom Laptop auf 
  Raspberry Pi keyboard\_demo\_launch und auf dem Laptop 
  teleop\_twist\_keyboard gestartet werden.}
 
@@ -451,7 +451,7 @@ export ROS_MASTER_URI=http://ubiquityrobot.local:11311
 roslaunch ki_nav start_AI.launch
 		\end{minted}
 		\label{KI-launch}
-		\caption{Künstliche Intelligenz, oder Autonomes verhalten, auf Laptop 
+		\caption{Künstliche Intelligenz, oder Autonomes Verhalten, auf Laptop 
 		und Raspberry Pi starten per Launchfile }
 	\end{figure}
 	%----------------------------------------------------------------
