@@ -147,9 +147,9 @@
 	\begin{figure} [!h]
 		\centering
 		\includegraphics[width=9cm]{img/data1455211246.png}
-		\caption{Der Optische Marker den die auf den das Neuronale Netz 
-		Trainiert wird. Der Roboter rosBerry wird versuchen den Marker zu 
-		finden um ihn anzufahren}
+		\caption{Der optische Marker auf den das Neuronale Netz 
+		trainiert wird. Der Roboter rosBerry wird versuchen den Marker zu 
+		finden auf ihn zuzufahren}
 		\label{Marker}
 	\end{figure}
 	
@@ -461,8 +461,8 @@ roslaunch ki_nav start_AI.launch
 		\centering
 		\includegraphics[width=9cm]{img/servo.pdf}
 		\caption{Auszug aus Hersteller Datenblatt, wie die Lenkstange am 
-		Servomotor  befestigt ist. Dieser Servo einer von zwei Motoren, er  ist 
-		Jedoch alleine für die Lenkung zuständig. }
+		Servomotor befestigt ist. Dieser Servo ist einer von zwei Motoren, er ist 
+		jedoch alleine für die Lenkung zuständig. }
 		\label{Servomotor}
 	\end{figure}
 	Für das Robotik Projekt \textit{rosBerry} wurde ein solides, aber 
@@ -479,9 +479,9 @@ roslaunch ki_nav start_AI.launch
 	\begin{figure} %[t]
 		\centering
 		\includegraphics[width=9cm]{img/geer.png}
-		\caption{Auszug aus Hersteller Datenblatt: Differnzialgetriebe. Auch 
-		wenn der Roboter Differnzialgetriebe hat, ist die Lenkung eine 
-		Akkermann Lenkung. Der Roboter hat keine Differenzial Lenkung da 
+		\caption{Auszug aus Hersteller Datenblatt: Differenzialgetriebe. Auch 
+		wenn der Roboter Differenzialgetriebe hat, ist die Lenkung eine 
+		Ackermann Lenkung. Der Roboter hat keine Differenziallenkung, da 
 		ein Motor ausschließlich für den Vorschub zuständig ist. }
 		\label{Getriebe}
 	\end{figure}
@@ -524,7 +524,7 @@ roslaunch ki_nav start_AI.launch
 	\begin{figure}[!ht]
 		\centering
 		\includegraphics[width=9cm]{img/RosBerryGesamt_yellow.png}
-		\caption{Übersicht der Position der Hardware - DC-Antriebsmotor, Fahrtenregler, UBEC, Servo, Akku, Motorshield, Raspberry Pi und Arduino - im rosBerry}
+		\caption{Übersicht der Positionen der Hardware - DC-Antriebsmotor, Fahrtenregler, UBEC, Servo, Akku, Motorshield, Raspberry Pi und Arduino - im rosBerry}
 		\label{rosBerryGesamt}
 	\end{figure}
 	
@@ -763,8 +763,8 @@ benötigt. \\
 	\begin{figure}[!h]
 	\centering
 	\includegraphics[width=9cm]{img/213x160:400@32_accuracy.png}
-	\caption{Deutlich späteres Overfitting, bei Höherer Bildauflösung, zu dem 
-	Preis von deutlich höhere Rechenzeit pro Epoche. Erste Dropout Schicht 
+	\caption{Deutlich späteres Overfitting, bei höherer Bildauflösung, zum 
+	Preis von deutlich höherer Rechenzeit pro Epoche. Erste Dropout Schicht 
 	wurde eingeführt. }
 	\label{Overfitt }
 \end{figure}
@@ -920,7 +920,7 @@ is not an element of this graph.
 \end{minted}
 		\label{Error3}
 		\caption{Tensorflow Graphenelement unbekannt, eine weitere 
-		Fehlermeldung bei nicht Threadsavem Aufruf von Keras Modell}
+		Fehlermeldung bei nicht threadsicherem Aufruf vom Keras Modell}
 	\end{figure}
 	
 	Es hat sich herausgestellt, dass entweder ROS, Python, Tensorflow oder die Kernel 
@@ -942,7 +942,7 @@ with thread_session.as_default():
 		\end{minted}
 		\label{with}
 		\caption{Verwendung von initialisiertem Graph mit Hilfe des 
-		Schlüsselworts with verhindert Multitheading Probleme bei Aufruf des 
+		Schlüsselworts with verhindert Multithreading Probleme bei Aufruf des 
 		Keras Modells}
 	\end{figure}
 		
