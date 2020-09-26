@@ -1,18 +1,9 @@
-# ros_tutorials
-Tutorials with ROS: Find videos on my channel https://www.youtube.com/channel/UC2aPsByptP3HXobjXgsXQsA?view_as=subscriber
+#Goal of the Project: Build fast robot with some basic intelligence from standart parts. 
 
-------- Setup the ROS_MASTER_URI -----------
-If ROS Master runs on the Raspberry Pi, you need to set 
-export ROS_MASTER_URI=http://ubiquityrobot.local:11311
 
-In case you are running ROS Master on your local host, set
-export ROS_MASTER_URI=http://localhost:11311
+Idea inspired by https://www.youtube.com/channel/UC2aPsByptP3HXobjXgsXQsA?view_as=subscriber
+ @tizianofiorenzani
+ 
+ Compiling this code on your Laptop will not work.Some of it relies on Libararies to acces Hardware for Raspberry pies.
+ Instructions how to change makefiles to compile it everything else will follow.
 
-To speedup the process you can edit ~.baschrc with:
-
-source ~/catkin_ws/devel/setup.bash
-export ROS_IP=`ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1'`
-
-export ROS_MASTER_URI=http://ubiquityrobot.local:11311
-or 
-export ROS_MASTER_URI=http://localhost:11311
